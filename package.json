@@ -3,8 +3,6 @@
   "version": "1.1.0",
   "homepage": ".",
   "devDependencies": {
-    "@types/react": "^18.3.29",
-    "@types/react-dom": "^18.3.7",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "eslint-config-prettier": "^9.1.2",
@@ -14,9 +12,7 @@
     "flow-bin": "^0.129.0",
     "prettier": "^3.5.0",
     "react-scripts": "^5.0.1",
-    "sass": "1.77.8",
-    "serve": "^11.3.2",
-    "typescript": "^4.9.5"
+    "sass": "1.77.8"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.1",
@@ -24,7 +20,6 @@
     "@capacitor/cli": "^6.2.1",
     "@capacitor/core": "^6.2.1",
     "autolinker.js": "0.7.0",
-    "axios": "^1.16.1",
     "date-fns": "^3.6.0",
     "dom-helpers": "^5.1.4",
     "flag-icons": "^7.5.0",
@@ -60,9 +55,6 @@
     "ansi-regex": "^5.0.1",
     "on-headers": "^1.1.0",
     "path-to-regexp": "^3.3.0",
-    "serve": {
-      "ajv": "^6.15.0"
-    },
     "brace-expansion": "^1.1.15",
     "uuid": "^11.1.1"
   },
@@ -76,13 +68,11 @@
     "eject": "react-scripts eject",
     "test": "react-scripts test --env=jsdom",
     "lint": "eslint src/",
-    "flow": "flow check",
-    "typecheck": "tsc --noEmit"
+    "flow": "flow check"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://www.gokgs.com",
   "browserslist": {
     "development": [
       "last 2 chrome versions",

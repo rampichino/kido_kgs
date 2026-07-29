@@ -53,3 +53,10 @@ android/.idea/
 # Filesystem junk
 .fuse_hidden*
 public/ga.js
+PUBLISHING.md
+tsconfig.json
+
+# Local-only assets / notes
+screenshots/game.png
+screenshots/store-promo-440x280.png
+design/palette_*.scss

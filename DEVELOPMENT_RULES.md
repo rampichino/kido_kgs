@@ -6,9 +6,9 @@ These rules apply to all AI models and developers working on this project.
 
 ## Stack
 
-- **React 16.5** — class components with Flow types. No hooks (hooks require 16.8+). Do not upgrade React without a full migration plan.
+- **React 18.3** — mostly class components with Flow types (`createRoot` in `src/index.js`). Hooks are available and used in a few newer components; prefer matching the surrounding file's style.
 - **react-scripts 5.0.1** — upgraded CRA version. Webpack 5. `NODE_OPTIONS=--openssl-legacy-provider` is required to build.
-- **Flow 0.129** — static type checker. Run with `npm run flow`.
+- **Flow 0.129** — the project's static type checker (`npm run flow`). There is no TypeScript.
 - **Sass 1.77.8** — modern Dart Sass. Avoid deprecated `/` division syntax and mixed-decls ordering (CI treats warnings as errors).
 - **lucide-react 1.17.0** — icon library. All icons use `<Icon name="..." />` from `src/ui/common/Icon.js`. No Font Awesome.
 - **KGS JSON API** (`/json-cors/access`) — see `KGS_Protocol_Reference.md`
@@ -20,7 +20,7 @@ These rules apply to all AI models and developers working on this project.
 ## Code Style
 
 - Use **Flow types** on all components and functions
-- Use **class components** (`PureComponent`) — do not introduce hooks or functional components (React 16.5 predates hooks)
+- Prefer **class components** (`PureComponent`) for consistency with the existing code; hooks are permitted where a file already uses them
 - Keep imports at the top of the file — never after code
 - No unused imports or variables — CI treats warnings as errors
 - No comments unless the WHY is non-obvious
@@ -99,7 +99,9 @@ the `TURNSTILE_SECRET_KEY` environment variable — never commit secret keys.
 
 | Key | Purpose |
 |---|---|
-| `kido_dark_mode` | `"1"` = dark mode enabled |
+| `kido_theme` | `light` \| `mid` \| `dark` |
+| `kido_move_aids` | mobile move aid: `deactivate` \| `confirm` \| `zoom` |
+| `kido_chat_rooms_pane_h` | height of the Rooms pane in the chat sidebar |
 
 ---
 
@@ -108,7 +110,7 @@ the `TURNSTILE_SECRET_KEY` environment variable — never commit secret keys.
 - `npm start` — dev server at http://localhost:3000 (standard KGS)
 - `npm run lint` — run ESLint and Prettier checks
 - `npm run flow` — run the Flow compiler type-checks
-- `npm run typecheck` — run TypeScript type checks locally
+- `npm test` — run the Jest suite
 - `npm run build` — production build of the webapp (compiled in `/build`)
 - `npm run build:web` — compiles standard webapp (compiled in `/build`)
 - `npm run build:extension` — compiles Chrome Extension (compiled in `/chrome-extension`)
@@ -119,8 +121,7 @@ the `TURNSTILE_SECRET_KEY` environment variable — never commit secret keys.
 
 ## Documentation & Walkthrough
 
-- A walkthrough of completed changes (`walkthrough.md`) must be updated in the repository root.
-- The `walkthrough.md` file must be linked inside the `README.md` under the References section.
+- A walkthrough of completed changes (`walkthrough.md`) must be updated in the repository root. It is an internal document and is not published (see `PUBLISHING.md`).
 - All completed features from the "Features Not Yet Implemented" candidates list in `README.md` must be removed from `README.md` and moved to `CHANGELOG.md` under the appropriate release version (such as `0.1.0` for current tasks).
 
 ---

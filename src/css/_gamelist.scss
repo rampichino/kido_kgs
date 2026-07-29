@@ -784,44 +784,6 @@ body.dark-mode {
   align-items: center;
 }
 
-/* ── Mini board preview ───────────────────────────── */
-.GameList-item-with-preview {
-  flex-direction: column;
-  align-items: stretch;
-  padding: 0;
-  overflow: hidden;
-}
-
-.GameList-item-with-preview .GameList-item-type,
-.GameList-item-with-preview .GameList-item-players,
-.GameList-item-with-preview .GameList-item-info {
-  padding: 10px 14px;
-}
-
-.GameList-item-preview {
-  width: 100%;
-  aspect-ratio: 1;
-  background: #d4a862;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.GameList-item-with-preview .GameList-item-type,
-.GameList-item-with-preview .GameList-item-players,
-.GameList-item-with-preview .GameList-item-info {
-  display: flex;
-  align-items: center;
-}
-
-.GameList-item-with-preview .GameList-item-players {
-  flex: 1;
-  border-top: 1px solid rgba(0,0,0,0.07);
-}
-
-.GameList-item-with-preview .GameList-item-info {
-  padding-top: 0;
-  padding-bottom: 10px;
-}
 
 
 .GameList-item-observers-count {

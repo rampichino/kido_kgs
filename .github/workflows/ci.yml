@@ -29,8 +29,5 @@ jobs:
       - name: Run Flow Type Check
         run: npm run flow
 
-      - name: Run TypeScript Type Check
-        run: npm run typecheck
-
       - name: Run Production Build
         run: npm run build

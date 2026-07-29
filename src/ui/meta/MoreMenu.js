@@ -1672,6 +1672,14 @@ export default class MoreMenu extends Component<Props, State> {
               <Icon name="globe" size={12} />
               KGS
             </a>
+            <a
+              className="MoreMenu-footer-link"
+              href="https://github.com/rampichino/kido_kgs"
+              target="_blank"
+              rel="noopener noreferrer">
+              <Icon name="code" size={12} />
+              GitHub
+            </a>
           </div>
           {this.state.version ? (
             <div className="MoreMenu-footer-version">

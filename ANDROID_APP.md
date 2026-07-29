@@ -1,8 +1,13 @@
-# Standalone Android App Packaging Plan (Capacitor Layout)
+# Standalone Android App (Capacitor)
 
-This document preserves the setup and architecture plan to compile the Kido React web client as a native, self-contained Android application using **Capacitor** for future development.
+The Kido React client ships as a native Android app built with **Capacitor**.
+This document describes that setup and its architecture.
 
-The Android app will run serverless, loading all HTML/JS/CSS assets locally from the device's storage, and connecting directly to the official KGS API servlet without relying on a backend website proxy.
+The app runs serverless: all HTML/JS/CSS assets load locally from the device,
+and it connects directly to the official KGS API servlet with no backend proxy.
+
+Build it with `npm run build:android` (production web build + `npx cap sync
+android`), then sign a release bundle from Android Studio.
 
 ---
 
