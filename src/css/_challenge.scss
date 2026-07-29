@@ -1,0 +1,2128 @@
+$diff-hilite: #fff1a9;
+$diff-muted: #bb9c1d;
+
+// Attention pulse for an active Accept button: an expanding accent ring plus a
+// brightness/scale beat.
+@keyframes ChallengeAcceptPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(var(--ui-color-rgb), 0.7);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(var(--ui-color-rgb), 0);
+    filter: brightness(1.18);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(var(--ui-color-rgb), 0);
+    filter: brightness(1);
+  }
+}
+
+.Button-pulse {
+  animation: ChallengeAcceptPulse 1.2s ease-in-out infinite;
+}
+
+// In dark mode the accent ring is too dim against the dark surround, so use a
+// bright white ring instead — it pops on both the dark background and the
+// accent-coloured button.
+@keyframes ChallengeAcceptPulseDark {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.9);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+    filter: brightness(1.18);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    filter: brightness(1);
+  }
+}
+
+body.dark-mode .Button-pulse {
+  animation-name: ChallengeAcceptPulseDark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Button-pulse {
+    animation: none;
+  }
+}
+
+// "Starting game..." button — keep the accent colour (instead of the greyed
+// disabled look) and run an animated shimmer sweep so it reads as "working".
+@keyframes ChallengeStartingShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.Button-starting[disabled] {
+  color: var(--ui-color-contrast, #fff) !important;
+  border-color: var(--ui-color) !important;
+  background-image: linear-gradient(
+    100deg,
+    var(--ui-color) 0%,
+    var(--ui-color) 35%,
+    rgba(255, 255, 255, 0.45) 50%,
+    var(--ui-color) 65%,
+    var(--ui-color) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: ChallengeStartingShimmer 2s linear infinite;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Button-starting[disabled] {
+    animation: none;
+  }
+}
+
+/* ── Challenge Editor Modal ───────────────────────────── */
+// Only the proposal form should scroll — never the whole modal card (header and
+// action buttons stay pinned, and the overlay itself must not scroll). For the
+// inner scroll region to be bounded, min-height:0 has to propagate down every
+// flex level from the modal card to the form.
+// The overlay must not scroll the whole card for the challenge modal.
+.ScreenModal-without-title:has(.ChallengeEditor) {
+  overflow: hidden;
+
+  .ScreenModal-main {
+    max-height: 90vh;
+    min-height: 0;
+  }
+}
+
+.ScreenModal-without-title .ScreenModal-content:has(> .ChallengeEditor) {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.ChallengeEditor {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+// In creating mode the proposal form sits directly in the editor; let it scroll
+// internally so the header and action buttons stay pinned.
+.ChallengeEditor > .ChallengeEditor-proposal {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+
+  .ProposalForm {
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1;
+  }
+}
+
+/* Compact accent badge shown at the top-left on mobile in place of the full
+   header (hidden there). Desktop uses the header and hides this. */
+.ChallengeEditor-badge {
+  display: none;
+}
+
+.ChallengeEditor-header {
+  padding: 28px 24px 22px 24px;
+  background: linear-gradient(135deg, #2d3a32 0%, #1a2420 100%);
+  color: #7a9e8e;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  border-bottom: none;
+  margin-bottom: 12px;
+  text-shadow: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.ChallengeEditor-buttons {
+  background: #ffffff;
+  padding: 16px 24px 24px 24px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+/* Explicit Close button next to the action button. Shown on desktop and mobile
+   because the challenge modal can't be dismissed by clicking the backdrop. */
+.ChallengeEditor-close-action {
+  display: inline-block;
+}
+
+.ChallengeEditor-cancel,
+.ChallengeEditor-minimize,
+.ChallengeEditor-buttons-decision {
+  display: inline-block;
+
+  .Button-danger {
+    background: darken($warning-bg, 5%) !important;
+    border: 1px solid darken($warning-bg, 5%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.15), 0 1px 2px rgba(245, 158, 11, 0.1) !important;
+
+    &:hover,
+    &:focus {
+      background: darken($warning-bg, 12%) !important;
+      border-color: darken($warning-bg, 12%) !important;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: darken($warning-bg, 20%) !important;
+      border-color: darken($warning-bg, 20%) !important;
+      opacity: 0.95;
+    }
+  }
+}
+
+.ChallengeEditor-declined {
+  // Sit flush against the header — cancel the header's bottom margin so no
+  // white modal background shows between them.
+  margin-top: -12px;
+  padding: 10px 24px;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.ChallengeEditor-prevnext {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  gap: 6px;
+}
+
+.ChallengeEditor-prevnext-button {
+  color: $link-color;
+  padding: 6px 12px;
+  border: 1.5px solid $link-color;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+
+  &:active { opacity: 0.6; }
+  &[disabled] { opacity: 0.3; cursor: default; }
+}
+
+.ChallengeEditor-chat {
+  background: #faf9f6;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ChallengeEditor-chat-messages {
+  height: 180px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  .ChatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 4px 0;
+  }
+
+  .ChatMessages-item {
+    margin: 0 12px 0 0;
+
+    &.ChatMessages-item-self {
+      align-items: flex-end;
+      margin: 0 0 0 12px;
+
+      .ChatMessages-item-content {
+        border-radius: 18px 18px 4px 18px;
+        background: #d1fae5;
+      }
+    }
+
+    &:not(.ChatMessages-item-self) {
+      .ChatMessages-item-content {
+        border-radius: 18px 18px 18px 4px;
+        background: #e2e8f0;
+      }
+    }
+  }
+
+  .ChatMessages-item-content {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 14px;
+    line-height: 1.5;
+    max-width: 80%;
+  }
+
+  .ChatMessages-item-user {
+    order: -1;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    color: $semi-muted;
+    opacity: 0.6;
+    margin: 0 0 4px 0;
+
+    a,
+    div {
+      display: inline;
+    }
+  }
+
+  .ChatMessages-item-body {
+    display: block;
+    font-size: 14px;
+  }
+
+  .ChatMessages-item-time {
+    display: none;
+  }
+}
+
+.ChallengeEditor-chat-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e6e6e;
+  margin-bottom: 8px;
+}
+
+.ChallengeEditor-chat-label-badge {
+  position: absolute;
+  right: 0;
+  top: 2px;
+}
+
+/* ── Proposal Form ────────────────────────────────────── */
+.ProposalForm {
+  text-align: left;
+  padding: 14px 24px 20px 24px;
+  background: #ffffff;
+  color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .CheckboxInput label {
+    display: flex;
+    align-items: center;
+
+    &:before {
+      top: 50% !important;
+      margin-top: -9px !important;
+    }
+
+    &:after {
+      top: 50% !important;
+      margin-top: -5px !important;
+    }
+  }
+
+  input[type="text"] {
+    width: 100%;
+    height: 38px;
+    padding: 0 10px;
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-size: 14px;
+    background: #faf9f6;
+    color: #1e1e1e;
+    box-sizing: border-box;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:focus {
+      border-color: var(--ui-color);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.12);
+    }
+  }
+
+  .SelectInput {
+    width: 100%;
+  }
+
+  .SelectInput-trigger {
+    height: 38px;
+    background: #faf9f6;
+  }
+}
+
+.ProposalForm-type-visibility {
+  .ProposalForm-field-content {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.ProposalForm-game-type,
+.ProposalForm-visibility {
+  flex: 1;
+}
+
+.ProposalForm-visibility-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.ProposalForm-visibility-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .ProposalForm-field-label {
+    margin-bottom: 0;
+  }
+}
+
+.ProposalForm-private-label {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.CheckboxInput-checked .ProposalForm-private-label {
+  color: $accent;
+}
+
+.ProposalForm-game-type-icon,
+.ProposalForm-game-type-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
+}
+
+.ProposalForm-game-type-name-hilite {
+  background: $diff-hilite;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+
+.ProposalForm-notes {
+  display: inline;
+  color: #94a3b8;
+  font-size: 13px;
+  &:before { content: " — "; }
+}
+
+.ProposalForm-field {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ProposalForm-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ── Players ──────────────────────────────────────────── */
+.ProposalPlayers {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.ProposalPlayers-count-row {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.ProposalPlayers-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ProposalPlayers-count-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.ProposalPlayers-add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border: 1.5px dashed var(--ui-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ui-color);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: rgba(var(--ui-color-rgb), 0.12);
+  }
+}
+
+.ProposalPlayers-icon-button {
+  padding: 5px;
+  justify-content: center;
+  width: 28px;
+}
+
+.no-touch .ProposalPlayers-add-button:hover {
+  background: rgba(var(--ui-color-rgb), 0.1);
+}
+
+body.dark-mode .ProposalPlayers-count-row {
+  background: var(--dk-modal-bg);
+}
+
+body.dark-mode .ProposalPlayers-count {
+  color: #a8c4b4;
+}
+
+// Mid: the sticky "N opponents" row was white (#ffffff) on the cream window —
+// match the window tone so it blends as the form scrolls under it.
+body.mid-mode .ProposalPlayers-count-row {
+  background: #fbf5ea;
+}
+
+body.mid-mode .ProposalPlayers-count {
+  color: var(--dk-fg-muted);
+}
+
+// Rengo: white team in the left column, black team in the right column. Pin
+// each seat to an explicit cell so the two teams line up row-for-row.
+.ProposalPlayers-rengo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 8px;
+  align-items: start;
+
+  .ProposalPlayers-item {
+    flex: none;
+  }
+
+  .ProposalPlayers-item-role-white {
+    grid-area: 1 / 1;
+  }
+  .ProposalPlayers-item-role-white_2 {
+    grid-area: 2 / 1;
+  }
+  .ProposalPlayers-item-role-black {
+    grid-area: 1 / 2;
+  }
+  .ProposalPlayers-item-role-black_2 {
+    grid-area: 2 / 2;
+  }
+
+  @media #{$mobile-query} {
+    grid-template-columns: 1fr;
+
+    .ProposalPlayers-item-role-white {
+      grid-area: 1 / 1;
+    }
+    .ProposalPlayers-item-role-white_2 {
+      grid-area: 2 / 1;
+    }
+    .ProposalPlayers-item-role-black {
+      grid-area: 3 / 1;
+    }
+    .ProposalPlayers-item-role-black_2 {
+      grid-area: 4 / 1;
+    }
+  }
+}
+
+.ProposalPlayers-vertical {
+  flex-direction: column;
+  max-height: 320px;
+  overflow-y: auto;
+
+  .ProposalPlayers-item {
+    align-items: flex-start;
+    flex: none;
+  }
+
+  // Desktop: keep the name and the H/Komi controls on a single row.
+  @media #{$desktop-query} {
+    .ProposalPlayers-item {
+      align-items: center;
+    }
+
+    .ProposalPlayers-player-info {
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ProposalPlayers-settings-row {
+      margin-top: 0;
+      margin-left: auto;
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+.ProposalPlayers-player-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.ProposalPlayers-name-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ProposalPlayers-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  background: #ffffff;
+  padding: 10px 14px;
+  gap: 12px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+
+  &.ProposalPlayers-item-player-hilite {
+    background-color: $diff-hilite;
+  }
+
+  &.ProposalPlayers-item-role-hilite {
+    .ProposalPlayers-role-toggle {
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px $diff-muted;
+    }
+  }
+}
+
+.ProposalPlayers-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.ProposalPlayers-item-decline {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: $error-bg;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:active {
+    background: rgba(239, 68, 68, 0.2);
+  }
+}
+
+.no-touch .ProposalPlayers-item-decline:hover {
+  background: $error-bg;
+  color: #ffffff;
+  border-color: $error-bg;
+}
+
+.ProposalPlayers-item-seatpick {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: auto;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.1);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:active {
+    background: rgba(var(--ui-color-rgb), 0.2);
+  }
+}
+
+.no-touch .ProposalPlayers-item-seatpick:hover {
+  background: var(--ui-color);
+  color: var(--ui-color-contrast);
+  border-color: var(--ui-color);
+}
+
+.ProposalPlayers-confirm {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ProposalPlayers-confirm-confirmed {
+  color: #16a34a;
+}
+
+.ProposalPlayers-handicap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ProposalPlayers-handicap-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.12);
+  margin-right: 4px;
+}
+
+.ProposalPlayers-handicap-readonly {
+  .ProposalPlayers-handicap-value {
+    font-size: 13px;
+  }
+}
+
+.ProposalPlayers-komi {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+
+  .Icon {
+    color: $error-bg;
+    flex-shrink: 0;
+  }
+}
+
+.ProposalPlayers-komi-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+  background: rgba(100, 116, 139, 0.12);
+}
+
+.ProposalPlayers-komi-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e1e1e;
+}
+
+.ProposalPlayers-komi-warning {
+  .ProposalPlayers-komi-label {
+    color: $error-bg;
+    background: rgba(239, 68, 68, 0.12);
+  }
+
+  .ProposalPlayers-komi-value {
+    color: $error-bg;
+  }
+}
+
+.ProposalPlayers-handicap-value {
+  min-width: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ui-color);
+}
+
+.ProposalPlayers-handicap-step {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.08);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:active {
+    background: rgba(var(--ui-color-rgb), 0.18);
+  }
+}
+
+.no-touch .ProposalPlayers-handicap-step:hover {
+  background: rgba(var(--ui-color-rgb), 0.16);
+}
+
+.ProposalPlayers-role-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s ease;
+
+  & > .Board-stone {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.ProposalPlayers-player-link {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: $content-fg;
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  &:hover {
+    color: $link-color;
+  }
+}
+
+body.dark-mode {
+  .ProposalPlayers-item {
+    background: var(--dk-bg-off) !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+
+    &.ProposalPlayers-item-player-hilite {
+      background-color: rgba(90, 158, 120, 0.15) !important;
+    }
+  }
+
+  .ProposalPlayers-komi-value {
+    color: var(--dk-fg) !important;
+  }
+
+  .ProposalPlayers-handicap-label {
+    color: #7dd3fc !important;
+    background: rgba(56, 189, 248, 0.15) !important;
+  }
+
+  .ProposalPlayers-komi-label {
+    color: var(--dk-fg-dim) !important;
+    background: rgba(148, 163, 184, 0.15) !important;
+  }
+
+  .ProposalPlayers-komi-warning {
+    .ProposalPlayers-komi-label {
+      color: #f87171 !important;
+      background: rgba(248, 113, 113, 0.15) !important;
+    }
+
+    .ProposalPlayers-komi-value {
+      color: #f87171 !important;
+    }
+  }
+
+  .ProposalPlayers-player-link {
+    color: var(--dk-fg) !important;
+    
+    &:hover {
+      color: var(--dk-accent) !important;
+    }
+  }
+}
+
+/* ── Time / Rules inputs ─────────────────────────────── */
+.ProposalForm-rules-time {
+  display: flex;
+  gap: 16px;
+
+  @media #{$mobile-query} {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.ProposalForm-box-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.ProposalForm-time-box,
+.ProposalForm-rules-box,
+.ProposalForm-board-box,
+.ProposalForm-room-box,
+.ProposalForm-game-box {
+  background: #faf9f6;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-top: 4px;
+
+  .ProposalForm-input-select {
+    margin: 0 0 10px 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .ProposalForm-input {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.05);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.ProposalForm-rules {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Simul readonly view: one balanced two-column grid of cards instead of an
+   uneven left/right split (the handicap/komi column is dropped for simul). */
+.ProposalForm-rules-time-simul {
+  .ProposalForm-readonly-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .ProposalForm-room-box {
+    grid-column: 1 / -1;
+  }
+
+  @media #{$mobile-query} {
+    .ProposalForm-readonly-col {
+      grid-template-columns: 1fr;
+    }
+
+    .ProposalForm-room-box {
+      grid-column: auto;
+    }
+  }
+}
+
+.ProposalForm-time,
+.ProposalForm-readonly-col,
+.ProposalForm-handicap-komi {
+  flex: 1;
+}
+
+.ProposalForm-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  background: #faf9f6;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 0 6px 0 14px;
+  margin: 0 0 6px 0;
+  box-sizing: border-box;
+}
+
+.ProposalForm-input-select {
+  margin: 0 0 16px 0;
+}
+
+.ProposalForm-input-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e1e1e;
+  background: transparent;
+  border: none;
+  text-align: left;
+  flex: 1;
+  padding: 0;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.ProposalForm-input-value-label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+}
+
+.ProposalForm-input.ProposalForm-input-hilite {
+  background: rgba(187, 156, 29, 0.12);
+  border-color: $diff-muted;
+  box-shadow: 0 0 0 2px $diff-muted;
+}
+
+.ProposalForm-input-hilite .ProposalForm-input-value {
+  color: darken($diff-muted, 18%);
+}
+
+body.dark-mode {
+  .ProposalForm-input.ProposalForm-input-hilite {
+    background: rgba(187, 156, 29, 0.2);
+    border-color: $diff-muted;
+    box-shadow: 0 0 0 2px $diff-muted;
+  }
+
+  .ProposalForm-input-hilite .ProposalForm-input-value {
+    color: lighten($diff-muted, 12%);
+  }
+}
+
+.ProposalForm-input-plusminus {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ProposalForm-input-minus,
+.ProposalForm-input-plus {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.08);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+  line-height: 1;
+
+  &:active { background: rgba(var(--ui-color-rgb), 0.18); }
+}
+
+.ProposalForm-input-readonly {
+  .ProposalForm-input-minus,
+  .ProposalForm-input-plus {
+    color: #cbd5e1;
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.no-touch {
+  .ProposalPlayers-player-button:hover { background-color: #f0ede8; }
+
+  .ProposalPlayers-item.ProposalPlayers-item-player-hilite {
+    .ProposalPlayers-player-button:hover { background-color: darken($diff-hilite, 7%); }
+  }
+
+  .ProposalForm-input-minus:hover,
+  .ProposalForm-input-plus:hover {
+    background: rgba(var(--ui-color-rgb), 0.16);
+    color: var(--ui-color);
+  }
+
+  .ProposalForm-input-readonly {
+    .ProposalForm-input-minus:hover,
+    .ProposalForm-input-plus:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color: #cbd5e1;
+      cursor: default;
+    }
+  }
+}
+
+.ProposalForm-handicap-komi {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ProposalForm-handicap-komi-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+  display: none;
+}
+
+/* ── Tabs (negotiation view) ──────────────────────────── */
+.ChallengeEditor-tabs {
+  .TabNav {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+  }
+
+  .TabNav-tab-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .ChallengeEditor-proposal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .ProposalForm {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .ChallengeEditor-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .ChallengeEditor-chat-messages {
+    flex: 1;
+    height: auto !important;
+  }
+
+  .TabNav-tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    text-align: left;
+    padding: 0 24px;
+
+    .TabNav-tab {
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      padding: 10px 0;
+      margin-right: 28px;
+      border-bottom: 3px solid transparent;
+      top: 1px;
+      transition: color 0.15s ease, border-bottom-color 0.15s ease;
+
+      &.TabNav-tab-active {
+        color: #0f172a;
+        border-bottom-color: var(--ui-color);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* ── Readonly proposal view ───────────────────────────── */
+.ProposalForm-type-room {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f172a;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+
+.ProposalForm-readonly-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ProposalForm-readonly-box {
+  padding: 8px 14px !important;
+  min-height: 38px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px;
+  box-sizing: border-box;
+
+  .ProposalForm-readonly-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    width: 52px;
+    flex-shrink: 0;
+    text-align: left;
+  }
+
+  .ProposalForm-readonly-val {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e1e1e;
+  }
+
+  .ProposalForm-readonly-room-val {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f172a;
+  }
+}
+
+.ProposalForm-handicap-komi {
+  .ProposalForm-input {
+    background: #faf9f6;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+  }
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+@media #{$mobile-query} {
+  .ChallengeEditor-header { padding: 16px 16px 20px 16px; }
+
+  /* Replace the big header with a compact top-left badge (challenge + automatch
+     modals both reuse .ChallengeEditor). */
+  .ChallengeEditor-header {
+    display: none;
+  }
+
+  /* A proper header bar (not a pill): full-width accent-tinted strip with the
+     title on the left and room on the right for the close button. */
+  .ChallengeEditor {
+    border-radius: 0;
+  }
+
+  .ChallengeEditor-badge {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    flex: 0 0 auto;
+    margin: 0 0 10px 0;
+    padding: 15px 56px 15px 18px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.1);
+    border-bottom: 1px solid rgba(var(--ui-color-rgb), 0.22);
+    border-radius: 0;
+  }
+  .ChallengeEditor-chat { padding: 12px 16px; }
+  .ProposalForm { padding: 14px 16px; }
+  .ChallengeEditor-buttons { padding: 12px 16px 18px 16px; }
+  .ChallengeEditor-prevnext { right: 12px; bottom: 12px; }
+
+  .ProposalForm-input-value-label { display: block; }
+
+  /* Stack the two player boxes (white above black) instead of side by side. */
+  .ProposalPlayers {
+    flex-direction: column;
+  }
+
+  /* Move "Open to" onto its own row below Game Type + Visibility. Dissolving the
+     visibility wrappers lifts the two groups (Visibility lock, Open to) up to the
+     field-content flex row; the last one (Open to) is forced full-width so it
+     wraps below. */
+  .ProposalForm-type-visibility .ProposalForm-field-content {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .ProposalForm-visibility,
+  .ProposalForm-visibility-row {
+    display: contents;
+  }
+
+  .ProposalForm-visibility-group:last-child {
+    flex: 0 0 100%;
+  }
+}
+
+/* ── Segmented Control (Pill Tabs) ────────────────────── */
+// Matches the Sort buttons on the challenges sub-bar (.GameSubBar-sort): warm
+// container + accent-tinted active fill (not a white card).
+.SegmentedControl {
+  display: inline-flex;
+  align-items: center;
+  background: #f3efe8;
+  border: 1px solid rgba(80, 60, 40, 0.18);
+  border-radius: 8px;
+  padding: 2px;
+  height: 38px;
+  box-sizing: border-box;
+  gap: 2px;
+}
+
+.SegmentedControl-item {
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  height: 100%;
+  padding: 0 16px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  outline: none;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+.SegmentedControl-item-active {
+  color: var(--ui-color) !important;
+  font-weight: 600;
+  background: rgba(var(--ui-color-rgb), 0.16);
+  border: 1px solid var(--ui-color);
+  box-shadow: none;
+}
+
+.SegmentedControl-item-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+
+  &:hover {
+    color: #64748b;
+  }
+}
+
+/* ── Toggle Switch ────────────────────────────────────── */
+.ToggleSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding: 0 14px;
+  background: #faf9f6;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.ToggleSwitch-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1e1e;
+  user-select: none;
+}
+
+.ToggleSwitch-control {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+.ToggleSwitch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .15s ease;
+  border-radius: 24px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .15s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+}
+
+input:checked + .ToggleSwitch-slider {
+  background-color: rgba(22, 163, 74, 0.7);
+}
+
+input:checked + .ToggleSwitch-slider:before {
+  transform: translateX(20px);
+}
+
+body.dark-mode {
+  .ChallengeEditor {
+    background: var(--dk-modal-bg);
+  }
+
+  .ChallengeEditor-header {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg-muted);
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 0;
+    text-shadow: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .ProposalForm-field-label,
+  .ProposalForm-box-title {
+    color: #a8c4b4 !important;
+  }
+
+  .ChallengeEditor-buttons {
+    background: transparent;
+    border-top: 1px solid var(--dk-border);
+  }
+
+  .ChallengeEditor-chat {
+    background: var(--dk-bg-off);
+    border-top: 1px solid var(--dk-border);
+  }
+
+  .ChallengeEditor-chat-label {
+    color: var(--dk-fg-muted);
+  }
+
+  .ChallengeEditor-chat-messages {
+    .ChatMessages-item {
+      &.ChatMessages-item-self .ChatMessages-item-content {
+        background: rgba(16, 185, 129, 0.18) !important;
+      }
+
+      &:not(.ChatMessages-item-self) .ChatMessages-item-content {
+        background: var(--dk-surface2) !important;
+      }
+    }
+
+    .ChatMessages-item-body {
+      color: var(--dk-fg);
+    }
+  }
+
+  .ChallengeEditor-tabs {
+    .TabNav-tabs {
+      background: transparent;
+      border-bottom-color: var(--dk-border);
+
+      .TabNav-tab {
+        color: var(--dk-fg-muted);
+
+        &.TabNav-tab-active {
+          color: var(--dk-fg);
+          border-bottom-color: var(--dk-accent);
+        }
+      }
+    }
+  }
+
+  .ChallengeEditor-declined {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #fbbf24 !important;
+  }
+
+  .ChallengeEditor-prevnext-button {
+    color: #38bdf8 !important;
+    border-color: #38bdf8 !important;
+
+    &:active {
+      opacity: 0.6;
+    }
+    &[disabled] {
+      opacity: 0.3;
+    }
+  }
+
+  .ProposalForm {
+    background: transparent;
+    color: var(--dk-fg);
+
+    select,
+    input[type="text"] {
+      background: var(--dk-bg);
+      color: var(--dk-fg);
+      border-color: var(--dk-border);
+
+      &:focus {
+        border-color: var(--dk-accent);
+        background: var(--dk-bg);
+      }
+    }
+  }
+
+  .ProposalForm-type-room {
+    color: var(--dk-fg);
+  }
+
+
+  .ProposalForm-notes {
+    color: var(--dk-fg-muted);
+  }
+
+  .ProposalForm-input {
+    background: var(--dk-bg);
+    border-color: var(--dk-border);
+  }
+
+  .ProposalForm-input-value {
+    color: var(--dk-fg);
+  }
+
+  .ProposalForm-input-minus,
+  .ProposalForm-input-plus {
+    color: #38bdf8 !important;
+    background: rgba(56, 189, 248, 0.08) !important;
+
+    &:active {
+      background: rgba(56, 189, 248, 0.18) !important;
+    }
+  }
+
+  .ProposalForm-input-readonly {
+    .ProposalForm-input-minus,
+    .ProposalForm-input-plus {
+      color: #475569 !important;
+      background: rgba(255, 255, 255, 0.03) !important;
+    }
+  }
+
+  .ProposalPlayers-handicap-value {
+    color: #38bdf8;
+  }
+
+  .ProposalPlayers-handicap-step {
+    color: #38bdf8 !important;
+    background: rgba(56, 189, 248, 0.08) !important;
+    border-color: rgba(56, 189, 248, 0.3) !important;
+
+    &:active {
+      background: rgba(56, 189, 248, 0.18) !important;
+    }
+  }
+
+  .ToggleSwitch {
+    background: var(--dk-bg) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .ToggleSwitch-label {
+    color: var(--dk-fg) !important;
+  }
+  .ToggleSwitch-slider {
+    background-color: #475569;
+  }
+  input:checked + .ToggleSwitch-slider {
+    background-color: rgba(22, 163, 74, 0.7);
+  }
+
+
+  .ProposalForm-readonly-box {
+    .ProposalForm-readonly-val {
+      color: var(--dk-fg) !important;
+    }
+  }
+
+  .ProposalForm-time-box,
+  .ProposalForm-rules-box,
+  .ProposalForm-board-box,
+  .ProposalForm-room-box,
+  .ProposalForm-game-box {
+    background: var(--dk-bg) !important;
+    border-color: var(--dk-border) !important;
+
+    .ProposalForm-input {
+      background: var(--dk-bg) !important;
+      border-color: var(--dk-border) !important;
+
+      .ProposalForm-input-value {
+        color: var(--dk-fg) !important;
+      }
+    }
+
+    select,
+    input[type="text"] {
+      background: var(--dk-bg) !important;
+      border-color: var(--dk-border) !important;
+      color: var(--dk-fg) !important;
+    }
+  }
+
+  .SegmentedControl {
+    background: #1a2a24 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .SegmentedControl-item {
+    color: #a8c4b4;
+
+    &:hover {
+      color: var(--ui-color);
+    }
+  }
+
+  .SegmentedControl-item-active {
+    color: var(--ui-color) !important;
+    background: rgba(var(--ui-color-rgb), 0.18) !important;
+    border: 1px solid var(--ui-color);
+    box-shadow: none;
+  }
+
+  .no-touch {
+    .ProposalForm-input-minus:hover,
+    .ProposalForm-input-plus:hover {
+      background: rgba(56, 189, 248, 0.16) !important;
+      color: #7dd3fc !important;
+    }
+    .ChallengeEditor-prevnext-button:hover {
+      background: rgba(56, 189, 248, 0.08) !important;
+      color: #7dd3fc !important;
+      border-color: #7dd3fc !important;
+    }
+    .ProposalPlayers-player-button:hover {
+      background-color: var(--dk-surface2) !important;
+    }
+  }
+}
+
+/* ── Demonstration setup modal ────────────────────────── */
+.DemoSetup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 24px 24px;
+}
+
+.DemoSetup-primary {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 16px 28px;
+  align-items: start;
+}
+
+.DemoSetup-room-field {
+  margin-bottom: 16px;
+  max-width: 280px;
+}
+
+.DemoSetup-room-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: $muted;
+}
+
+.DemoSetup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .ProposalForm-field-label {
+    margin-bottom: 0;
+  }
+
+  .CheckboxInput {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+  }
+}
+
+
+.DemoSetup-scope {
+  align-self: flex-start;
+  width: auto;
+  display: inline-flex;
+}
+
+.DemoSetup-more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 6px 4px;
+  border: none;
+  background: none;
+  color: var(--ui-color);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.DemoSetup-more {
+  padding-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+body.dark-mode .DemoSetup-more {
+  border-top-color: rgba(255, 255, 255, 0.07);
+}
+
+/* Align the lock icon with the checkbox box (override the taller default used
+   in the create-challenge form). */
+.DemoSetup-field .ProposalForm-private-label {
+  height: 18px;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.DemoSetup-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Demonstration close (save?) modal ────────────────── */
+.DemoCloseModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 8px 4px;
+}
+
+.DemoCloseModal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.12);
+}
+
+.DemoCloseModal-title {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.DemoCloseModal-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: $semi-muted;
+  margin: 0 0 24px;
+}
+
+.DemoCloseModal-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+body.dark-mode {
+  .DemoCloseModal-text {
+    color: var(--dk-fg-dim);
+  }
+}
+
+// This modal only holds two short service rows, so it doesn't need the default
+// 620px modal width — narrow the card that contains it.
+.Modal-main:has(.AiReviewModal) {
+  max-width: 420px;
+}
+
+.AiReviewModal {
+  padding: 4px 4px 8px;
+}
+
+.AiReviewModal-services {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.AiReviewModal-service {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 16px;
+  text-align: left;
+  background: #f8fafc;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.06);
+    box-shadow: 0 4px 14px rgba(var(--ui-color-rgb), 0.12);
+
+    .AiReviewModal-service-label {
+      color: var(--ui-color);
+    }
+
+    > .Icon:last-child {
+      color: var(--ui-color);
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  // Push the trailing external-link icon to the far right, leaving the logo +
+  // label grouped together and centered in the row.
+  > .Icon:last-child {
+    color: $semi-muted;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: color 0.15s ease;
+  }
+}
+
+.AiReviewModal-service-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  // The service logos have white backgrounds, so the tile stays white in every
+  // theme (they'd show a white square on a dark tile otherwise). Only the ring
+  // adapts per theme.
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  // Auto margin on the left centers the logo + label pair together.
+  margin-left: auto;
+
+  img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+}
+
+.AiReviewModal-service-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  text-align: center;
+}
+
+.AiReviewModal-service-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d3a32;
+  transition: color 0.15s ease;
+}
+
+.AiReviewModal-service-spinner {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--ui-color);
+  animation: AiReviewModal-spin 0.8s linear infinite;
+}
+
+@keyframes AiReviewModal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.AiReviewModal-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 16px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: $semi-muted;
+
+  .Icon {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+}
+
+.AiReviewModal-error {
+  margin-top: 14px;
+  font-size: 13px;
+  color: $error-bg;
+  text-align: center;
+}
+
+// Dark + mid share the token-driven treatment (mid overrides --dk-* to warm
+// cream in its own block — see DESIGN_RULES §8). The row is a raised control
+// surface; the logo tile and label follow the theme foreground.
+body.dark-mode,
+body.mid-mode {
+  .AiReviewModal-service {
+    background: var(--dk-surface2);
+    border-color: var(--dk-border);
+
+    &:hover:not(:disabled) {
+      border-color: var(--ui-color);
+      background: rgba(var(--ui-color-rgb), 0.12);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  // Tile stays white (logos are white-backed); just soften the ring.
+  .AiReviewModal-service-icon {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  .AiReviewModal-service-label {
+    color: var(--dk-fg);
+  }
+
+  .AiReviewModal-hint {
+    color: var(--dk-fg-muted);
+  }
+}
+
+.ChallengeTakenModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 8px 4px;
+}
+
+.ChallengeTakenModal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.12);
+}
+
+.ChallengeTakenModal-title {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.ChallengeTakenModal-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: $semi-muted;
+  margin: 0 0 24px;
+}
+
+.ChallengeTakenModal-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+body.dark-mode {
+  .ChallengeTakenModal-text {
+    color: var(--dk-fg-dim);
+  }
+}
+
+/* Mid (cream) theme — the Create Challenge window otherwise falls through to
+   the white theme (#ffffff), which reads too white on the warm cream UI. Make
+   EVERY surface one consistent warm scheme: window + footer share the page
+   tone, nested fields (boxes, inputs, dropdown triggers) sit a notch deeper —
+   no white/light patches. */
+body.mid-mode {
+  // Window + footer share the page tone.
+  .ChallengeEditor,
+  .ChallengeEditor-buttons {
+    background: #fbf5ea;
+  }
+
+  .ProposalForm {
+    background: transparent;
+  }
+
+  // Section cards (TIME / RULES / BOARD / ROOM) + player cards (WHITE / BLACK)
+  // blend with the window — delineated by their border, not a fill.
+  .ProposalForm-time-box,
+  .ProposalForm-rules-box,
+  .ProposalForm-board-box,
+  .ProposalForm-room-box,
+  .ProposalForm-game-box,
+  .ProposalPlayers-item {
+    background: #fbf5ea;
+    border-color: var(--dk-border);
+  }
+
+  // Interactive fields (+/- value rows) sit a notch deeper so they read as
+  // fields — but stay in the warm family, no white.
+  .ProposalForm-input,
+  .ProposalForm-time-box .ProposalForm-input,
+  .ProposalForm-rules-box .ProposalForm-input,
+  .ProposalForm-board-box .ProposalForm-input,
+  .ProposalForm-room-box .ProposalForm-input,
+  .ProposalForm-game-box .ProposalForm-input {
+    background: #f4ebd8;
+    border-color: var(--dk-border);
+  }
+
+  // "Note to challengers" text input — lighter #fffdf8 (matches the dropdowns).
+  .ProposalForm input[type="text"] {
+    background: #fffdf8;
+    border-color: var(--dk-border);
+  }
+
+  // The "Open to" switcher matches the mid Sort buttons (warm dune container).
+  .SegmentedControl {
+    background: #e8dcc2;
+    border-color: rgba(59, 49, 39, 0.28);
+  }
+
+  .SegmentedControl-item {
+    color: #6b5f4b;
+  }
+
+  // Proposal / Chat tab strip — transparent so it picks up the warm window
+  // (was a white #ffffff band), with warm border + text.
+  .ChallengeEditor-tabs .TabNav-tabs {
+    background: transparent;
+    border-bottom-color: var(--dk-border);
+
+    .TabNav-tab {
+      color: var(--dk-fg-muted);
+
+      &.TabNav-tab-active {
+        color: var(--dk-fg);
+        border-bottom-color: var(--ui-color);
+      }
+    }
+  }
+
+  // Chat tab area — blend with the warm window (was #faf9f6 near-white).
+  .ChallengeEditor-chat {
+    background: transparent;
+    border-top-color: var(--dk-border);
+  }
+
+  .ChallengeEditor-chat-label {
+    color: var(--dk-fg-muted);
+  }
+}

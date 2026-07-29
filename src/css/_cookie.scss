@@ -1,0 +1,142 @@
+.CookieConsent {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  width: 90%;
+  max-width: 760px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 16px 24px;
+  z-index: 10000;
+  box-sizing: border-box;
+  animation: cookie-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  body.dark-mode &,
+  body.LoginScreen-body & {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes cookie-slide-up {
+  to {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.CookieConsent-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 16px;
+  }
+}
+
+.CookieConsent-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(15, 23, 42, 0.85);
+  flex: 1;
+
+  body.dark-mode &,
+  body.LoginScreen-body & {
+    color: rgba(241, 245, 249, 0.9);
+  }
+}
+
+.CookieConsent-link {
+  color: #2563eb;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #1d4ed8;
+  }
+
+  body.dark-mode &,
+  body.LoginScreen-body & {
+    color: #3b82f6;
+
+    &:hover {
+      color: #60a5fa;
+    }
+  }
+}
+
+.CookieConsent-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+
+  @media (max-width: 640px) {
+    justify-content: center;
+  }
+}
+
+.CookieConsent-btn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.CookieConsent-btn-decline {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(15, 23, 42, 0.9);
+    transform: translateY(-1px);
+  }
+
+  body.dark-mode &,
+  body.LoginScreen-body & {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(241, 245, 249, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.CookieConsent-btn-accept {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+
+  &:hover {
+    background: #059669;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

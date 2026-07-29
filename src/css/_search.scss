@@ -1,0 +1,109 @@
+.SearchScreen {
+  padding: 0 0 80px 0;
+}
+
+/* Accent header bar (mobile only) — mirrors the challenge / preferences modal
+   header. Desktop uses the nav search box, so it's hidden there. */
+.SearchScreen-header {
+  display: none;
+}
+
+.SearchScreen-search-form {
+  padding: 15px 0;
+  background: $off-white;
+}
+
+@media only screen and (max-width: 999px) {
+  .SearchScreen-search-form {
+    padding-left: 10px;
+  }
+}
+
+.SearchScreen-query,
+.SearchScreen-button {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.SearchScreen-query {
+  width: 170px;
+}
+
+.SearchScreen-users {
+  border-top: 1px solid $very-muted;
+  border-bottom: 1px solid $very-muted;
+  padding: 0;
+  background: $content-bg;
+  line-height: 1.5;
+}
+
+@media #{$mobile-query} {
+  .SearchScreen-header {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 15px 18px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.1);
+    border-bottom: 1px solid rgba(var(--ui-color-rgb), 0.22);
+  }
+
+  .SearchScreen-search-form {
+    display: flex;
+    padding: 15px 10px;
+  }
+
+  .SearchScreen-query {
+    flex: 1;
+    margin: 0;
+
+    input {
+      width: 100%;
+      height: 40px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+    }
+  }
+
+  .SearchScreen-button {
+    margin: 0;
+
+    .Button {
+      height: 40px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+/* ── Dark mode ───────────────────────────────────────────── */
+body.dark-mode {
+  .SearchScreen {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .SearchScreen-search-form {
+    background: var(--dk-bg-off) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+
+    input {
+      background: var(--dk-surface) !important;
+      color: var(--dk-fg) !important;
+      border-color: rgba(255,255,255,0.1) !important;
+      &::placeholder { color: var(--dk-fg-muted) !important; }
+    }
+  }
+
+  .SearchScreen-users {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255,255,255,0.07) !important;
+
+    a { color: #a8c4b4 !important; }
+  }
+}

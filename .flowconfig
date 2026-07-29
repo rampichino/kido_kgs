@@ -1,0 +1,9 @@
+[ignore]
+.*/android/.*
+.*/build/.*
+
+[untyped]
+.*/node_modules/.*
+
+[include]
+./src/.*

@@ -1,0 +1,5009 @@
+.WatchScreen,
+.PlayScreen {
+  padding: 0 0 20px 0;
+  background: #f6f1e7;
+  margin: 24px 12px 20px 12px;
+  border-radius: 16px;
+  overflow: visible;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+body.GameScreen-body {
+  .WatchScreen,
+  .PlayScreen {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* On phones the inset card wastes horizontal space; go full-bleed so the
+   challenge / game list gets the whole width and more vertical room. */
+@media #{$mobile-query} {
+  .WatchScreen,
+  .PlayScreen {
+    margin: 0 0 12px 0;
+    border-radius: 0;
+  }
+}
+
+.WatchScreen-with-tabs {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.WatchScreen-content {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.WatchTabs {
+  width: 200px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid rgba(0,0,0,0.07);
+
+  body.has-custom-bg & {
+    background: transparent;
+    border-right-color: transparent;
+    box-shadow: none;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 8px;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+}
+
+.WatchTabs-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.07);
+  margin: 6px 4px;
+}
+
+.WatchTabs-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6e6e6e;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  position: relative;
+
+  .WatchTabs-tab-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  span { font-size: 13px; }
+
+  &:hover { background: rgba(0,0,0,0.05); color: #1e1e1e; }
+}
+
+.WatchTabs-tab-active {
+  background: rgba(var(--ui-color-rgb), 0.08) !important;
+  color: var(--ui-color) !important;
+  font-weight: 600 !important;
+
+  .WatchTabs-tab-label { color: var(--ui-color) !important; }
+}
+
+.WatchTabs-tab-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b8c8;
+  line-height: 1;
+  flex-shrink: 0;
+  padding: 2px;
+  border-radius: 4px;
+
+  &:hover {
+    color: #c2601a;
+    background: rgba(194, 96, 26, 0.1);
+  }
+}
+
+// Shift GameScreen right when sidebar is open on desktop
+@media #{$nonmobile-query} {
+  body.GameScreen-has-tabs {
+    .GameScreen {
+      left: 200px !important;
+    }
+  }
+}
+
+body.dark-mode {
+  .WatchScreen,
+  .PlayScreen {
+    background: #1d2724 !important;
+    // Lift the panel off the page with a drop shadow only. (No top border /
+    // inset highlight — those drew a faint light line right under the header.)
+    border: none !important;
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.55),
+      0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .WatchScreen-header {
+    background: #1d2724;
+    border-bottom: 1px solid #1d2724;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+
+    .WatchScreen-header-actions > .Button-secondary,
+    .WatchScreen-header-actions .PlayScreen-play-btn {
+      color: var(--ui-color) !important;
+      border-color: var(--ui-color) !important;
+    }
+  }
+
+  .WatchScreen-header > .WatchScreen-header-actions {
+    border-top-color: rgba(255, 255, 255, 0.07);
+  }
+
+
+  .GameFilterBar-group {
+    border-left-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .GameSubBar {
+    background: #1d2724;
+  }
+
+  .GameFilterBar {
+    background: #1d2724;
+  }
+
+  .WatchScreen-header-title { color: var(--dk-fg); }
+  .WatchScreen-header-count { color: var(--dk-fg); }
+
+
+  .WatchTabs {
+    background: var(--dk-bg-off);
+    border-right-color: rgba(255,255,255,0.07);
+  }
+  .WatchTabs-divider { background: rgba(255,255,255,0.07); }
+  .WatchTabs-tab {
+    color: var(--dk-fg-muted);
+    &:hover { background: rgba(255,255,255,0.06); color: var(--dk-fg); }
+  }
+  .WatchTabs-tab-active {
+    background: rgba(var(--ui-color-rgb), 0.15) !important;
+    color: var(--ui-color) !important;
+    .WatchTabs-tab-label { color: var(--ui-color) !important; }
+  }
+  .WatchTabs-tab-close { color: var(--dk-fg-muted); &:hover { color: var(--dk-fg); } }
+}
+
+/* Mid (cream) theme: the WatchScreen header, filter bar and sub-bar use
+   hardcoded dark greens in the dark block above, so re-map them to the warm
+   cream surfaces here. */
+body.mid-mode {
+  .WatchScreen,
+  .PlayScreen {
+    background: #f4ebd8 !important;
+    box-shadow: 0 4px 24px rgba(59, 49, 39, 0.12) !important;
+  }
+
+  .WatchScreen-header {
+    background: #fbf5ea;
+    border-bottom: 2px solid rgba(var(--ui-color-rgb), 0.4);
+  }
+
+  .WatchScreen-header-title,
+  .WatchScreen-header-count {
+    color: #3b3127;
+  }
+
+  .GameFilterBar-group {
+    border-left-color: rgba(59, 49, 39, 0.25);
+  }
+
+  .GameSubBar {
+    background: #fbf5ea;
+  }
+
+  /* Labels & controls sit on the gold-brown bands — light text for contrast. */
+  .GameFilterBar-toggle,
+  .GameFilterBar-toggle-label,
+  .GameFilterBar-label,
+  .GameFilterBar-bots-label,
+  .GameSubBar-sort-label,
+  .GameSubBar-sort-btn {
+    color: #3b3127;
+  }
+
+  .GameSubBar-sort-btn:hover,
+  .GameSubBar-sort-btn.active {
+    color: #2e251c;
+  }
+
+  .GameFilterBar-group {
+    color: #3b3127;
+  }
+
+  .WatchTabs {
+    background: var(--dk-bg-off);
+    border-right-color: var(--dk-border);
+  }
+  .WatchTabs-divider { background: var(--dk-border); }
+  .WatchTabs-tab {
+    color: var(--dk-fg-muted);
+    &:hover { background: rgba(0, 0, 0, 0.04); color: var(--dk-fg); }
+  }
+  .WatchTabs-tab-active {
+    background: rgba(var(--ui-color-rgb), 0.12) !important;
+    color: var(--ui-color) !important;
+    .WatchTabs-tab-label { color: var(--ui-color) !important; }
+  }
+  .WatchTabs-tab-close { color: var(--dk-fg-muted); &:hover { color: var(--dk-fg); } }
+}
+
+.WatchScreen-header {
+  display: flex;
+  flex-direction: column;
+  background: #fcfcfb;
+  border-bottom: 2px solid rgba(var(--ui-color-rgb), 0.4);
+  margin-bottom: 0;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.WatchScreen-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 24px 20px 20px 20px;
+}
+
+/* PlayScreen groups the action buttons with the room selector on the right
+   side of the title row. */
+.PlayScreen-header-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .WatchScreen-header-actions {
+    padding: 0;
+    border-top: none;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+}
+
+.WatchScreen-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  > .Button-secondary,
+  .PlayScreen-play-btn {
+    background: transparent !important;
+    border-color: rgba(var(--ui-color-rgb), 0.6) !important;
+    color: rgba(var(--ui-color-rgb), 0.6) !important;
+  }
+}
+
+/* PlayScreen renders the actions as a direct header row (Create Challenge,
+   automatch). My Games nests them inside the title row, so only pad the
+   top-level variant. */
+.WatchScreen-header > .WatchScreen-header-actions {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.WatchScreen-header-title {
+  font-size: 22px;
+  font-weight: 500;
+  color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.WatchScreen-header-count {
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(var(--ui-color-rgb), 0.1);
+  color: var(--ui-color);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+/* Win/loss record chip next to the My Games count. */
+.MyGamesScreen-record {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.MyGamesScreen-record-wins,
+.MyGamesScreen-record-losses {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.MyGamesScreen-record-wins {
+  color: #1f8a57;
+  background: rgba(46, 163, 107, 0.12);
+  border-color: rgba(46, 163, 107, 0.22);
+
+  &:hover {
+    background: rgba(46, 163, 107, 0.2);
+    border-color: rgba(46, 163, 107, 0.4);
+  }
+
+  &.active {
+    color: #ffffff;
+    background: #2ea36b;
+    border-color: #2ea36b;
+    box-shadow: 0 1px 3px rgba(46, 163, 107, 0.35);
+  }
+}
+
+.MyGamesScreen-record-losses {
+  color: #d83a3a;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.22);
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  &.active {
+    color: #ffffff;
+    background: #ef4444;
+    border-color: #ef4444;
+    box-shadow: 0 1px 3px rgba(239, 68, 68, 0.35);
+  }
+}
+
+
+body.dark-mode {
+  .MyGamesScreen-record-wins {
+    color: #5fd6a0;
+    background: rgba(63, 202, 140, 0.14);
+    border-color: rgba(63, 202, 140, 0.28);
+
+    &:hover {
+      background: rgba(63, 202, 140, 0.24);
+      border-color: rgba(63, 202, 140, 0.5);
+    }
+
+    &.active {
+      color: #0f1f18;
+      background: #3fca8c;
+      border-color: #3fca8c;
+      box-shadow: 0 1px 3px rgba(63, 202, 140, 0.4);
+    }
+  }
+
+  .MyGamesScreen-record-losses {
+    color: #f59595;
+    background: rgba(248, 113, 113, 0.14);
+    border-color: rgba(248, 113, 113, 0.28);
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.24);
+      border-color: rgba(248, 113, 113, 0.5);
+    }
+
+    &.active {
+      color: #2a0f0f;
+      background: #f87171;
+      border-color: #f87171;
+      box-shadow: 0 1px 3px rgba(248, 113, 113, 0.4);
+    }
+  }
+}
+
+.GameList-item-move {
+  font-size: 12px;
+  color: #6e6e6e;
+  font-weight: 500;
+}
+
+.GameList-item-result {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e1e1e;
+}
+
+.GameList-item-rules {
+  font-size: 13px;
+  color: #3a3a3a;
+  font-weight: 500;
+}
+
+.GameScreen-header {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.GameScreen-back a {
+  display: block;
+  color: $link-color;
+}
+
+.GameScreen-back-icon,
+.GameMoreMenu-trigger-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+  padding: 0 7px;
+}
+
+.GameScreen-back-label,
+.GameMoreMenu-trigger-label {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+a.GameMoreMenu-trigger {
+  color: $muted;
+  display: block;
+}
+
+.GameMoreMenu-dropdown {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 190px;
+  padding: 6px;
+  text-align: left;
+  line-height: 1.4;
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+
+  .dark-mode & {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .mid-mode & {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+  }
+}
+
+a.GameMoreMenu-dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #334155;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background: rgba(var(--ui-color-rgb), 0.08);
+    color: var(--ui-color);
+  }
+
+  .dark-mode & {
+    color: var(--dk-fg-faint);
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.16);
+      color: var(--ui-color);
+    }
+  }
+
+  .mid-mode & {
+    color: var(--dk-fg);
+  }
+}
+
+.GameMoreMenu-game-info {
+  padding: 8px 24px 24px 24px;
+
+  .GameInfo-table {
+    width: 100%;
+
+    td, th {
+      font-size: 14px;
+      padding: 8px 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    tr:last-child td,
+    tr:last-child th {
+      border-bottom: none;
+    }
+
+    th {
+      color: #94a3b8;
+      font-weight: 600;
+      width: 80px;
+    }
+
+    td {
+      color: #1e1e1e;
+      font-weight: 500;
+    }
+  }
+}
+
+.GameScreen-board {
+  background: #211915;
+  margin: 0 auto;
+  position: relative;
+
+  .Board-wrapper {
+    margin: 0 !important;
+  }
+}
+
+/* Zen mode: the whole board can be dragged to reposition it (useful once it's
+   been resized past the viewport). The grab cursor sits on the wood frame; the
+   playing grid keeps its own pointer cursor. */
+.GameScreen-board-movable {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+/* Desktop-only drag handle to live-resize the board from its bottom-right
+   corner. Hidden on mobile (phones always fill the width). */
+.GameScreen-board-resize {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: nwse-resize;
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    display: block;
+    stroke-width: 2.25;
+  }
+
+  @media #{$mobile-query} {
+    display: none;
+  }
+}
+
+.GameScreen-board-container-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6f5f2;
+}
+
+.GameScreen-board-spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6f5f2;
+}
+
+.BoardLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.BoardLoading-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.6);
+  animation: boardLoadingDot 1.2s ease-in-out infinite;
+
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
+}
+
+@keyframes boardLoadingDot {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.8); }
+  40%           { opacity: 1;    transform: scale(1.1); }
+}
+
+body.dark-mode {
+  .GameScreen-board-container-loading,
+  .GameScreen-board-spinner {
+    background: var(--dk-bg);
+  }
+
+  .BoardLoading-dot {
+    background: rgba(20, 184, 166, 0.7);
+  }
+}
+
+.GameScreen-board-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.GameScreen-nav {
+  position: relative;
+  height: 36px;
+  background: $inverted-bg-off;
+}
+
+.BoardNav {
+  margin: 0 auto;
+  padding: 0 0 0 110px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: $muted;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.BoardNav.BoardNav-simplified,
+.BoardNav-below-board .BoardNav.BoardNav-simplified {
+  width: auto !important;
+  min-width: 190px !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  gap: 12px !important;
+
+  .BoardNav-step {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // Fixed width so the move number changing (Move 5 → Move 286) doesn't resize
+  // the badge and shift the centered step buttons. Wide enough for "Move 999".
+  .BoardNav-move {
+    margin: 0 !important;
+    width: 92px !important;
+    height: 28px !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  }
+
+  // Fixed width + always rendered (empty when nothing is hovered) so the
+  // coordinate changing (M7 → A19 → Pass) or appearing/disappearing never
+  // shifts the layout.
+  .BoardNav-coordinate-right {
+    display: inline-flex !important;
+    position: static !important;
+    transform: none !important;
+    width: 52px !important;
+    height: 28px !important;
+    box-sizing: border-box !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+}
+
+.BoardNav.BoardNav-no-slider,
+.BoardNav-below-board .BoardNav.BoardNav-no-slider {
+  width: auto !important;
+  min-width: 290px !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  gap: 12px !important;
+
+  .BoardNav-step {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // Fixed width so the move number changing (Move 5 → Move 286) doesn't resize
+  // the badge and shift the centered step buttons. Wide enough for "Move 999".
+  .BoardNav-move {
+    margin: 0 !important;
+    width: 92px !important;
+    height: 28px !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  }
+
+  // Fixed width + always rendered (empty when nothing is hovered) so the
+  // coordinate changing (M7 → A19 → Pass) or appearing/disappearing never
+  // shifts the layout.
+  .BoardNav-coordinate-right {
+    display: inline-flex !important;
+    position: static !important;
+    transform: none !important;
+    width: 52px !important;
+    height: 28px !important;
+    box-sizing: border-box !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+}
+
+.BoardNav-slide-container {
+  display: flex;
+  padding-left: 20px;
+  padding-right: 60px; // Reserve space for coordinate display on the far right
+}
+
+.BoardNav-move {
+  min-width: 70px;
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.15);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin: auto 0 auto 12px;
+  align-self: center;
+}
+
+.BoardNav-coordinate-right {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.15);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+// The badge now always renders (empty when nothing is hovered) so it reserves
+// its slot in the fixed-width nav layouts. The empty pill must be invisible in
+// every layout — the fixed-slot layouts still keep its blank slot via width.
+.BoardNav-coordinate-right-empty {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: transparent !important;
+}
+
+.BoardNav-slide {
+  flex: 1;
+  padding: 7px 0 0 0;
+
+  input {
+    width: 100%;
+  }
+}
+
+.BoardNav-step {
+  position: absolute;
+  left: 5px;
+  top: 0;
+  font-size: 0;
+}
+
+a.BoardNav-prev,
+a.BoardNav-next,
+a.BoardNav-first,
+a.BoardNav-last,
+a.BoardNav-play {
+  display: block;
+  background: #f0eee9 !important;
+  color: #1e1e1e !important;
+  padding: 5px 20px;
+  font-size: 16px;
+  display: inline-block;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  margin: 4px 4px 0 0;
+  transition: all 0.2s ease;
+
+  &:active {
+    background: #e2e0d8 !important;
+  }
+}
+
+.no-touch {
+
+  a.BoardNav-prev,
+  a.BoardNav-next,
+  a.BoardNav-first,
+  a.BoardNav-last,
+  a.BoardNav-play {
+    &:hover {
+      background: #e2e0d8 !important;
+      color: #1e1e1e !important;
+      transform: translateY(-0.5px);
+    }
+  }
+}
+
+.GamePlayActions {
+  height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
+  // background: $off-white;
+  // border-top: 1px solid $muted;
+  // border-bottom: 1px solid $very-muted;
+}
+
+.GamePlayActions-item {
+  width: 23%;
+  margin-left: 2.666%;
+  height: 40px;
+  display: inline-block;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.GamePlayActions-item-button {
+  display: block;
+  height: 40px;
+  line-height: 38px;
+  text-align: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: background 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #fefdfb !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  text-decoration: none;
+
+  &:active {
+    transform: scale(0.97) translateY(0.5px);
+    background: #f1efe9 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+.GamePlayActions-pass {
+  background: #fefdfb !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+
+  &:active {
+    background: #f1efe9 !important;
+  }
+}
+
+.no-touch .GamePlayActions-pass:hover {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.GamePlayActions-pass-disabled {
+  opacity: 1 !important;
+  cursor: default;
+  transform: none !important;
+  box-shadow: none !important;
+  background: #f5f3ee !important;
+  color: rgba(30, 30, 30, 0.35) !important;
+  border: 1px solid rgba(0, 0, 0, 0.07) !important;
+  transition: none !important;
+}
+
+.no-touch .GamePlayActions-pass-disabled:hover {
+  background: #f5f3ee !important;
+  color: rgba(30, 30, 30, 0.35) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+.GamePlayActions-undo {
+  background: #fefdfb !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+
+  &:active {
+    background: #f1efe9 !important;
+  }
+}
+
+.no-touch .GamePlayActions-undo:hover {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.GamePlayActions-resign {
+  background: #fefdfb !important;
+  color: #dc2626 !important; // Red text accent
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+
+  &:active {
+    background: #fdeeee !important;
+  }
+}
+
+.no-touch .GamePlayActions-resign:hover {
+  background: #fdeeee !important;
+  color: #dc2626 !important;
+  border-color: rgba(220, 38, 38, 0.28) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.1) !important;
+}
+
+.GamePlayActions-addtime {
+  background: #fefdfb !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+
+  &:active {
+    background: #f1efe9 !important;
+  }
+}
+
+.no-touch .GamePlayActions-addtime:hover {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.GameScreen-tabs {
+  display: none;
+}
+
+@media #{$nonmobile-query} {
+  body.GameScreen-has-tabs {
+    .GameScreen {
+      top: 92px !important; // 50px nav + 42px tabs
+    }
+    .GameScreen-board-container {
+      top: 20px !important;
+    }
+    .GameScreen-side-container {
+      top: 20px !important;
+    }
+    .BoardNav-below-board {
+      bottom: 0 !important;
+    }
+  }
+
+  .GameScreen {
+    position: fixed;
+    top: 50px !important; // sitting below 50px MainNav
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: 24px !important;
+    padding: 35px 40px 20px 40px !important;
+    background: transparent !important;
+  }
+
+  .GameScreen-header {
+    display: none !important;
+  }
+
+  .GameScreen-board-container {
+    position: absolute !important;
+    left: 40px !important;
+    top: 20px !important; // consistent gap below the nav (matches side container)
+    bottom: 75px !important; // sits above BoardNav-below-board with comfortable gap
+    right: 440px !important; // sidebar is 380px + 20px margin + 40px gap
+    padding: 0px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    overflow: visible !important;
+  }
+
+  .GameScreen-board {
+    background-color: #211915 !important; // Wood frame color
+    padding: 6px !important; // Wood frame thickness
+    border-radius: 24px !important;
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .GameScreen-access-denied {
+    position: absolute;
+    left: 40px;
+    top: 135px;
+    right: 440px;
+    padding: 15px 0;
+    box-sizing: border-box;
+    text-align: center;
+    background: rgba(185, 28, 28, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    color: #ffffff;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .GameScreen-side-container {
+    position: absolute !important;
+    right: 40px !important;
+    top: 20px !important; // aligned with the board top for consistent nav spacing
+    bottom: 20px !important; // sidebar goes all the way down
+    width: 380px !important;
+    background-color: rgba(33, 25, 21, 0.85) !important; // Wood frame, slightly transparent
+    border-radius: 16px !important;
+    padding: 2px !important; // Wood container thickness (thin frame)
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  .GameScreen-side-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px !important; // outer 16px − 2px frame, so corners nest
+    background-color: #faf9f6 !important; // Light cream sidebar background
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .BoardNav-below-board {
+    position: absolute !important;
+    left: 40px !important;
+    right: 440px !important;
+    bottom: 0 !important;
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    .BoardNav {
+      width: 420px !important;
+      height: 38px !important;
+      position: relative !important;
+      padding: 0 16px !important;
+      background: rgba(255, 255, 255, 0.92) !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+      backdrop-filter: blur(8px) !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+    }
+
+    .BoardNav-step {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .BoardNav-coordinate-right {
+      position: static !important;
+      transform: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+      flex-shrink: 0 !important;
+    }
+
+    .BoardNav-slide-container {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      padding: 0 !important;
+      gap: 10px !important;
+      min-width: 0 !important;
+    }
+
+    .BoardNav-slide {
+      flex: 1 !important;
+      padding: 0 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      min-width: 0 !important;
+
+      .rc-slider {
+        margin-top: 0 !important;
+        height: 20px !important;
+        padding: 0 !important;
+
+        .rc-slider-rail,
+        .rc-slider-track,
+        .rc-slider-step {
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+        }
+
+        .rc-slider-handle {
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+          margin-top: 0 !important;
+        }
+      }
+    }
+
+    .BoardNav-move {
+      width: auto !important;
+      padding: 1px 10px !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+      border-radius: 20px !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+      letter-spacing: 0.02em !important;
+    }
+
+    .BoardNav-coordinate-right {
+      padding: 1px 10px !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+      border-radius: 20px !important;
+      letter-spacing: 0.04em !important;
+    }
+
+    a.BoardNav-prev,
+    a.BoardNav-next,
+    a.BoardNav-first,
+    a.BoardNav-last,
+    a.BoardNav-play {
+      width: 28px !important;
+      height: 28px !important;
+      padding: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 10px !important;
+      margin: 0 !important;
+      background: #f0eee9 !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      font-size: 15px !important;
+      color: #1e1e1e !important;
+      box-shadow: none !important;
+      transition: all 0.15s ease !important;
+
+      &:hover {
+        background: #e2e0d8 !important;
+        transform: none !important;
+      }
+    }
+  }
+
+  .GameScreen-zen-btn {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 10px !important;
+    background: #fefdfb !important;
+    color: #64748b !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.15s ease !important;
+
+    &:hover {
+      background: #ffffff !important;
+      color: #1e293b !important;
+      border-color: rgba(0, 0, 0, 0.14) !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+
+  .GameScreen-zen-btn-active {
+    background: rgba($accent, 0.1) !important;
+    color: $accent !important;
+    border-color: rgba($accent, 0.25) !important;
+  }
+
+  .GameScreen-time-header {
+    position: absolute !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: 196px !important;
+    height: 38px !important;
+    z-index: 3 !important;
+    margin: 0 !important;
+  }
+
+  .GameScreen-nav {
+    position: absolute !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: 242px !important;
+    height: 36px !important;
+    background: transparent !important;
+    z-index: 3 !important;
+
+    .GameMoreMenu {
+      position: absolute !important;
+      left: 0 !important;
+      right: 42px !important;
+      top: 0 !important;
+    }
+
+    // No zen button on the demo board, so the SGF/AI-Review row reclaims its
+    // 42px slot.
+    .GameScreen-demo-editing & .GameMoreMenu {
+      right: 0 !important;
+    }
+
+    // Demo viewer with no Sync visible: the SGF/AI-Review row reclaims the full
+    // width too.
+    .GameScreen-demo:not(.GameScreen-demo-editing) & .GameMoreMenu {
+      right: 0 !important;
+    }
+
+    // ...but when the Sync button is shown, leave room for it on the right.
+    .GameScreen-demo:not(.GameScreen-demo-editing) &:has(.GameScreen-nav-sync-btn)
+      .GameMoreMenu {
+      right: 84px !important;
+    }
+
+    .GameScreen-nav-sync-btn {
+      position: absolute !important;
+      right: 0 !important;
+      top: 0 !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      padding: 0 12px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      border: 1px solid rgba(var(--ui-color-rgb), 0.7) !important;
+      border-radius: 8px !important;
+      color: var(--ui-color-contrast, #fff) !important;
+      background: rgba(var(--ui-color-rgb), 0.7) !important;
+      cursor: pointer !important;
+
+      &:hover {
+        background: var(--ui-color) !important;
+        border-color: var(--ui-color) !important;
+      }
+    }
+
+    .GameMoreMenu-buttons {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      width: 100% !important;
+    }
+
+    .GameMoreMenu-button {
+      flex: 1 !important;
+      height: 32px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      background: #f0eee9 !important;
+      color: #1e1e1e !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      transition: background 0.15s ease !important;
+
+      &:hover {
+        background: #e2e0d8 !important;
+      }
+    }
+
+    // Review action stands out with an accent tint.
+    .GameMoreMenu-button-review {
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.1) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.4) !important;
+      font-weight: 600 !important;
+
+      &:hover {
+        background: rgba(var(--ui-color-rgb), 0.16) !important;
+        border-color: var(--ui-color) !important;
+      }
+    }
+  }
+
+  .GameScreen-players-users {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    height: 180px;
+    box-sizing: border-box;
+  }
+
+  .GameScreen-players {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #ffffff !important;
+    border: 1px solid rgba(139, 90, 43, 0.12) !important;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    .GamePlayersInfo {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0;
+    }
+
+    // The player boxes fill the outer card edge-to-edge: no own border/radius/
+    // background, just a divider between them.
+    .GamePlayersInfo-color {
+      flex: 1;
+      margin: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .GamePlayersInfo-color + .GamePlayersInfo-color {
+      border-top: 1px solid rgba(139, 90, 43, 0.12) !important;
+    }
+  }
+
+  .GameScreen-users {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 33%;
+    bottom: 0;
+    padding: 8px;
+    background: #ffffff !important;
+    border: 1px solid rgba(139, 90, 43, 0.12) !important;
+    border-radius: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: nowrap;
+    color: #1e1e1e;
+  }
+
+  .GameScreen-playing {
+    .GameScreen-play-actions-row {
+      top: 242px !important;
+    }
+    .GameScreen-chat {
+      top: 292px !important;
+    }
+  }
+
+  // Demo editing adds the stone toolbar below the SGF/AI-Review nav bar. The
+  // sidebar is an absolutely-positioned stack, so give the toolbar its own slot
+  // (just under the nav) and push the chat down so they don't overlap.
+  .GameScreen-demo-editing {
+    .GameScreen-demo-toolbar {
+      position: absolute !important;
+      left: 10px !important;
+      right: 10px !important;
+      top: 288px !important;
+      margin: 0 !important;
+      z-index: 3 !important;
+    }
+    // Move-tree graph sits just below the toolbar; chat drops below it. Kept
+    // compact (it scrolls both ways) so the chat keeps enough room.
+    .MoveTree-wrap {
+      position: absolute !important;
+      left: 10px !important;
+      right: 10px !important;
+      top: 336px !important;
+      height: 200px !important;
+      z-index: 3 !important;
+    }
+    .GameScreen-chat {
+      top: 546px !important;
+    }
+  }
+
+  .GameScreen-play-actions-row {
+    position: absolute !important;
+    top: 198px !important;
+    left: 10px !important;
+    right: 10px !important;
+    height: 40px !important;
+    z-index: 3 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+
+    .GamePlayActions {
+      position: static !important;
+      flex: 1 !important;
+      padding: 0 !important;
+      height: 40px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    .GamePlayActions-item {
+      flex: 1 !important;
+      width: auto !important;
+      margin-left: 0 !important;
+      height: 40px !important;
+      display: block !important;
+    }
+
+    .GamePlayActions-item-button {
+      height: 40px !important;
+      line-height: 38px !important;
+      border-radius: 10px !important;
+    }
+
+    .GameScreen-zen-btn {
+      position: static !important;
+      width: 40px !important;
+      height: 40px !important;
+      flex-shrink: 0 !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 10px !important;
+    }
+  }
+
+  .GameScreen-chat {
+    position: absolute;
+    left: 10px;
+    top: 288px !important;
+    right: 10px;
+    bottom: 10px;
+    background: transparent;
+    box-sizing: border-box;
+
+    &.GameScreen-tab-content-chat {
+      .GameScreen-chat-scroll {
+        bottom: 56px !important;
+      }
+    }
+
+
+  }
+
+  // Demo edit toolbar: sits between the header and the chat window. The whole
+  // sidebar is absolutely positioned, so place it explicitly and push the chat
+  // down to make room.
+  .GameScreen-demo-editing {
+    .GameScreen-demo-toolbar {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 288px;
+      margin-bottom: 0;
+      z-index: 3;
+    }
+
+    .MoveTree-wrap {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 336px;
+      height: 200px;
+      z-index: 3;
+    }
+
+    .GameScreen-chat {
+      top: 546px !important;
+    }
+  }
+
+  .GameScreen-chat-scroll {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 56px; // Space for input bar
+    background-color: #ffffff !important;
+    border: 1px solid rgba(139, 90, 43, 0.12) !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+
+  .GameScreen-chat-message-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .GameScreen-undo-prompt {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    bottom: 75px;
+    right: 440px;
+    z-index: 4;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .GameScreen-rengo {
+    .GameScreen-players-users {
+      height: 190px !important;
+    }
+
+    .GameScreen-time-header {
+      top: 206px !important;
+    }
+
+    .GameScreen-nav {
+      top: 250px !important;
+      height: 36px !important;
+    }
+
+    .GameScreen-play-actions-row {
+      top: 210px !important;
+    }
+
+    .GameScreen-chat {
+      top: 296px !important;
+    }
+
+    &.GameScreen-playing {
+      .GameScreen-play-actions-row {
+        top: 252px !important;
+      }
+      .GameScreen-chat {
+        top: 302px !important;
+      }
+    }
+  }
+
+  // Demo boards show a single owner header (no clock/captures), so the header
+  // slot is shortened to 100px. Everything that keys off it (nav, toolbar, move
+  // tree, chat) is pulled up by the same 80px, preserving the original gaps so
+  // the game-info block at the top of the chat stays correctly placed. Scoped to
+  // `.GameScreen-demo`; real games keep the full 180px header. Placed at the end
+  // of the media block so these win over the earlier demo layout rules.
+  .GameScreen-demo {
+    .GameScreen-players-users {
+      height: 64px !important;
+    }
+
+    .GameScreen-nav {
+      top: 86px !important;
+    }
+
+    // A review/demo header has no clocks, so the two players sit side by side on
+    // one compact row (Black | White) rather than stacking vertically like a
+    // live game. Only kicks in when there are two real players (a bare owner-only
+    // demo keeps its single centered row).
+    .GamePlayersInfo:has(.GamePlayersInfo-black) {
+      display: flex !important;
+      flex-direction: row !important;
+
+      .GamePlayersInfo-color {
+        flex: 1 1 0 !important;
+        width: 50% !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+      }
+
+      .GamePlayersInfo-color:first-child {
+        border-top: none !important;
+        border-right: 1px solid rgba(139, 90, 43, 0.12) !important;
+      }
+    }
+
+    // Draggable divider between the move-tree/comment area and the chat. Its
+    // `top` (per editor/observer, below) sits it in the 10px gap between them.
+    .GameScreen-demo-divider-handle {
+      position: absolute !important;
+      left: 10px !important;
+      right: 10px !important;
+      height: 10px !important;
+      z-index: 4 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: ns-resize !important;
+    }
+
+    .GameScreen-demo-divider-grip {
+      width: 40px;
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.18);
+      transition: background 0.12s ease;
+    }
+
+    .GameScreen-demo-divider-handle:hover .GameScreen-demo-divider-grip {
+      background: var(--ui-color);
+    }
+  }
+
+  .GameScreen-demo.GameScreen-demo-editing {
+    .GameScreen-demo-toolbar {
+      top: 132px !important;
+    }
+
+    // Move list (≤3 rows graph) + comment bar below. Chat takes the rest. The
+    // tree/chat split is user-resizable via the divider (--demo-tree-h).
+    .MoveTree-wrap {
+      top: 180px !important;
+      height: var(--demo-tree-h, 318px) !important;
+    }
+
+    .GameScreen-demo-divider-handle {
+      top: calc(180px + var(--demo-tree-h, 318px)) !important;
+    }
+
+    .GameScreen-chat {
+      top: calc(190px + var(--demo-tree-h, 318px)) !important;
+    }
+  }
+
+  .GameScreen-demo:not(.GameScreen-demo-editing) {
+    // Viewer: move list + read-only comment box (no input). Same layout as the
+    // editor, minus the toolbar. Chat takes the rest; split is user-resizable.
+    .MoveTree-wrap {
+      position: absolute !important;
+      left: 10px !important;
+      right: 10px !important;
+      top: 132px !important;
+      height: var(--demo-tree-h, 300px) !important;
+      z-index: 3 !important;
+    }
+
+    .GameScreen-demo-divider-handle {
+      top: calc(132px + var(--demo-tree-h, 300px)) !important;
+    }
+
+    .GameScreen-chat {
+      top: calc(142px + var(--demo-tree-h, 300px)) !important;
+    }
+  }
+}
+
+body.dark-mode .GameScreen-demo-divider-grip {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+// Mid theme: the Sync button reads better as a solid accent fill (the 0.85
+// transparency looked washed out on the cream surface).
+body.mid-mode .GameScreen-nav-sync-btn {
+  background: var(--ui-color) !important;
+  border-color: var(--ui-color) !important;
+}
+
+.GameScreen-zen-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+
+.GameScreen-zen-control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 20px;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+
+  &.GameScreen-zen-exit-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+  }
+
+  &:hover:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled,
+  &.GameScreen-zen-btn-disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    cursor: not-allowed;
+    transition: none !important;
+  }
+}
+
+/* ── Zen mode clocks overlay ─────────────────────────── */
+.GameScreen-zen-clocks {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(calc(100% + 16px), -50%);
+  z-index: 20;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: auto; /* Allow clicks on action buttons */
+}
+
+.GameScreen-zen-clocks-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.GameScreen-zen-clock-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 8px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 10px;
+
+  &.GameScreen-zen-exit-btn {
+    flex: none !important;
+    width: 32px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+  }
+  color: #1e1e1e !important;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+
+  &:hover:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+    background: #e2e0d8 !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  &:active:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  }
+
+  &:disabled,
+  &.GameScreen-zen-btn-disabled {
+    color: rgba(30, 30, 30, 0.4) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    background: #f5f4f0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    cursor: not-allowed;
+    transition: none !important;
+  }
+}
+
+.GameScreen-zen-clock {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 10px 24px;
+  min-width: 110px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  .GameClock {
+    font-size: 2rem !important;
+    color: #1e1e1e !important;
+    position: relative !important;
+    width: auto !important;
+  }
+
+  .GameClock-active,
+  .GameClock-running {
+    color: var(--ui-color) !important;
+  }
+}
+
+.GameScreen-zen-username {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 6px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.GameScreen-zen-clock-white .GameScreen-zen-username:before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 33% 33%, #fff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+  border: 1px solid rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+
+.GameScreen-zen-clock-black .GameScreen-zen-username:before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+  border: 1px solid rgba(0,0,0,0.6);
+  flex-shrink: 0;
+}
+
+@media only screen and (max-width: 999px) {
+  .GameScreen {
+    left: 0;
+    right: 0;
+    width: auto;
+    margin: 0;
+  }
+
+  .GameScreen-back a {
+    padding-left: 0;
+  }
+
+  .GameScreen-title {
+    max-width: 220px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: $muted;
+  }
+
+  .GameScreen-title-score {
+    font-weight: 500;
+    color: $content-fg;
+  }
+}
+
+.GameScreen-chat-info {
+  margin: 0 10px;
+  border-bottom: 1px solid $very-muted;
+  padding: 10px 0 14px 0;
+}
+
+.GameInfo-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  td, th {
+    font-size: 13px;
+    padding: 5px 6px;
+    line-height: 1.4;
+    vertical-align: middle;
+  }
+
+  th {
+    text-align: left;
+    font-weight: 600;
+    color: #94a3b8;
+    width: 52px;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  td {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+}
+
+.GameInfo-komi {
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.GameInfo-time-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.GameScreen-time-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.15s ease, opacity 0.15s ease;
+  padding: 2px;
+  border-radius: 4px;
+
+  &:hover {
+    color: #0f172a;
+    opacity: 0.85;
+  }
+}
+
+.GameScreen-time-header {
+  background: #ffffff !important;
+  border: 1px solid rgba(139, 90, 43, 0.12) !important;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 13px;
+  margin: 10px 10px 0 10px;
+
+  .GameInfo-time-cell {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+}
+
+
+/* The white + black player boxes are visually merged into a single card: one
+   outer border/radius/shadow, with only a divider line between the two. */
+.GamePlayersInfo-color {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #ffffff !important;
+  border: 1px solid rgba(139, 90, 43, 0.1) !important;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+/* Collapse the gap so the two boxes touch, and round only the outer corners. */
+.GamePlayersInfo {
+  gap: 0 !important;
+}
+
+.GamePlayersInfo-color + .GamePlayersInfo-color {
+  border-top: none !important;
+}
+
+.GamePlayersInfo-color:first-child {
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+.GamePlayersInfo-color:last-child {
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.GamePlayersInfo-captures-badge {
+  display: none;
+}
+
+.GamePlayersInfo-avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+}
+
+.GamePlayersInfo-players {
+  font-weight: 400;
+  font-size: 16px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .UserName {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    vertical-align: middle;
+    color: #2d3a32;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .UserName-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .UserName-rank-chip {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    margin-left: 6px;
+  }
+}
+
+.GamePlayersInfo-players-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 6px;
+
+  .Board-stone {
+    display: none;
+  }
+}
+
+// The player whose turn it is: a pulsing accent ring around their stone.
+.GamePlayersInfo-players-icon-turn {
+  box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 0.9),
+    0 0 8px 1px rgba(var(--ui-color-rgb), 0.5);
+  animation: GamePlayersInfo-turn-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes GamePlayersInfo-turn-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 0.85),
+      0 0 6px 0 rgba(var(--ui-color-rgb), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 1),
+      0 0 12px 2px rgba(var(--ui-color-rgb), 0.65);
+  }
+}
+
+// Black stone indicator
+.GamePlayersInfo-black .GamePlayersInfo-players-icon {
+  background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+  border: 1px solid #000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 -1px 3px rgba(0,0,0,0.4);
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 13%; top: 13%;
+    width: 32%; height: 32%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none;
+  }
+}
+
+// White stone indicator
+.GamePlayersInfo-white .GamePlayersInfo-players-icon {
+  background: radial-gradient(circle at 33% 33%, #fff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+  border: 1px solid rgba(0,0,0,0.55);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.28), inset 0 -1px 3px rgba(0,0,0,0.1);
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 12%; top: 12%;
+    width: 34%; height: 34%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none;
+  }
+}
+
+.GamePlayersInfo-player1,
+.GamePlayersInfo-player2 {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.GamePlayersInfo-player2 {
+  margin-left: 1.4em;
+}
+
+// Demo board owner badge — a small accent icon before the owner's name marking
+// them as the presenter/editor of the demo.
+.GamePlayersInfo-owner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 6px;
+  color: var(--ui-color);
+}
+
+.GamePlayersInfo-rengo {
+  .GamePlayersInfo-avatar {
+    display: none;
+  }
+
+  .GamePlayersInfo-players-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .GamePlayersInfo-players {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .GamePlayersInfo-player1,
+  .GamePlayersInfo-player2 {
+    display: flex;
+    align-items: center;
+  }
+
+  .GamePlayersInfo-player2 {
+    margin-left: 0;
+
+    .GamePlayersInfo-players-icon {
+      visibility: hidden;
+    }
+  }
+}
+
+.GamePlayersInfo-captures-clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.GamePlayersInfo-role {
+  font-size: 11px;
+  color: #6e6e6e;
+  margin: 0;
+  font-weight: 500;
+}
+
+
+body.dark-mode {
+  .GamePlayersInfo-role {
+    color: var(--dk-fg-muted) !important;
+  }
+
+}
+
+.GamePlayersInfo-winner-clock {
+  position: relative;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.GamePlayersInfo-winner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: transparent;
+  color: #d4a373;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.GamePlayersInfo-clock {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.GameClock {
+  font-family: $font-family !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  padding: 0;
+  background: transparent !important;
+  color: #2d3a32 !important;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  border: none !important;
+  letter-spacing: -0.5px !important;
+  // Tabular figures so the digits stay aligned and read crisp, not flat.
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.GameClock-active {
+  color: #2d3a32 !important; // white-mode active clock (not tied to ui-color)
+  // Active but the clock isn't ticking (paused / between states): calm, dimmed.
+  opacity: 0.8;
+}
+
+// Mid theme keeps the accent color for the active clock (unchanged from before).
+body.mid-mode {
+  .GameClock-active,
+  .GameClock-running {
+    color: var(--ui-color) !important;
+  }
+
+  // Observers / player list panel — was white (#ffffff, no mid override) on the
+  // cream theme; warm it to #fffdf8 (matching the time/info header box). The
+  // sticky header sits a notch deeper so it stands out from the list.
+  .GameScreen-observers-panel {
+    background-color: #fffdf8 !important;
+    border-color: var(--dk-border) !important;
+
+    .UserList-players-header,
+    .UserList-players-header .UserList-section-title {
+      background: #f4ebd8 !important;
+    }
+  }
+}
+
+
+.GameClock-running {
+  background: transparent !important;
+  color: #2d3a32 !important; // white-mode active clock (not tied to ui-color)
+  border: none !important;
+  box-shadow: none !important;
+  // Clock is actively counting down: full strength + bold so it reads distinctly
+  // from a merely-active (paused) clock. No animation.
+  opacity: 1;
+  font-weight: 700 !important;
+
+
+  .TimeCountdown-urgent {
+    background: var(--ui-color);
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+}
+
+.GameClock-time {
+  display: inline-block;
+}
+
+.TimeCountdown {
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+// Byo-yomi periods shown as a row of vertical ticks (one per remaining period).
+.TimeCountdown-periods {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.TimeCountdown-period-tick {
+  display: inline-block;
+  width: 3px;
+  height: 0.8em; // a bit shorter than the clock text
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.GameChat {
+  padding: 10px;
+
+  .ChatMessage-item {
+    font-size: 13px;
+  }
+
+  .ChatMessages-item-time {
+    display: none;
+  }
+}
+
+// Move section divider — centered label with a hairline on each side, matching
+// the chat day divider (TODAY). Colour/size unchanged from before.
+.GameChat-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 16px;
+  font-size: 14px;
+  color: $muted;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+}
+
+// Clickable move divider — jumps the board to that move. Only the label reacts.
+.GameChat-section-title-clickable {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+.GameChat-section-actions-item {
+  font-weight: 500;
+  font-size: 14px;
+  margin: 10px;
+}
+
+.GameUndoPrompt {
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 320px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.GameUndoPrompt-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba($accent, 0.1);
+  color: $accent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.GameUndoPrompt-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.GameUndoPrompt-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: $content-fg;
+  line-height: 1.2;
+}
+
+.GameUndoPrompt-sublabel {
+  font-size: 12px;
+  color: $semi-muted;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.GameUndoPrompt-buttons {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+body.dark-mode {
+  .GameUndoPrompt {
+    background: rgba(31, 45, 40, 0.85);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .GameUndoPrompt-label { color: var(--dk-fg); }
+  .GameUndoPrompt-sublabel { color: var(--dk-fg-muted); }
+}
+
+@media #{$mobile-query} {
+  .GameScreen-body .MainNav {
+    position: absolute;
+  }
+
+  .WatchScreen {
+    background: $off-white;
+  }
+
+  .GameScreen-board-container {
+    margin: 2px 0 !important;
+    padding: 0 2px !important;
+    box-sizing: border-box !important;
+  }
+
+  .GameScreen-board {
+    width: 100% !important;
+    padding-top: 100%;
+    height: auto !important;
+    background: transparent !important;
+  }
+
+  .GameScreen-nav {
+    width: 100% !important;
+    z-index: 2;
+    height: auto !important;
+    padding: 8px 0 0 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+
+    .BoardNav {
+      position: relative !important;
+      height: 48px !important;
+      width: 100% !important;
+    }
+
+    .GameMoreMenu {
+      display: block !important;
+      position: relative !important;
+      flex: 1 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .GameMoreMenu-buttons {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      width: 100% !important;
+    }
+
+    .GameMoreMenu-button {
+      flex: 1 !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      background: #f0eee9 !important;
+      color: #1e1e1e !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      transition: background 0.15s ease !important;
+
+      &:hover {
+        background: #e2e0d8 !important;
+      }
+    }
+
+    .GameScreen-zen-btn {
+      position: static !important;
+      width: 32px !important;
+      height: 32px !important;
+      flex-shrink: 0 !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #f0eee9 !important;
+      color: #1e1e1e !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      cursor: pointer !important;
+      box-sizing: border-box !important;
+      transition: background 0.15s ease, border-color 0.15s ease !important;
+
+      &:hover {
+        background: #e2e0d8 !important;
+      }
+    }
+  }
+
+  .BoardNav {
+    padding: 0 110px 0 0;
+  }
+
+  .BoardNav-slide-container {
+    padding: 0 60px 0 0;
+  }
+
+  .BoardNav-coordinate-right {
+    display: none;
+  }
+
+  .BoardNav-move {
+    order: 1;
+  }
+
+  .BoardNav-slide {
+    order: 2;
+  }
+
+  .BoardNav-step {
+    height: 47px;
+    padding-left: 7px;
+    right: 0;
+    left: auto;
+  }
+
+  .BoardNav-below-board {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 4px 0 0 0 !important;
+
+    .BoardNav {
+      width: 100% !important;
+      height: 38px !important;
+      position: relative !important;
+      padding: 0 8px !important;
+      background: rgba(255, 255, 255, 0.92) !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 0 !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+      backdrop-filter: blur(8px) !important;
+      display: flex !important;
+      justify-content: center !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: auto !important;
+    }
+
+    .BoardNav-step {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      right: auto !important;
+      height: auto !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
+    }
+
+    .BoardNav-slide-container {
+      flex: none !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
+
+    .BoardNav-slide {
+      display: none !important;
+    }
+
+    .BoardNav-move {
+      order: 1 !important;
+      width: auto !important;
+      padding: 3px 10px !important;
+      margin: 0 !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      flex-shrink: 0 !important;
+      border-radius: 20px !important;
+      border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      color: var(--ui-color) !important;
+    }
+
+    a.BoardNav-prev,
+    a.BoardNav-next,
+    a.BoardNav-first,
+    a.BoardNav-last,
+    a.BoardNav-play {
+      width: 34px !important;
+      height: 28px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 8px !important;
+      font-size: 12px !important;
+      line-height: 1 !important;
+    }
+  }
+
+
+  .GameScreen-access-denied {
+    position: absolute;
+    left: 0;
+    top: 185px;
+    right: 0;
+    padding: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+    background: $warning-bg;
+    color: $warning-fg;
+  }
+
+  .GameScreen-header {
+    display: none !important;
+  }
+
+  .GameScreen-back {
+    display: none !important;
+  }
+
+  .GameScreen-back-icon,
+  .GameMoreMenu-trigger-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    padding: 0 5px;
+  }
+
+  .GameScreen-back-label,
+  .GameMoreMenu-trigger-label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+    padding-bottom: 1px;
+    font-weight: 500;
+  }
+
+  .GameMoreMenu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 35px;
+  }
+
+  a.GameMoreMenu-trigger {
+    height: 35px;
+  }
+
+  .GameMoreMenu-dropdown {
+    right: 0;
+  }
+
+  .GameScreen-players {
+    background: $very-muted;
+    font-size: 0;
+  }
+
+  .GamePlayActions {
+    height: 36px;
+    padding: 3px 10px;
+    background: transparent;
+  }
+
+  .GamePlayActions-item {
+    height: 30px;
+  }
+
+  .GamePlayActions-item-button {
+    height: 30px;
+    line-height: 30px;
+  }
+
+
+
+  .GameScreen-play-actions-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 8px 0 0 0 !important;
+    box-sizing: border-box !important;
+
+    .GamePlayActions {
+      flex: 1 !important;
+      padding: 0 !important;
+      height: 32px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    .GamePlayActions-item {
+      flex: 1 !important;
+      width: auto !important;
+      margin-left: 0 !important;
+      height: 32px !important;
+      display: block !important;
+    }
+
+    .GamePlayActions-item-button {
+      height: 32px !important;
+      line-height: 30px !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+    }
+
+    .GameScreen-zen-btn {
+      position: static !important;
+      width: 32px !important;
+      height: 32px !important;
+      flex-shrink: 0 !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #f0eee9 !important;
+      color: #1e1e1e !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+
+      &:hover {
+        background: #e2e0d8 !important;
+        color: #1e1e1e !important;
+      }
+
+      &.GameScreen-zen-btn-active {
+        background: rgba(212, 163, 115, 0.15) !important;
+        color: #d4a373 !important;
+        border-color: rgba(212, 163, 115, 0.3) !important;
+      }
+    }
+  }
+
+  .GamePlayersInfo {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    box-sizing: border-box !important;
+  }
+
+  .GamePlayersInfo-color {
+    width: 50% !important;
+    min-height: 80px !important;
+    padding: 8px !important;
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-sizing: border-box !important;
+
+    &:first-child {
+      border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+  }
+
+  .GamePlayersInfo-captures-badge {
+    display: flex !important;
+    position: static !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+    z-index: 5 !important;
+    padding: 0 !important;
+  }
+
+  // White player captures = black stones
+  .GamePlayersInfo-white .GamePlayersInfo-captures-badge {
+    background: radial-gradient(circle at 33% 33%, #555555 0%, #222222 30%, #050505 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.6) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  // Black player captures = white stones
+  .GamePlayersInfo-black .GamePlayersInfo-captures-badge {
+    background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f4f4f2 40%, #e1e1dd 100%) !important;
+    color: #000000 !important;
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .GamePlayersInfo-players {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .GamePlayersInfo-player1,
+  .GamePlayersInfo-player2 {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+
+    a {
+      display: inline-flex !important;
+      align-items: center !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .UserName {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 4px !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+    }
+
+    .UserName-text {
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      min-width: 0 !important;
+    }
+  }
+
+  .GamePlayersInfo-players-icon {
+    margin-right: 0 !important;
+  }
+
+  .GamePlayersInfo-captures-clock {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .GamePlayersInfo-avatar {
+    display: none;
+  }
+
+  .GamePlayersInfo-captures,
+  .GamePlayersInfo-role {
+    font-size: 11px;
+    margin: 2px 0;
+    color: $semi-muted;
+  }
+
+  .GamePlayersInfo-winner-clock {
+    height: auto !important;
+  }
+
+  .GameClock {
+    padding: 3px 10px !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: #4b5563 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 96px !important;
+    box-sizing: border-box !important;
+    letter-spacing: -0.2px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .GamePlayersInfo-clock {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .GamePlayersInfo-winner-badge {
+    padding: 2px 5px;
+  }
+
+  .GameClock-running {
+    &:after {
+      top: 2px;
+    }
+  }
+
+  .GameScreen-side-container {
+    background: $content-bg;
+  }
+
+  .GameScreen-time-header {
+    margin: 0 !important;
+  }
+
+  .GameScreen-side-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    gap: 8px !important;
+  }
+
+  .GameScreen-players-users {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    height: auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .GameScreen-players {
+    position: static !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: row !important;
+    box-sizing: border-box !important;
+  }
+
+  .GamePlayActions {
+    position: static !important;
+    width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .GameScreen-nav {
+    position: static !important;
+    width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .GameScreen-chat {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    flex: 1 !important;
+    width: 100% !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+  }
+
+  .GameScreen-chat-scroll {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+
+  .GameScreen-tabs {
+    display: none !important;
+    padding: 10px 0 0 0;
+    border-bottom: 2px solid $very-muted;
+    text-align: center;
+    background: $off-white;
+
+    a.GameScreen-tab {
+      min-width: 60px;
+      text-align: center;
+      position: relative;
+      top: 2px;
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 15px;
+      color: $semi-muted;
+      border-bottom: 3px solid transparent;
+
+      &.GameScreen-tab-active {
+        color: $content-fg;
+        border-bottom: 3px solid $link-color;
+      }
+    }
+  }
+
+  .GameScreen-tab-content-chat {
+    .GameScreen-chat-info {
+      display: none;
+    }
+  }
+
+  .GameScreen-chat-info {
+    min-height: 200px;
+  }
+
+  .GameScreen-users {
+    display: none;
+    padding: 20px;
+    line-height: 1.5;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border-bottom: 1px solid $very-muted;
+
+    &.GameScreen-tab-content {
+      display: block;
+    }
+  }
+
+  .GameScreen-chat {
+    display: none;
+    position: relative;
+
+    &.GameScreen-tab-content {
+      display: block;
+    }
+
+    .GameScreen-chat-message-bar {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 8px !important;
+      position: relative !important;
+      height: auto !important;
+      padding: 6px 12px !important;
+
+      .ChatMessageBar {
+        flex: 1 !important;
+        width: auto !important;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
+      }
+    }
+
+    .GameScreen-observers-toggle-container {
+      position: static !important;
+      top: auto !important;
+      right: auto !important;
+      margin: 0 !important;
+      z-index: auto !important;
+    }
+
+    .GameScreen-observers-panel {
+      bottom: 64px !important;
+    }
+  }
+
+  .GameInfo-table {
+
+    td,
+    th {
+      font-size: 16px;
+    }
+  }
+
+  .GameScreen-undo-prompt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Zen mode overrides on mobile to restore player box info and position Exit Zen button */
+  body.zen-mode {
+    .GameScreen-main {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .GameScreen-board-container {
+      order: 2 !important;
+      margin: 2px 0 !important;
+    }
+
+    .BoardNav-below-board {
+      order: 3 !important;
+    }
+
+    .GameScreen-side-container {
+      display: contents !important;
+    }
+
+    .GameScreen-side-inner {
+      display: contents !important;
+    }
+
+    .GameScreen-players-users {
+      display: contents !important;
+    }
+
+    .GameScreen-players {
+      order: 1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      width: 100% !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+
+      .UserName-bot-icon,
+      .UserName-friend-star,
+      .UserName-icons,
+      .UserName-rank-chip {
+        display: none !important;
+      }
+    }
+
+    .GameScreen-play-actions-row {
+      order: 4 !important;
+      margin-top: auto !important;
+      padding: 8px 0 0 0 !important;
+    }
+
+    .GameScreen-time-header,
+    .GameScreen-nav,
+    .GameScreen-chat,
+    .GameScreen-observers-toggle-container,
+    .GameScreen-zen-clocks {
+      display: none !important;
+    }
+
+    .GamePlayActions-item:nth-child(3),
+    .GamePlayActions-item:nth-child(4) {
+      display: none !important;
+    }
+  }
+
+  .GameScreen-zen-controls {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 16px auto !important;
+    display: flex !important;
+    width: fit-content !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 100 !important;
+
+    .GameScreen-playing & {
+      display: none !important;
+    }
+  }
+}
+
+.PlayScreen-unfinished-list {
+  margin: 12px 20px 20px 20px;
+  padding: 16px 0 0 0;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  min-width: 360px;
+
+  @media #{$mobile-query} {
+    margin: 8px 10px 16px 10px;
+    padding: 12px 0 0 0;
+    border-radius: 10px;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+  }
+
+  // Read as a single clean panel: drop the inner list container's warm fill
+  // (which otherwise banded the box) so the whole box is one surface, and lay
+  // games out in a single column so the box hugs its content rather than
+  // stretching to the full-width 2-column grid.
+  .GameList-container {
+    background: transparent !important;
+    padding-bottom: 0;
+  }
+
+  .GameList,
+  .GameSummaryList {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 6px 14px 14px 14px;
+  }
+
+  @media #{$mobile-query} {
+    .GameList,
+    .GameSummaryList {
+      padding: 4px 8px 10px 8px;
+    }
+  }
+}
+
+.PlayScreen-unfinished-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $semi-muted;
+  padding: 0 20px 12px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+
+  @media #{$mobile-query} {
+    padding: 0 10px 10px 10px;
+    font-size: 14px;
+  }
+}
+
+.PlayScreen-unfinished-heading-icon {
+  opacity: 0.7;
+  color: $semi-muted;
+}
+
+// Mid ("dune") theme: a translucent white patch reads washed-out on the cream
+// page — use the warm lifted card surface + dune border so it looks intentional.
+body.mid-mode {
+  .PlayScreen-unfinished-list {
+    background: var(--dk-surface) !important;
+    border-color: var(--dk-border) !important;
+    box-shadow: 0 6px 20px rgba(59, 49, 39, 0.08) !important;
+  }
+  // Warm inset band behind the game(s) in the unfinished box (mid only).
+  .PlayScreen-unfinished-list .GameList-container {
+    background: #fffdf8 !important;
+  }
+  .PlayScreen-unfinished-heading,
+  .PlayScreen-unfinished-heading-icon {
+    color: var(--dk-fg-muted) !important;
+  }
+}
+
+body.dark-mode {
+  .PlayScreen-unfinished-list {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+  // Inset band behind the game(s) in the unfinished box (dark only).
+  .PlayScreen-unfinished-list .GameList-container {
+    background: #212b28 !important;
+  }
+  .PlayScreen-unfinished-heading {
+    color: var(--dk-fg-muted);
+  }
+  .PlayScreen-unfinished-heading-icon {
+    color: var(--dk-fg-muted);
+  }
+}
+
+.PlayScreen-list,
+.WatchScreen-list {
+  position: relative;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.PlayScreen-filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 12px 20px;
+  margin-top: -8px;
+}
+
+.PlayScreen-action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 999px) {
+  .PlayScreen-action-buttons {
+    right: 10px;
+  }
+}
+
+@media #{$mobile-query} {
+
+  .no-touch .PlayScreen-action-buttons,
+  .touch .PlayScreen-action-buttons {
+    .Button-content {
+      display: none;
+    }
+
+    .Button-icon {
+      margin: 0;
+    }
+  }
+}
+
+/* ── Simul host game switcher sidebar ─────────────────────── */
+/* Styled to match the live-game WatchTabs sidebar for consistency. */
+.PlayScreen-simul-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+
+  body.has-custom-bg & {
+    background: transparent;
+    border-right-color: transparent;
+    box-shadow: none;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 8px;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+}
+
+.PlayScreen-simul-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px 8px 12px;
+}
+
+.PlayScreen-simul-sidebar-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.PlayScreen-simul-sidebar-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.PlayScreen-simul-sidebar-score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.PlayScreen-simul-sidebar-score-win {
+  background: #16a34a;
+}
+
+.PlayScreen-simul-sidebar-score-loss {
+  background: #d97706;
+}
+
+.PlayScreen-simul-sidebar-score-text {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.PlayScreen-simul-sidebar-score-text-win {
+  color: #16a34a;
+}
+
+.PlayScreen-simul-sidebar-score-text-loss {
+  color: #d97706;
+}
+
+.PlayScreen-simul-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6e6e6e;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  position: relative;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1e1e1e;
+  }
+}
+
+.PlayScreen-simul-sidebar-item-active {
+  background: rgba(var(--ui-color-rgb), 0.08) !important;
+  color: var(--ui-color) !important;
+  font-weight: 600 !important;
+
+  .PlayScreen-simul-sidebar-name {
+    color: var(--ui-color) !important;
+  }
+}
+
+// The current user's own board — distinct accent so a challenger can tell it
+// apart from the sibling boards they're observing.
+.PlayScreen-simul-sidebar-item-mine {
+  background: rgba(var(--ui-color-rgb), 0.12);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.4);
+  box-shadow: inset 4px 0 0 var(--ui-color);
+  font-weight: 700;
+
+  .PlayScreen-simul-sidebar-name {
+    color: var(--ui-color);
+  }
+}
+
+.PlayScreen-simul-sidebar-you {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ui-color-contrast);
+  background: var(--ui-color);
+}
+
+.PlayScreen-simul-sidebar-dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.PlayScreen-simul-sidebar-dot-turn {
+  background: #22c55e;
+}
+
+// Keeps names aligned on sibling in-progress rows, which show no status symbol
+// (only the viewer's own board gets a turn dot).
+.PlayScreen-simul-sidebar-spacer {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+}
+
+.PlayScreen-simul-sidebar-result {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  color: #94a3b8;
+}
+
+.PlayScreen-simul-sidebar-item-over {
+  opacity: 0.7;
+}
+
+.PlayScreen-simul-sidebar-item-win .PlayScreen-simul-sidebar-result {
+  color: #16a34a;
+}
+
+.PlayScreen-simul-sidebar-item-loss .PlayScreen-simul-sidebar-result {
+  color: #d97706;
+}
+
+.PlayScreen-simul-sidebar-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 13px;
+}
+
+// Push the board right when the simul sidebar is visible (desktop)
+@media #{$nonmobile-query} {
+  .PlayScreen-game-wrap-simul {
+    .GameScreen {
+      left: 200px !important;
+    }
+  }
+}
+
+// On mobile, render the switcher as a horizontal strip at the top instead of
+// a fixed left column to avoid overlapping the static-positioned board.
+@media #{$mobile-query} {
+  .PlayScreen-simul-sidebar {
+    position: static;
+    width: auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    box-shadow: none;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .PlayScreen-simul-sidebar-title {
+    display: none;
+  }
+
+  .PlayScreen-simul-sidebar-item {
+    flex: 0 0 auto;
+  }
+}
+
+body.dark-mode {
+  .PlayScreen-simul-sidebar {
+    background: var(--dk-bg-off);
+    border-right-color: rgba(255, 255, 255, 0.07);
+  }
+
+  @media #{$mobile-query} {
+    .PlayScreen-simul-sidebar {
+      border-bottom-color: rgba(255, 255, 255, 0.07);
+    }
+  }
+
+  .PlayScreen-simul-sidebar-title {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayScreen-simul-sidebar-item {
+    color: var(--dk-fg-muted);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--dk-fg);
+    }
+  }
+
+  .PlayScreen-simul-sidebar-item-active {
+    background: rgba(var(--ui-color-rgb), 0.15) !important;
+    color: var(--ui-color) !important;
+
+    .PlayScreen-simul-sidebar-name {
+      color: var(--ui-color) !important;
+    }
+  }
+
+  .PlayScreen-simul-sidebar-item-mine {
+    background: rgba(var(--ui-color-rgb), 0.18);
+    border-color: rgba(var(--ui-color-rgb), 0.5);
+
+    .PlayScreen-simul-sidebar-name {
+      color: var(--ui-color);
+    }
+  }
+}
+
+body.GameScreen-body {
+  background-color: #fcfcfb !important;
+  color: #1e1e1e !important;
+
+  .MainNav {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: none !important;
+
+    .MainNav-item a {
+      color: #6e6e6e !important;
+      transition: all 0.2s ease;
+      &:hover {
+        color: #1e1e1e !important;
+        background: transparent !important;
+        border-bottom: 3px solid var(--ui-color) !important;
+      }
+    }
+
+    .MainNav-item-selected a {
+      border-bottom: 3px solid var(--ui-color) !important;
+      background: transparent !important;
+      .MainNav-item-label {
+        color: #1e1e1e !important;
+        font-weight: 600 !important;
+      }
+      .MainNav-item-icon {
+        color: var(--ui-color) !important;
+        opacity: 1 !important;
+      }
+    }
+
+    .MainNav-item-icon {
+      color: #6e6e6e !important;
+      opacity: 0.8 !important;
+    }
+    .MainNav-item-label {
+      color: #6e6e6e !important;
+    }
+    .MainNav-account-trigger {
+      color: #6e6e6e !important;
+    }
+    .MainNav-account-trigger-icon {
+      color: #6e6e6e !important;
+    }
+
+  }
+
+  // Observers, usernames and labels overrides
+  .UserName {
+    color: #1e1e1e !important;
+    text-shadow: none !important;
+    font-weight: 600;
+  }
+
+  .GamePlayersInfo-players .UserName {
+    color: #2d3a32 !important;
+    font-weight: 400 !important;
+  }
+
+  &.dark-mode .GamePlayersInfo-players .UserName {
+    color: var(--dk-fg) !important;
+  }
+
+
+  .UserAvatar-missing {
+    color: #6e6e6e !important;
+    background: #f0eee9 !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px;
+  }
+
+  .ChatMessage-item {
+    color: #1e1e1e !important;
+  }
+
+  .ChatMessages-item-content {
+    background: #f0eee9 !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    color: #1e1e1e !important;
+    border-radius: 18px 18px 18px 4px !important;
+  }
+
+  .ChatMessages-item-self .ChatMessages-item-content {
+    background: rgba(212, 163, 115, 0.15) !important;
+    border: 1px solid rgba(212, 163, 115, 0.3) !important;
+    color: #1e1e1e !important;
+  }
+
+  .GameChat-section-title {
+    color: #6e6e6e !important;
+  }
+
+  .GameScreen-tab {
+    font-weight: 600 !important;
+  }
+}
+
+body.dark-mode.GameScreen-body {
+  background-color: var(--dk-bg) !important;
+  // Subtle light pool centered on the board area so the board sits in a lit
+  // space rather than a uniformly dark, flat page. Fades to --dk-bg at the
+  // edges/bottom.
+  background-image: radial-gradient(
+    1100px 850px at 40% 45%,
+    rgba(120, 180, 150, 0.14),
+    rgba(255, 255, 255, 0) 72%
+  ) !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  color: var(--dk-fg) !important;
+
+
+  .GameScreen,
+  .GameScreen-main,
+  &.GameScreen-body .GameScreen {
+    background: transparent !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .GameScreen-time-info-btn {
+    color: var(--dk-fg-dim);
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  @media #{$mobile-query} {
+    .GameScreen-nav {
+      background: transparent !important;
+    }
+  }
+
+  .MainNav {
+    background: rgba(26, 36, 32, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4) !important;
+
+    .MainNav-item a { color: #a8c4b4 !important; }
+    .MainNav-item-label { color: #f6f5f2 !important; }
+    .MainNav-item-icon { color: #f6f5f2 !important; opacity: 1 !important; }
+    .MainNav-item-selected a {
+      color: var(--dk-fg) !important;
+      border-bottom: 3px solid var(--ui-color) !important;
+      .MainNav-item-label { color: var(--ui-color) !important; }
+      .MainNav-item-icon { color: var(--ui-color) !important; }
+    }
+    .MainNav-account-trigger,
+    .MainNav-account-trigger-icon { color: #a8c4b4 !important; }
+
+  }
+
+  .GameScreen-zen-btn {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    &:hover { background: rgba(255, 255, 255, 0.08) !important; color: #ffffff !important; }
+  }
+
+  .GameScreen-zen-btn-active {
+    background: rgba(var(--ui-color-rgb), 0.15) !important;
+    color: var(--ui-color) !important;
+    border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+  }
+
+  .GameScreen-zen-clock-btn {
+    background: rgba(0, 0, 0, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &:hover:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+      background: rgba(0, 0, 0, 0.75) !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    &:active:not(:disabled):not(.GameScreen-zen-btn-disabled) {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled,
+    &.GameScreen-zen-btn-disabled {
+      color: rgba(255, 255, 255, 0.4) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      background: rgba(0, 0, 0, 0.55) !important;
+    }
+  }
+
+  .GameScreen-zen-clock {
+    background: rgba(0, 0, 0, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+
+    .GameClock {
+      color: #ffffff !important;
+    }
+
+    .GameScreen-zen-username {
+      color: #cccccc !important;
+    }
+  }
+
+  .GameScreen-side-container {
+    background-color: #111a15 !important;
+  }
+
+  .GameScreen-side-inner {
+    background-color: var(--dk-bg-off) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .GameScreen-players {
+    background: var(--dk-surface) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .GameScreen-time-header {
+    background: var(--dk-surface) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+
+    .GameInfo-time-cell {
+      color: var(--dk-fg) !important;
+    }
+  }
+
+  .GamePlayersInfo-color {
+    background: var(--dk-surface2) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+
+    &:first-child {
+      border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  .GameScreen-chat-scroll {
+    background: var(--dk-bg) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .GameMoreMenu-button {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    &:hover { background: rgba(255, 255, 255, 0.08) !important; }
+  }
+
+  .UserName { color: var(--dk-fg) !important; text-shadow: none !important; }
+
+  .UserAvatar-missing {
+    border-radius: 10px !important;
+  }
+
+  .GameClock { color: var(--dk-fg) !important; }
+  .GameClock-active,
+  .GameClock-running { color: #e6ece8 !important; }
+
+  .GameInfo-table th { color: var(--dk-fg-muted) !important; }
+  .GameInfo-table td { color: var(--dk-fg) !important; }
+  .GameInfo-komi {
+    color: var(--dk-fg-muted) !important;
+    border-left-color: rgba(255, 255, 255, 0.12) !important;
+  }
+  .GameScreen-chat-info { border-bottom-color: rgba(255, 255, 255, 0.07) !important; }
+
+  .ChatMessage-item { color: var(--dk-fg) !important; }
+  .ChatMessages-item-content {
+    background: var(--dk-surface2) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    color: var(--dk-fg) !important;
+  }
+  .ChatMessages-item-self .ChatMessages-item-content {
+    background: rgba(var(--ui-color-rgb), 0.15) !important;
+    border-color: rgba(var(--ui-color-rgb), 0.25) !important;
+    color: var(--dk-fg) !important;
+  }
+  .GameChat-section-title {
+    color: var(--dk-fg-muted) !important;
+
+    &::before,
+    &::after {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .BoardNav-below-board .BoardNav {
+    background: rgba(31, 45, 40, 0.96) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    .BoardNav-move {
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+    }
+    .BoardNav-coordinate-right {
+      color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+    }
+  }
+  a.BoardNav-prev,
+  a.BoardNav-next,
+  a.BoardNav-first,
+  a.BoardNav-last,
+  a.BoardNav-play {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    &:hover { background: rgba(255, 255, 255, 0.08) !important; }
+  }
+
+  input.ChatMessageBar-input {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    &::placeholder { color: var(--dk-fg-muted) !important; }
+
+    &:focus {
+      border-color: var(--ui-color) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 0.2) !important;
+    }
+  }
+
+  /* ── GamePlayActions Dark Mode Overrides ── */
+  .GamePlayActions-undo,
+  .GamePlayActions-resign,
+  .GamePlayActions-addtime {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+    }
+    &:active {
+      background: rgba(255, 255, 255, 0.12) !important;
+    }
+  }
+
+  .GamePlayActions-resign {
+    color: #f87171 !important;
+    &:hover {
+      background: rgba(239, 68, 68, 0.15) !important;
+      border-color: rgba(239, 68, 68, 0.35) !important;
+      color: #fca5a5 !important;
+    }
+  }
+
+  .GamePlayActions-pass {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    &.GamePlayActions-pass-disabled {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: rgba(255, 255, 255, 0.4) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: rgba(255, 255, 255, 0.4) !important;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  .GameScreen-play-actions-row .GameScreen-zen-btn {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+    }
+
+    &.GameScreen-zen-btn-active {
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      color: var(--ui-color) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+    }
+  }
+}
+
+/* ── GamePlayActions Mid ("dune") Theme Overrides ──
+   Warm the play-action buttons to the sand/dune surface tones instead of the
+   cool near-white the light styles use. */
+body.mid-mode {
+  .GamePlayActions-item-button,
+  .GamePlayActions-pass,
+  .GamePlayActions-undo,
+  .GamePlayActions-addtime {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg) !important;
+    border-color: var(--dk-border) !important;
+    box-shadow: 0 1px 2px rgba(120, 92, 42, 0.06) !important;
+
+    &:active {
+      background: var(--dk-surface2) !important;
+    }
+  }
+
+  .GamePlayActions-resign {
+    color: #c0392b !important;
+
+    &:active {
+      background: #f6e2dd !important;
+    }
+  }
+
+  .GamePlayActions-pass-disabled {
+    background: var(--dk-bg-off) !important;
+    color: rgba(59, 49, 39, 0.38) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  .GameScreen-zen-btn {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg-muted) !important;
+    border-color: var(--dk-border) !important;
+    box-shadow: 0 1px 2px rgba(120, 92, 42, 0.06) !important;
+
+    &.GameScreen-zen-btn-active {
+      background: rgba(var(--ui-color-rgb), 0.12) !important;
+      color: var(--ui-color) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+    }
+  }
+}
+
+body.mid-mode.no-touch {
+  .GamePlayActions-pass:hover,
+  .GamePlayActions-undo:hover,
+  .GamePlayActions-addtime:hover,
+  .GameScreen-zen-btn:hover {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(176, 146, 96, 0.85) !important;
+    box-shadow: 0 4px 10px rgba(120, 92, 42, 0.12) !important;
+  }
+
+  .GamePlayActions-resign:hover {
+    background: #f6e2dd !important;
+    color: #c0392b !important;
+    border-color: rgba(192, 57, 43, 0.3) !important;
+    box-shadow: 0 4px 10px rgba(192, 57, 43, 0.1) !important;
+  }
+
+  .GamePlayActions-pass-disabled:hover {
+    background: var(--dk-bg-off) !important;
+    color: rgba(59, 49, 39, 0.38) !important;
+    border-color: var(--dk-border) !important;
+  }
+}
+
+/* Mid (cream) theme on the game view: body.GameScreen-body forces a white nav
+   (specificity 2, source-ordered after the mid block) which would override mid's
+   cream nav. Re-assert the cream header here with higher specificity. */
+body.mid-mode.GameScreen-body {
+  background-color: var(--dk-bg) !important;
+  color: var(--dk-fg) !important;
+
+  .MainNav {
+    background: rgba(251, 245, 234, 0.85) !important;
+    border-bottom: 1px solid var(--dk-border) !important;
+    box-shadow: none !important;
+
+    .MainNav-item a { color: #3b3127 !important; }
+    .MainNav-item-label { color: #2e251c !important; }
+    .MainNav-item-icon { color: #2e251c !important; opacity: 1 !important; }
+    .MainNav-account-trigger,
+    .MainNav-account-trigger-icon { color: #3b3127 !important; }
+    .MainNav-logo-text { color: #2e251c !important; }
+    .MainNav-item-selected a {
+      border-bottom: 3px solid var(--ui-color) !important;
+      .MainNav-item-label { color: var(--ui-color) !important; }
+      .MainNav-item-icon { color: var(--ui-color) !important; }
+    }
+  }
+
+  /* Time/info header box — was white (#ffffff, no mid override) on the cream
+     theme; warm it. */
+  .GameScreen-time-header {
+    background: #fffdf8 !important;
+    border-color: var(--dk-border) !important;
+
+    .GameInfo-time-cell {
+      color: var(--dk-fg) !important;
+    }
+  }
+
+  /* The board controls stay dark/wooden in every theme (DESIGN_RULES §6), so
+     mid reuses the dark BoardNav bar + accent move/coordinate pills. */
+  .BoardNav-below-board .BoardNav {
+    background: rgba(31, 45, 40, 0.96) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    .BoardNav-move,
+    .BoardNav-coordinate-right {
+      color: #e6d9b8 !important;
+      background: rgba(203, 168, 113, 0.18) !important;
+      border-color: rgba(203, 168, 113, 0.4) !important;
+    }
+  }
+
+  a.BoardNav-prev,
+  a.BoardNav-next,
+  a.BoardNav-first,
+  a.BoardNav-last,
+  a.BoardNav-play {
+    background: var(--dk-surface2) !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    &:hover { background: rgba(255, 255, 255, 0.08) !important; }
+  }
+}
+
+/* ── Mobile watched game tabs styling ─────────────────────── */
+@media #{$mobile-query} {
+  body.GameScreen-has-tabs {
+    .GameScreen {
+      left: 0 !important;
+      top: 0 !important;
+    }
+  }
+
+  .WatchScreen-with-tabs {
+    flex-direction: column !important;
+  }
+
+  .WatchTabs {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 48px !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    padding: 8px 12px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+    z-index: 3 !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+    
+    // Hide scrollbar track
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .WatchTabs-divider {
+    width: 1px !important;
+    height: 20px !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+    margin: 0 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .WatchTabs-tab {
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 32px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    background: #f0eee9 !important;
+    color: #6e6e6e !important;
+    flex-shrink: 0 !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+
+    .WatchTabs-tab-label {
+      font-size: 13px !important;
+      font-weight: 500 !important;
+    }
+
+    &.WatchTabs-tab-active {
+      background: rgba($accent, 0.1) !important;
+      color: darken($accent, 8%) !important;
+      border-color: rgba($accent, 0.15) !important;
+
+      .WatchTabs-tab-label {
+        color: darken($accent, 8%) !important;
+        font-weight: 600 !important;
+      }
+    }
+  }
+
+  .WatchTabs-tab-close {
+    font-size: 15px !important;
+    color: #b0b8c8 !important;
+    padding: 0 2px !important;
+    margin-left: 2px !important;
+  }
+}
+
+body.dark-mode {
+  @media #{$mobile-query} {
+    .WatchTabs {
+      background: var(--dk-bg-off) !important;
+      border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+    }
+
+    .WatchTabs-divider {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .WatchTabs-tab {
+      background: var(--dk-surface2) !important;
+      color: var(--dk-fg-muted) !important;
+      border-color: rgba(255, 255, 255, 0.04) !important;
+
+      &.WatchTabs-tab-active {
+        background: rgba(var(--ui-color-rgb), 0.15) !important;
+        color: var(--ui-color) !important;
+        border-color: rgba(var(--ui-color-rgb), 0.25) !important;
+
+        .WatchTabs-tab-label {
+          color: var(--ui-color) !important;
+        }
+      }
+    }
+
+    .WatchTabs-tab-close {
+      color: var(--dk-fg-muted) !important;
+    }
+  }
+}
+
+.GameScreen-observers-toggle-container {
+  position: absolute;
+  top: -46px;
+  right: 12px;
+  z-index: 5;
+}
+
+.GameScreen-observers-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(139, 90, 43, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  color: #64748b;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--ui-color);
+    background: #fcfbf9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.15);
+    text-decoration: none;
+  }
+
+  &.active {
+    background: var(--ui-color);
+    color: var(--ui-color-contrast, #ffffff);
+    border-color: var(--ui-color);
+
+    &:hover {
+      background: color-mix(in srgb, black 10%, var(--ui-color));
+      color: var(--ui-color-contrast, #ffffff);
+    }
+
+    .GameScreen-observers-badge {
+      background: var(--ui-color-contrast, #ffffff);
+      color: var(--ui-color);
+    }
+  }
+}
+
+.GameScreen-observers-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--ui-color);
+  color: var(--ui-color-contrast, #ffffff);
+  font-size: 11px;
+  font-weight: 500;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.GameScreen-observers-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 56px;
+  z-index: 4;
+  background-color: #ffffff;
+  border: 1px solid rgba(139, 90, 43, 0.12);
+  border-radius: 12px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  animation: GameScreen-observers-fadeIn 0.15s ease-out;
+
+  // Faint off-white sticky header so it reads as distinct from the white list
+  // as it scrolls under it.
+  .UserList-players-header,
+  .UserList-players-header .UserList-section-title {
+    background: #f5f3f2;
+  }
+}
+
+@keyframes GameScreen-observers-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.dark-mode {
+  .GameScreen-observers-icon-btn {
+    background: var(--dk-surface2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--dk-fg-muted) !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25) !important;
+
+    &:hover {
+      color: var(--dk-fg) !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    &.active {
+      background: var(--ui-color) !important;
+      color: var(--ui-color-contrast, #ffffff) !important;
+      border-color: var(--ui-color) !important;
+    }
+  }
+
+  .GameScreen-observers-badge {
+    border-color: var(--dk-surface) !important;
+  }
+
+  .GameScreen-observers-panel {
+    background-color: var(--dk-surface) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+}
+
+/* Board Move Error Toast */
+// Bottom-center of the board area — an error must not cover the position the
+// player is looking at.
+.GameScreen-board-error-toast {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none;
+  animation: fadeInOutMove 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+// Dark toast pill matching the app's alert language (OfflineAlert), with the
+// error signalled by the red icon rather than a full red box. Works unchanged
+// on light, dark, and mid themes.
+.GameScreen-board-error-toast-text {
+  background: rgba(28, 32, 30, 0.92);
+  color: #f1f5f9;
+  padding: 10px 18px 10px 14px;
+  border-radius: 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.28),
+    0 1px 3px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.GameScreen-board-error-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #f87171;
+  flex-shrink: 0;
+}
+
+@keyframes fadeInOutMove {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+}
+
+.WatchScreen-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+/* Scoring Phase Banner */
+.GameScreen-scoring-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 16px;
+  background-color: rgba(236, 253, 245, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(167, 243, 208, 0.7);
+  border-radius: 12px;
+  margin: 8px 8px 0 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box;
+
+  @media #{$nonmobile-query} {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 440px;
+    margin: 0 auto;
+    width: max-content;
+    max-width: calc(100% - 500px);
+    height: 50px;
+    padding: 10px 24px;
+    border-radius: 25px;
+    z-index: 10;
+    animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media #{$mobile-query} {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin: 8px 8px 0 8px;
+    padding: 12px;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Push desktop board and sidebar down when banner is present */
+@media #{$nonmobile-query} {
+  .GameScreen-scoring-banner ~ .GameScreen-board-container {
+    top: 86px !important;
+  }
+  .GameScreen-scoring-banner ~ .GameScreen-side-container {
+    top: 86px !important;
+  }
+}
+
+.GameScreen-scoring-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+
+  @media #{$mobile-query} {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+}
+
+.GameScreen-scoring-banner-info-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.GameScreen-scoring-banner-icon {
+  color: #059669;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.GameScreen-scoring-banner-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #065f46;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media #{$mobile-query} {
+    white-space: normal;
+  }
+}
+
+.GameScreen-scoring-banner-score {
+  font-weight: 600;
+  color: #047857;
+  margin-left: 4px;
+}
+
+.GameScreen-scoring-info-modal-content {
+  padding: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: $content-fg;
+
+  .dark-mode & {
+    color: $inverted-fg;
+  }
+}
+
+.GameScreen-scoring-info-highlight-box {
+  background-color: rgba($accent, 0.08);
+  border-left: 4px solid $accent;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: darken($accent, 15%);
+
+  .dark-mode & {
+    background-color: rgba($accent, 0.12);
+    color: lighten($accent, 10%);
+  }
+
+  strong {
+    color: darken($accent, 25%);
+
+    .dark-mode & {
+      color: lighten($accent, 20%);
+    }
+  }
+}
+
+.GameScreen-scoring-info-secondary-box {
+  background-color: rgba(0, 0, 0, 0.015);
+  border-left: 4px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #475569;
+
+  .dark-mode & {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-left-color: rgba(255, 255, 255, 0.08);
+    color: var(--dk-fg-faint);
+  }
+
+  strong {
+    color: #1e293b;
+
+    .dark-mode & {
+      color: var(--dk-fg-strong);
+    }
+  }
+}
+
+.GameScreen-scoring-info-kms-link {
+  color: #0284c7;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #0369a1;
+  }
+
+  .dark-mode & {
+    color: #38bdf8;
+
+    &:hover {
+      color: #7dd3fc;
+    }
+  }
+}
+
+.Button.GameScreen-scoring-done-btn {
+  padding: 6px 18px !important; // override default padding to center it nicely
+  font-size: 14px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  @media #{$mobile-query} {
+    width: 100%;
+  }
+}
+
+/* Dark Mode overrides */
+body.dark-mode {
+  .GameScreen-scoring-banner {
+    background-color: rgba(36, 48, 40, 0.92);
+    border-color: rgba(var(--ui-color-rgb), 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+
+    .GameScreen-scoring-banner-icon {
+      color: var(--ui-color);
+    }
+
+    .GameScreen-scoring-banner-text {
+      color: var(--dk-fg);
+    }
+
+    .GameScreen-scoring-banner-score {
+      color: #a8c4b4;
+    }
+  }
+}
+
+// ─── Demonstration board editor toolbar ──────────────────────────────────────
+.GameScreen-demo-toolbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  background: #f0eee9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+// Each option is a stone-only button; the label lives in the tooltip.
+.GameScreen-demo-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: #fcfcfb;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+    border-color: var(--ui-color);
+  }
+}
+
+// Thin separator between the stone tools and the markup tools.
+.GameScreen-demo-divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 2px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+// Markup tool buttons (triangle / square / circle). Square-ish, fixed size to
+// match the stone buttons; the icon takes the accent on hover/active.
+.GameScreen-demo-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #475569;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+// Sequential-label tools show a sample glyph (1 / A) instead of an icon.
+.GameScreen-demo-label {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+// Selected tool: a light accent tint with a solid accent border + ring so it
+// clearly reads as "on" without the heaviness of a full accent fill.
+.GameScreen-demo-option-active {
+  opacity: 1;
+  border-color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.16);
+  box-shadow: 0 0 0 1px rgba(var(--ui-color-rgb), 0.35);
+
+  &:hover {
+    opacity: 1;
+    border-color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.16);
+  }
+}
+
+.GameScreen-demo-mark.GameScreen-demo-option-active {
+  color: var(--ui-color);
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+// Small stones inside the option buttons.
+.GameScreen-demo-stone {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.GameScreen-demo-stone-black {
+  background: radial-gradient(circle at 33% 33%, #6b6b6b 0%, #2c2c2c 35%, #111 70%, #000 100%);
+}
+
+.GameScreen-demo-stone-white {
+  background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #cfcfcf 100%);
+}
+
+// Alternate stone: split black/white, no plus.
+.GameScreen-demo-stone-alternate {
+  background: linear-gradient(90deg, #1a1a1a 0% 50%, #f3f3f3 50% 100%);
+}
+
+// The "+" inside the single-color stone, contrasting with the stone color.
+.GameScreen-demo-stone-plus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.GameScreen-demo-stone-black .GameScreen-demo-stone-plus {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.GameScreen-demo-stone-white .GameScreen-demo-stone-plus {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode {
+  .GameScreen-demo-toolbar {
+    background: var(--dk-bg-off);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .GameScreen-demo-option {
+    background: var(--dk-slate-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--dk-fg);
+  }
+
+  .GameScreen-demo-option-active {
+    border-color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.22);
+    box-shadow: 0 0 0 1px rgba(var(--ui-color-rgb), 0.4);
+  }
+
+  .GameScreen-demo-mark.GameScreen-demo-option-active {
+    color: var(--ui-color);
+  }
+
+  .GameScreen-demo-divider {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}

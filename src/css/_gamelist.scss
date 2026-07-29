@@ -1,0 +1,3389 @@
+.GameTypeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  background: $gray-badge-bg;
+  color: $gray-badge-fg;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.88;
+
+  .Icon { line-height: 1; }
+}
+
+.GameTypeIcon-code {
+  text-align: center;
+}
+
+.GameTypeIcon-private {
+  background: transparent;
+  color: $warning-bg;
+  border: none;
+  padding: 0;
+  opacity: 1;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.GameTypeIcon-ranked {
+  background: rgba($ranked-color, 0.1);
+  color: darken($ranked-color, 8%);
+  border: 1px solid rgba($ranked-color, 0.25);
+  opacity: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.GameTypeIcon-sparkle {
+  background: transparent;
+  color: darken($ranked-color, 8%);
+  border: none;
+  padding: 0;
+  opacity: 1;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+.GameTypeIcon-leaf {
+  background: transparent;
+  /* Same colour as the rated icon: the star vs star-off shape already carries
+     the distinction, so a second colour axis only muddies it. */
+  color: darken($ranked-color, 8%);
+  border: none;
+  padding: 0;
+  opacity: 1;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+.GameTypeIcon-free {
+  background: rgba(100, 116, 139, 0.12);
+  color: #334155;
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  opacity: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.GameTypeIcon-rengo {
+  background: rgba(180, 175, 40, 0.12);
+  color: #6b6700;
+  border: 1px solid rgba(180, 175, 40, 0.35);
+  opacity: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.GameTypeIcon-simul {
+  background: rgba($simul-color, 0.1);
+  color: #5533c3;
+  border: 1px solid rgba($simul-color, 0.3);
+  opacity: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.GameTypeIcon-demonstration,
+.GameTypeIcon-review,
+.GameTypeIcon-teaching,
+.GameTypeIcon-review_rengo {
+  background: rgba(195, 72, 151, 0.1);
+  color: #9b1a6e;
+  border: 1px solid rgba(195, 72, 151, 0.3);
+  opacity: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.GameTypeIcon-tournament {
+  background-color: $tournament-color;
+}
+
+.GameList,
+.GameSummaryList {
+  border-top: none;
+  padding: 24px 20px 20px 20px;
+  display: grid;
+  /* Fixed two columns (not auto-fill) so the lists never grow to three at wide
+     widths. Collapses to one column on phones via the mobile query below. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: 10px;
+  align-items: start;
+}
+
+@media #{$mobile-query} {
+  .GameList,
+  .GameSummaryList {
+    padding: 0 6px 16px 6px;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+.GameList-empty {
+  color: $muted;
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 14px;
+  grid-column: 1 / -1;
+}
+
+.GameList-section-title {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ui-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 2px 0 2px;
+
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.GameList-item,
+.GameSummaryList-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+  color: $content-fg;
+  padding: 13px 18px 13px 12px;
+  line-height: 1.4;
+  background: #fcfcfb;
+  overflow: visible;
+  text-decoration: none;
+  // Do NOT transition border-width or padding: the challenge/active hover grows
+  // the left border, and animating the geometry makes the card edge move under
+  // the cursor, toggling hover on/off in a vibrating loop. Snap geometry, only
+  // animate color/shadow/transform.
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Card hover effects only on non-mobile widths — on phones there's no hover and
+   touch detection in the webview can misfire, leaving sticky hover states. */
+@media #{$nonmobile-query} {
+  .no-touch .GameList-item,
+  .no-touch .GameSummaryList-item {
+    &:hover {
+      border-color: rgba(var(--ui-color-rgb), 0.4);
+      box-shadow: 0 4px 16px rgba(var(--ui-color-rgb), 0.1);
+      color: $content-fg;
+    }
+  }
+
+  .no-touch .GameList-item-challenge,
+  .no-touch .GameList-item-active {
+    &:hover {
+      border-color: rgba(var(--ui-color-rgb), 0.4) !important;
+      border-left-color: rgba(var(--ui-color-rgb), 0.6) !important;
+      border-left-width: 5px !important;
+      padding-left: 10px;
+      box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.1),
+        0 1px 3px rgba(0, 0, 0, 0.05) !important;
+      background: color-mix(in srgb, var(--ui-color) 5%, #fcfcfb) !important;
+      color: inherit !important;
+    }
+  }
+}
+
+.GameSummaryList-item-type {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.GameList-item-players,
+.GameSummaryList-item-players {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.4;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+
+  .UserName {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .UserName-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .UserName-rank-chip {
+    flex-shrink: 0;
+  }
+}
+
+.GameList-item-challenge {
+  .GamePlayersList-player {
+    max-width: 200px;
+  }
+}
+
+.GameList-item-players,
+.GameSummaryList-item-players {
+  .GameList-item-type {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.GameSummaryList-item-players {
+  width: auto;
+}
+
+.GameList-item-info,
+.GameSummaryList-item-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #3a3a3a;
+  font-weight: 500;
+  padding: 0;
+  flex-shrink: 0;
+  margin-left: auto;
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.GameSummaryList-item-info {
+  padding-left: 0;
+}
+
+.GameList-item-room {
+  display: none;
+}
+
+.GameList-item-name {
+  color: #4a5568;
+  font-size: 12px;
+  font-weight: 500;
+  padding-left: 10px;
+  border-left: 1.5px solid rgba(0,0,0,0.12);
+  margin-left: 4px;
+}
+
+.GameRulesDisplay-handicap {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1;
+}
+
+.GameRulesDisplay-size {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #b45309;
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  border-radius: 12px;
+  /* Fixed height + flex centring instead of vertical padding: with
+     `line-height: 1` the glyph box is tighter than the font's own line box, so
+     padding alone left the text sitting high in the pill. */
+  min-height: 17px;
+  padding: 0 7px;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+.GameList-item-handicap-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.GameList-item-move-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: #232f2c;
+  background: #f6f5f2;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  padding: 2px 10px;
+  vertical-align: middle;
+}
+
+/* "Watch" / "Play" buttons revealed on card hover. They swap in where the
+   move count (Watch, active games) or rules (Play, challenges) sit, so the
+   row keeps its right-aligned layout. */
+.GameList-item-watch,
+/* Cursor-following "Play" pill on challenge cards. Hidden by default (and on
+   touch / mobile); shown + positioned by JS on desktop hover. It's an overlay
+   (pointer-events: none) so it never reflows the row or blocks the card click. */
+.GameList-item-play-cursor {
+  display: none;
+}
+
+@media #{$nonmobile-query} {
+  body.no-touch .GameList-item-play-cursor {
+    display: inline-flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    align-items: center;
+    gap: 4px;
+    max-width: 360px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    color: var(--ui-color-contrast, #fff);
+    background: var(--ui-color);
+    box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.35);
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    transform: translate(16px, -50%) scale(0.9);
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+
+  // The challenge message shares the pill ("Play: <message>"); keep it on one
+  // line and ellipsize so a long note can't stretch the pill off-screen.
+  body.no-touch .GameList-item-play-cursor-msg {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+    opacity: 0.95;
+  }
+}
+
+.GameList-item-play {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 26px;
+  min-width: 78px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  background: #fcfcfb;
+  border: 1px solid rgba(var(--ui-color-rgb), 0.25);
+  border-radius: 20px;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.no-touch .GameList-item-watch:hover,
+.no-touch .GameList-item-play:hover {
+  color: var(--ui-color-contrast, #fff);
+  background: rgba(var(--ui-color-rgb), 0.9);
+  border-color: rgba(var(--ui-color-rgb), 0.9);
+}
+
+/* Decline button on a direct-challenge card. Revealed on card hover, the same
+   as the Play button. */
+.GameList-item-decline {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 26px;
+  min-width: 78px;
+  margin-left: 8px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $error-bg;
+  background: #fcfcfb;
+  border: 1px solid rgba($error-bg, 0.35);
+  border-radius: 20px;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.no-touch .GameList-item-decline:hover {
+  color: #fff;
+  background: $error-bg;
+  border-color: $error-bg;
+}
+
+body.dark-mode {
+  .GameList-item-decline {
+    background: var(--dk-card-bg);
+  }
+}
+
+/* The whole card is clickable (challenges and live games alike), so it gets the
+   link hand cursor. */
+.GameList-item-buttononly {
+  cursor: pointer;
+}
+
+@media #{$nonmobile-query} {
+  /* Cards open on click (the whole card is the target), so there are no hover
+     Play / Watch buttons — the time pill and move count stay visible. Direct
+     challenges still reveal a Decline button on hover (accept by clicking). */
+  .no-touch .GameList-item-direct-challenge:hover {
+    .GameList-item-decline {
+      display: inline-flex;
+    }
+  }
+}
+
+body.dark-mode {
+  .GameList-item-watch,
+  .GameList-item-play {
+    color: var(--dk-fg);
+    background: var(--dk-card-bg);
+  }
+}
+
+body.dark-mode {
+  .GameList-item-move-count {
+    color: var(--dk-fg);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .GameList-item-handicap-icon {
+    color: #c084fc;
+    background: rgba(192, 132, 252, 0.12);
+    border-color: rgba(192, 132, 252, 0.3);
+  }
+
+  .GameTypeIcon-rengo {
+    background: rgba(210, 209, 80, 0.15);
+    color: #d2cf5a;
+    border-color: rgba(210, 209, 80, 0.3);
+  }
+
+  .GameTypeIcon-simul {
+    background: rgba($simul-color, 0.15);
+    color: #c084fc;
+    border-color: rgba($simul-color, 0.3);
+  }
+
+  .GameTypeIcon-demonstration,
+  .GameTypeIcon-review,
+  .GameTypeIcon-teaching,
+  .GameTypeIcon-review_rengo {
+    background: rgba(195, 72, 151, 0.15);
+    color: #e070c0;
+    border-color: rgba(195, 72, 151, 0.3);
+  }
+
+  .GamePlayersList-rengo-divider {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.GameList-item-result {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  background: rgba(100, 116, 139, 0.1);
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  border-radius: 6px;
+  padding: 2px 7px;
+  vertical-align: middle;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+body.dark-mode {
+  .GameList-item-result {
+    color: var(--dk-fg-dim);
+    background: rgba(100, 116, 139, 0.18);
+    border-color: rgba(100, 116, 139, 0.3);
+  }
+}
+
+.GameList-private-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.GameList-private-dialog {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 32px 28px 24px 28px;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  text-align: center;
+}
+
+.GameList-private-dialog-icon {
+  color: $warning-bg;
+  margin-bottom: 16px;
+}
+
+.GameList-private-dialog-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e1e1e;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.GameList-private-dialog-body {
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.GameList-private-dialog-actions {
+  display: flex;
+  justify-content: center;
+}
+
+body.dark-mode {
+  .GameList-private-dialog {
+    background: var(--dk-surface) !important;
+    border: 1px solid var(--dk-border) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .GameList-private-dialog-title {
+    color: var(--dk-fg) !important;
+  }
+
+  .GameList-private-dialog-body {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .GameList-container {
+    background: #1d2724 !important;
+  }
+
+  .GameList-item {
+    background: #1e2d28 !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+
+    @media #{$nonmobile-query} {
+      &:hover {
+        border-color: rgba(var(--ui-color-rgb), 0.4) !important;
+        box-shadow: 0 4px 16px rgba(var(--ui-color-rgb), 0.12) !important;
+      }
+    }
+  }
+
+  .GameList-show-more-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #a8c4b4 !important;
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.12) !important;
+      color: var(--dk-fg) !important;
+    }
+  }
+}
+
+.GameList-item-note-tooltip {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  background: #1e293b;
+  color: #f1f5f9;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  pointer-events: none;
+  z-index: 9999;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1e293b;
+  }
+}
+
+.GameList-item-adjourned {
+  opacity: 0.5;
+}
+
+.GameList-item-bot {
+}
+
+.GameList-item-private {
+  opacity: 0.4;
+}
+
+
+.GamePlayersList-rengo {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+
+  /* In list rows, shrink the rengo block to its content so the team boxes don't
+     span the whole row — but both teams share the same (widest) width. */
+  .GameSummaryList-item-players &,
+  .GameList-item-players & {
+    width: fit-content;
+    align-items: stretch;
+  }
+}
+
+.GamePlayersList-rengo-team {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-left-width: 3px;
+  box-sizing: border-box;
+
+  &.GamePlayersList-rengo-black {
+    border-left-color: #1e293b;
+    background: rgba(15, 23, 42, 0.015);
+  }
+
+  &.GamePlayersList-rengo-white {
+    border-left-color: #cbd5e1;
+    background: rgba(148, 163, 184, 0.03);
+  }
+
+  .GamePlayersList-player,
+  .GamePlayersList-player2,
+  .GamePlayersList-black2,
+  .GamePlayersList-white2 {
+    max-width: none;
+    white-space: nowrap;
+    font-size: 14px;
+    margin-left: 0 !important;
+
+    &::before {
+      display: none !important;
+    }
+  }
+
+  .GamePlayersList-stone {
+    display: none !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 5px;
+  }
+
+  .GamePlayersList-stone-white {
+    background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .GamePlayersList-stone-black {
+    background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+  }
+}
+
+.GamePlayersList-rengo-divider {
+  display: none;
+}
+
+.GameList-item-rengo {
+  align-items: center;
+}
+
+/* ── Mini board preview ───────────────────────────── */
+.GameList-item-with-preview {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.GameList-item-with-preview .GameList-item-type,
+.GameList-item-with-preview .GameList-item-players,
+.GameList-item-with-preview .GameList-item-info {
+  padding: 10px 14px;
+}
+
+.GameList-item-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #d4a862;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.GameList-item-with-preview .GameList-item-type,
+.GameList-item-with-preview .GameList-item-players,
+.GameList-item-with-preview .GameList-item-info {
+  display: flex;
+  align-items: center;
+}
+
+.GameList-item-with-preview .GameList-item-players {
+  flex: 1;
+  border-top: 1px solid rgba(0,0,0,0.07);
+}
+
+.GameList-item-with-preview .GameList-item-info {
+  padding-top: 0;
+  padding-bottom: 10px;
+}
+
+
+.GameList-item-observers-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #4a5568;
+  font-size: 13px;
+  font-weight: 500;
+
+  .Icon { font-size: 16px; color: #6e6e6e; }
+}
+
+.GameList-item {
+  .GameRulesDisplay-komi {
+    display: none;
+  }
+}
+
+.GameList-item-active {
+  .GameRulesDisplay-handicap {
+    display: none;
+  }
+}
+
+.GameList-item-rules {
+  display: inline-flex;
+  align-items: center;
+
+  .GameRulesDisplay {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .GameList-item-note-indicator {
+    margin-right: 4px;
+  }
+}
+
+.GameList-item-active {
+  /* Anchor for the cursor-following "Watch" pill. */
+  position: relative;
+  /* Match the challenge card's vertical padding so both card types are the
+     same height (the base item uses 13px top/bottom). */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+  border-left: 3px solid rgba(var(--ui-color-rgb), 0.6) !important;
+  box-shadow: 0 2px 8px rgba(var(--ui-color-rgb), 0.08), 0 1px 3px rgba(0,0,0,0.05) !important;
+
+  /* Never wrap the info zone to a second line: on hover the wide "Watch" button
+     replaces the small move-count badge, and wrapping would make the card grow
+     taller. Keeping it on one line keeps the height constant. */
+  .GameList-item-info {
+    flex-wrap: nowrap;
+  }
+
+  .GameList-item-move,
+  .GameList-item-result,
+  .GameList-item-observers,
+  .GameList-item-rules {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    vertical-align: middle;
+  }
+
+  .GameList-item-move {
+    min-height: 26px;
+  }
+
+  .GameRulesDisplay-time {
+    display: none;
+  }
+}
+
+.GameList-item-challenge {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: relative;
+  /* The whole challenge card is clickable (opens the challenge). */
+  cursor: pointer;
+  color: #f6f5f2 !important;
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+  border-left: 3px solid rgba(var(--ui-color-rgb), 0.6) !important;
+  box-shadow: 0 2px 8px rgba(var(--ui-color-rgb), 0.08), 0 1px 3px rgba(0,0,0,0.05) !important;
+
+  .GameList-item-rules {
+    width: 160px;
+    min-height: 26px;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 4px;
+    vertical-align: middle;
+  }
+
+  /* Show the board-size pill before the time on challenge cards. */
+  .GameRulesDisplay {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .GameRulesDisplay-size {
+    order: -1;
+    /* Override the base 0 4px margin so the flex gap is the only spacing. */
+    margin: 0;
+  }
+
+  /* Keep the time on a single line instead of wrapping to two rows. */
+  .GameRulesDisplay-time {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .GameRulesDisplay-handicap {
+    display: none;
+  }
+
+  /* Show a colour stone next to the creator (neutral split — colour is decided
+     at game start), matching the live games / My Games lists. */
+  .GamePlayersList-stone {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
+
+  .GamePlayersList-stone-neutral {
+    background: linear-gradient(
+      90deg,
+      #050505 0%,
+      #2c2c2c 50%,
+      #f0f0ee 50%,
+      #ffffff 100%
+    );
+    border: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  /* Note icon sits with the badge group at the right of the rules column. (It
+     used to be anchored left for the hover Play swap, which no longer exists —
+     that left a big gap between it and the size/time badges.) */
+  .GameList-item-note-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 13px;
+    color: #cbd5e1;
+    cursor: default;
+    line-height: 1;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: #94a3b8;
+    }
+  }
+
+  .GameTimeSystem-icon {
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  .GameList-item-room {
+    display: none;
+  }
+}
+
+.GameList-item-direct-challenge {
+  border: 1px solid rgba(225, 29, 72, 0.15) !important;
+  border-left: 5px solid #e11d48 !important;
+  background: rgba(225, 29, 72, 0.02) !important;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.08), 0 1px 3px rgba(0,0,0,0.05) !important;
+
+  &:hover {
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    border-left-color: #e11d48 !important;
+    box-shadow: 0 6px 16px rgba(225, 29, 72, 0.14) !important;
+  }
+}
+
+.GameList-item-direct-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e11d48;
+  margin-right: 6px;
+  font-size: 15px;
+  vertical-align: middle;
+  animation: pulse-direct 2s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-direct {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+    filter: drop-shadow(0 0 3px rgba(225, 29, 72, 0.6));
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+.GamePlayersList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.GamePlayersList-stone {
+  display: none;
+}
+
+.GamePlayersList-vs {
+  font-size: 10px;
+  font-weight: 400;
+  color: #94a3b8;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+/* Live games show the colour stone next to each player (like My Games),
+   keeping the "vs" separator between the two players. */
+.GameList-item-active {
+  .GamePlayersList-stone {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
+
+  .GamePlayersList-stone-white {
+    background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .GamePlayersList-stone-black {
+    background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+  }
+}
+
+.GamePlayersList-player {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+
+  .UserName, .UserName-text {
+    color: #2d3a32 !important;
+  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+.GamePlayersList-white2,
+.GamePlayersList-black2 {
+  max-width: 80px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $semi-muted;
+}
+
+
+.GamePlayersList-winner {
+  // font-weight: 500;
+  position: relative;
+
+  &:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    background: $semi-muted;
+    position: absolute;
+    left: -10px;
+    top: 8px;
+  }
+}
+
+.GameSummaryList-item-won {
+  .GameSummaryList-item-result {
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      background: $won-color;
+      position: absolute;
+      left: -15px;
+      top: 8px;
+    }
+  }
+}
+
+.GameSummaryList-item-lost {
+  .GameSummaryList-item-result {
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      background: $lost-color;
+      position: absolute;
+      left: -15px;
+      top: 8px;
+    }
+  }
+}
+
+.GameSummaryList-item-date-now {
+  font-weight: 500;
+  color: $content-fg;
+}
+
+// Uncomment for both players on one line
+@media #{$nonmobile-query} {
+  //   .GameList-item-active {
+  //     padding-top: 10px;
+  //     padding-bottom: 10px;
+  //     .GameList-item-players {
+  //       width: 320px;
+  //     }
+  //     .GamePlayersList-player1,
+  //     .GamePlayersList-player2,
+  //     .GamePlayersList-white2,
+  //     .GamePlayersList-black2 {
+  //       display: inline-block;
+  //       vertical-align: middle;
+  //       width: 160px;
+  //     }
+  //   }
+}
+
+@media #{$mobile-query} {
+
+  .GameList-item,
+  .GameSummaryList-item {
+    padding: 10px 8px;
+    min-width: 0;
+    align-items: center !important;
+  }
+
+  .GameList-item-rules {
+    width: auto !important;
+  }
+
+  .GameList-item-players,
+  .GameSummaryList-item-players {
+    font-size: 14px;
+    flex: 1;
+    width: auto !important;
+    padding-left: 0 !important;
+    overflow: hidden;
+  }
+
+  .GamePlayersList {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .GamePlayersList-player {
+    max-width: 100% !important;
+  }
+
+  .GamePlayersList-vs {
+    display: none !important;
+  }
+
+  .GamePlayersList-stone,
+  .GamePlayersList-rengo-team .GamePlayersList-stone {
+    display: inline-block !important;
+    width: 9px !important;
+    height: 9px !important;
+    border-radius: 50% !important;
+    margin-right: 5px !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
+  }
+
+  .GamePlayersList-stone-white {
+    background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%) !important;
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .GamePlayersList-stone-black {
+    background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111111 68%, #050505 100%) !important;
+    border: 1px solid rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .GamePlayersList-rengo {
+    gap: 2px !important;
+  }
+
+  .GamePlayersList-rengo-team {
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    gap: 2px !important;
+  }
+
+  .GamePlayersList-rengo-divider {
+    display: block !important;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.07);
+    margin: 4px 0;
+  }
+
+  .GameSummaryList-item-players {
+    width: auto !important;
+  }
+
+  .GameList-item-info,
+  .GameSummaryList-item-info {
+    font-size: 13px;
+    width: auto !important;
+    color: $muted;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+  }
+
+  .GameSummaryList-item-result,
+  .GameSummaryList-item-rules {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .GameSummaryList-item-result {
+    margin-right: 10px;
+  }
+
+  .GameRulesDisplay-time {
+    margin-right: 10px;
+  }
+
+  .GameRulesDisplay-time,
+  .GameRulesDisplay-size,
+  .GameRulesDisplay-handicap {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .GameList-item-active {
+    .GameList-item-move,
+    .GameList-item-result,
+    .GameList-item-observers {
+      width: auto !important;
+    }
+  }
+
+  .GameList-item-challenge {
+    .GameTimeSystem-icon {
+      position: absolute;
+      right: 100%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    /* Truncate long challenger names (~10 characters) so they don't push the
+       Play button / time off the row. */
+    .UserName-text {
+      display: inline-block;
+      max-width: 10ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+    }
+  }
+
+  .GameList-item-room {
+    display: none;
+  }
+
+  .GameList-item-note-indicator {
+    display: none !important;
+  }
+
+}
+
+@media #{$narrow-mobile-query} {
+
+  .GameList-item-info,
+  .GameSummaryList-item-info {
+    width: auto !important;
+  }
+}
+
+@media #{$nonmobile-query} {
+  .GameSummaryList-item-players {
+    font-size: 14px;
+  }
+
+  .GameSummaryList-item-info {
+    font-size: 14px;
+  }
+
+  .GameSummaryList-item-result-rules,
+  .GameSummaryList-item-date {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .GameSummaryList-item-result-rules {
+    width: 100px;
+  }
+
+  // My Games has extra horizontal room, so show full usernames (no truncation).
+  // Lift only the width cap — keep overflow:hidden so nothing else is revealed.
+  .MyGamesScreen {
+    .GamePlayersList-player {
+      max-width: none;
+    }
+
+    .GameSummaryList-item-players .UserName-text {
+      max-width: none;
+    }
+  }
+}
+
+.GameTimeSystem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.GameTimeSystem-icon {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* "Very fast" shows two bolts; pull the second tight against the first. */
+.GameTimeSystem-icon-double {
+  display: inline-flex;
+  align-items: center;
+
+  svg + svg {
+    margin-left: -5px;
+  }
+}
+
+.GameTimeSystem-main {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.GameTimeSystem-byoyomi {
+  font-weight: 500;
+  color: #475569;
+  font-size: 0.95em;
+}
+
+/* Compact time form (challenge list only): the full form is replaced by the
+   accent pill on every breakpoint. These spans exist only when mobileCompact is
+   set (challenge list), so live-game lists are unaffected. */
+.GameTimeSystem-full {
+  display: none;
+}
+
+/* Single accent pill carrying the speed icon + compact time. */
+.GameTimeSystem-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 4px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.12);
+}
+
+/* Free (unrated) marker at the tail of the compact pill — outlined circle, not
+   the filled chip the speed icon uses at the head, so the pill doesn't read as
+   two identical controls. */
+.GameTimeSystem-compact-free {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  margin-left: 3px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  color: inherit;
+
+  svg {
+    display: block;
+    width: 11px;
+    height: 11px;
+  }
+}
+
+/* The compact pill's free marker and the challenge row's rated icon are mobile
+   affordances — on desktop the row has room for the full type badges. Must come
+   after the base rule above: same specificity, so source order decides. */
+@media #{$nonmobile-query} {
+  .GameTimeSystem-compact-free,
+  .GameList-item-challenge .GameList-item-type-rated {
+    display: none;
+  }
+}
+
+/* Speed icon sits in a solid accent chip (white glyph) so it reads clearly
+   against the green pill instead of blending into the time text. */
+.GameTimeSystem-compact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 17px;
+  min-width: 17px;
+  padding: 0 3px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  // Glyph follows the accent's computed contrast colour so it stays legible on
+  // the chip in every theme (white on a dark accent, dark on a light accent).
+  color: var(--ui-color-contrast, #ffffff);
+  background: var(--ui-color);
+
+  svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* "Very fast" is a double bolt — keep the two tight together. */
+  .GameTimeSystem-icon-double svg + svg {
+    margin-left: -3px;
+  }
+}
+
+/* On the dark theme the accent-tinted chip can sit muddily against the dark
+   page, so the (white) speed glyph reads faintly. Use the theme's brighter
+   accent for the chip with a dark glyph, and lift the pill text/tint to match.
+   (Mid is a light theme, so its base pill is already legible.) */
+body.dark-mode {
+  .GameTimeSystem-compact {
+    // Soft off-white time text reads cleaner on the dark pill than the accent.
+    color: var(--dk-fg);
+    // Darker inset pill — the accent tint read too light against the card.
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .GameTimeSystem-compact-icon {
+    // Chip filled with the same off-white as the time text, dark glyph on top.
+    color: #12211b;
+    background: var(--dk-fg);
+  }
+
+  // The free marker is an outlined circle — it follows the pill's text colour
+  // rather than taking the speed chip's fill.
+  .GameTimeSystem-compact-free {
+    color: inherit;
+    background: transparent;
+    border-color: currentColor;
+  }
+}
+
+@media #{$mobile-query} {
+  /* Challenge list: rated is the norm, so only the "free" (star-off) icon is
+     worth the space. The class is set in GameList.js — `:has()` isn't reliable
+     in older Android WebViews. */
+  .GameList-item-challenge .GameList-item-type-rated {
+    display: none;
+  }
+
+  /* The free marker lives inside the time pill instead (see GameTimeSystem):
+     in the players area a long username pushed it out of sight. */
+  .GameList-item-challenge .GameList-item-type-free {
+    display: none;
+  }
+
+  /* The time pill sits closer to the card's right edge (the card's own right
+     padding was the gap). */
+  .GameList-item-challenge {
+    padding-right: 0;
+  }
+}
+
+.GameListFilter {
+  padding: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* Inline filter toolbar (Hide bots / TYPE / SPEED / RANK) — replaces the old
+   gear/sliders popover. Sits in its own header row below the title. Sections
+   flow left-to-right, each separated by a vertical rule centered in the gap. */
+.GameFilterBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  row-gap: 12px;
+  padding: 14px 20px;
+}
+
+.GameFilterBar-bots,
+.GameFilterBar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.GameFilterBar-bots {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hide bots lives in the sub-bar on desktop (unchanged). The copy inside the
+   filter bar exists only for mobile, where it's revealed by the mobile media
+   query; hide it everywhere else. */
+.GameFilterBar-group--bots {
+  display: none;
+}
+
+/* The mobile room selector on the title row is shown only in the mobile media
+   query; desktop uses the copy inside the header controls. */
+.PlayScreen-room-mobile {
+  display: none;
+}
+
+/* "Filters" heading shown inside the expanded filter panel on mobile only. */
+.GameFilterBar-heading {
+  display: none;
+}
+
+/* Wraps the title (+ mobile room selector). On desktop it holds only the title
+   (the room copy is hidden), so it behaves like the bare title did. */
+.PlayScreen-title-line {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+
+/* Each section after the first gets a left divider, with equal padding on both
+   sides of the rule so it sits centered in the gutter between sections. A group
+   that is the first child of the bar (e.g. the lone Tag group on My Games) gets
+   no divider. */
+.GameFilterBar-group:not(:first-child) {
+  margin-left: 24px;
+  padding-left: 24px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* The first group sits right after the collapse chevron — no divider before it,
+   and it hugs the chevron rather than the standard 24px gutter. */
+.GameFilterBar-toggle + .GameFilterBar-group {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: none;
+}
+
+/* The Size and Type labels are self-evident (board-size and Rated/Free chips
+   speak for themselves), so their text labels are hidden to save space. */
+.GameFilterBar-group--no-label .GameFilterBar-label {
+  display: none;
+}
+
+.GameFilterBar-bots-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.GameFilterBar-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 6px;
+  padding: 5px;
+  border-radius: 6px;
+  color: $semi-muted;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+
+  &:hover {
+    color: #c2601a;
+    background: rgba(194, 96, 26, 0.1);
+  }
+}
+
+.GameFilterBar-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 2px;
+}
+
+/* Leading chevron that collapses/expands the filter row. When the row is
+   collapsed it shows a "Filters" label, and an accent dot signals that filters
+   are still active even though the controls are hidden. */
+.GameFilterBar-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-right: 8px;
+  padding: 5px;
+  border-radius: 6px;
+  color: $semi-muted;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+
+  &:hover {
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.1);
+  }
+
+  &.has-active {
+    color: var(--ui-color);
+  }
+}
+
+.GameFilterBar-collapsed .GameFilterBar-toggle {
+  margin-right: 0;
+}
+
+.GameFilterBar-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* When filters are active and the row is collapsed, render the label as a
+   soft accent badge so the active state is clear without being heavy. */
+.GameFilterBar-toggle.has-active.is-collapsed .GameFilterBar-toggle-label {
+  padding: 2px 9px;
+  border-radius: 9999px;
+  color: var(--ui-color);
+  background: rgba(var(--ui-color-rgb), 0.12);
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+}
+
+.GameFilterBar-toggle.has-active.is-collapsed:hover .GameFilterBar-toggle-label {
+  background: rgba(var(--ui-color-rgb), 0.18);
+}
+
+/* Placeholder sub-header: legend + sort + view toggle (not wired up yet).
+   Visually distinct (slightly tinted) third row. */
+.GameSubBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 12px 20px;
+  background: transparent;
+}
+
+.GameSubBar-controls {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+// Holds the Hide-bots pill on the left of the sub-bar (the Sort control is a
+// separate flex child pushed to the right via space-between).
+.GameSubBar-left {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.GameSubBar-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: #f3efe8;
+  border: 1px solid rgba(80, 60, 40, 0.18);
+  border-radius: 8px;
+}
+
+// In the sub-bar, the Hide-bots switch is wrapped in the same light pill as the
+// Sort control so the two read as a matching pair.
+.GameSubBar-bots {
+  gap: 8px;
+  padding: 2px 12px 2px 8px;
+  background: #f3efe8;
+  border: 1px solid rgba(80, 60, 40, 0.18);
+  border-radius: 8px;
+
+  .GameFilterBar-bots-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+  }
+
+  // Match the height of the Sort buttons next to it.
+  .ToggleSwitch-control {
+    width: 40px;
+    height: 22px;
+  }
+
+  .ToggleSwitch-slider:before {
+    height: 16px;
+    width: 16px;
+  }
+
+  input:checked + .ToggleSwitch-slider:before {
+    transform: translateX(18px);
+  }
+
+  // Active green at 70% opacity.
+  input:checked + .ToggleSwitch-slider {
+    background-color: rgba(22, 163, 74, 0.7);
+  }
+}
+
+.GameSubBar-sort-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0 6px 0 4px;
+}
+
+.GameSubBar-sort-btn {
+  border: 1px solid transparent;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+
+  &.active {
+    color: var(--ui-color);
+    font-weight: 600;
+    // Accent-tinted fill + accent border (same approach as the mid theme).
+    background: rgba(var(--ui-color-rgb), 0.16);
+    border: 1px solid var(--ui-color);
+    box-shadow: none;
+  }
+}
+
+.GameSubBar-view {
+  display: inline-flex;
+  align-items: center;
+  background: #f3efe8;
+  border: 1px solid rgba(80, 60, 40, 0.18);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.GameSubBar-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: #475569;
+  }
+
+  &.active {
+    color: var(--ui-color);
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Username filter on the right of the My Games sort row. */
+.MyGamesScreen-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 8px 0 10px;
+  // Transparent like the header "Search players" box — it picks up whatever
+  // surface sits behind it, so it stays integrated in every theme.
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  color: #94a3b8;
+  transition: border-color 0.15s ease;
+
+  &:focus-within {
+    border-color: var(--ui-color);
+  }
+}
+
+// In the My Games filter row the username search is pushed to the far right.
+.GameFilterBar .MyGamesScreen-search {
+  margin-left: auto;
+}
+
+input[type="text"].MyGamesScreen-search-input {
+  height: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+  font-size: 13px;
+  color: #334155;
+  width: 150px;
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+.MyGamesScreen-search-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #c2601a;
+  }
+}
+
+.GameListFilter-speed-btn,
+.GameListFilter-type-btn {
+  height: 32px;
+  min-width: 40px;
+  padding: 0 12px;
+  // Distinct fill + firmer border so the control reads clearly against the
+  // panel (same approach as the mid theme, with neutral light colors).
+  border: 1.5px solid rgba(80, 60, 40, 0.22);
+  border-radius: 8px;
+  background: #f3efe8;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-color: var(--ui-color);
+    color: var(--ui-color);
+  }
+
+  &.active {
+    background: rgba(var(--ui-color-rgb), 0.16);
+    border-color: var(--ui-color);
+    color: var(--ui-color);
+    font-weight: 600;
+
+    // Small accent dot to the left of the label marks the selected state.
+    &:before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--ui-color);
+      flex-shrink: 0;
+    }
+  }
+}
+
+.GameListFilter-speed-btn {
+  font-size: 14px;
+  min-width: 40px;
+  padding: 0 10px;
+}
+
+
+/* Rated/Free are icon-only (star / star-off) — match the speed buttons' square
+   footprint instead of the wider text-chip padding. */
+.GameListFilter-rating-btn {
+  min-width: 40px;
+  padding: 0 10px;
+
+  svg {
+    display: block;
+  }
+
+  /* Here the icons take the chip's own text colour, like every other filter
+     button — the shared rated colour applies on the game cards instead. */
+  .Icon {
+    color: inherit;
+  }
+}
+
+/* "Very fast" shows two bolts; pull the second one tight against the first. */
+.GameListFilter-speed-btn-double {
+  svg + svg {
+    margin-left: -5px;
+  }
+}
+
+/* Rank filter buttons (Dan/SDK/DDK) intentionally use the SAME style as the
+   other filter buttons — no per-tier coloring. */
+
+/* Custom room dropdown (replaces the native <select> so the option list can
+   match the rest of the UI instead of the browser-default popup). */
+.GameListFilter-room {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 220px;
+  font-size: 14px;
+}
+
+.GameListFilter-room-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1e1e;
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  .Icon {
+    color: $muted;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &.is-open {
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.12);
+
+    .Icon {
+      color: var(--ui-color);
+    }
+  }
+}
+
+.GameListFilter-room-trigger-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.GameListFilter-room-clear {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  cursor: pointer;
+
+  .Icon {
+    color: var(--ui-color);
+  }
+
+  &:hover .Icon {
+    color: #c2601a;
+  }
+}
+
+.GameListFilter-room.is-active .GameListFilter-room-trigger {
+  color: var(--ui-color);
+  border-color: rgba(var(--ui-color-rgb), 0.45);
+  background: rgba(var(--ui-color-rgb), 0.06);
+  font-weight: 600;
+}
+
+.GameListFilter-room-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.GameListFilter-room-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  text-align: left;
+  color: #334155;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background: rgba(var(--ui-color-rgb), 0.08);
+    color: var(--ui-color);
+  }
+}
+
+.GameListFilter-room-option-name {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.GameListFilter-room-option-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: $muted;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+
+.GameListFilter-room-option.is-selected {
+  color: var(--ui-color);
+  font-weight: 600;
+  background: rgba(var(--ui-color-rgb), 0.1);
+}
+
+.GameListFilter-bots {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0;
+  font-size: 14px;
+}
+
+@media #{$mobile-query} {
+  .GameListFilter-room-trigger {
+    font-size: 16px;
+  }
+
+  .GameListFilter-bots {
+    font-size: 16px;
+
+    .CheckboxInput-label {
+      margin-top: -1px;
+    }
+  }
+
+  /* On phones the sections won't fit on one line — allow wrapping again. */
+  .GameFilterBar {
+    flex-wrap: wrap;
+  }
+
+  /* Tighter section spacing so the sections fit more readily on phones. */
+  .GameFilterBar-group:not(:first-child) {
+    margin-left: 14px;
+    padding-left: 14px;
+  }
+
+  /* On touch/phones the whole row is the tap target, so the inline "Play" button
+     isn't needed — hide it (it can otherwise flash in via sticky :hover on tap). */
+  .GameList-item-buttononly {
+    cursor: pointer;
+  }
+
+  .GameList-item-play {
+    display: none !important;
+  }
+
+  /* Tighter card corners on phones. */
+  .GameList-item,
+  .GameSummaryList-item {
+    border-radius: 6px;
+  }
+
+  /* A little breathing room above the first card (challenges + live games). */
+  .PlayScreen-list .GameList-container .GameList-item:first-child,
+  .WatchScreen-list .GameList-container .GameList-item:first-child {
+    margin-top: 14px;
+  }
+
+  /* Live-game cards: show only the players (black vs white) on a single row so
+     the card is the same size as a challenge card. Hide the rest (observers,
+     moves, etc.). */
+  .GameList-item-active {
+    flex-wrap: nowrap;
+  }
+
+  .GameList-item-active .GameList-item-players {
+    flex: 1;
+  }
+
+  .GameList-item-active .GameList-item-info {
+    display: none !important;
+  }
+
+  /* Shorter sort labels on the live-games sub-bar only: "Sort" -> "Sort by",
+     "Top games" -> "Ranks", "Most watched" -> "Viewers", "Most moves" ->
+     "Moves". Swapped via CSS content so desktop keeps the full labels. */
+  .WatchScreen-list .GameSubBar-sort-label {
+    font-size: 0;
+  }
+
+  .WatchScreen-list .GameSubBar-sort-label::after {
+    content: "Sort by";
+    font-size: 11px;
+  }
+
+  .WatchScreen-list .GameSubBar-sort-btn {
+    font-size: 0;
+  }
+
+  .WatchScreen-list .GameSubBar-sort-btn::after {
+    content: attr(data-mobile-label);
+    font-size: 13px;
+  }
+
+  /* Show the two players side by side ("black vs white") rather than stacked
+     (the default mobile card stacks them and hides the "vs"). */
+  .GameList-item-active .GamePlayersList {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .GameList-item-active .GamePlayersList-player {
+    min-width: 0;
+  }
+
+  .GameList-item-active .GamePlayersList-vs {
+    display: inline !important;
+  }
+
+  /* Don't let the username capture taps on live-game cards — the whole card
+     opens the game instead of the player's profile. */
+  .GameList-item-active .GameList-item-players .UserName {
+    pointer-events: none;
+  }
+
+  /* Mobile-only reorder of the Play header — desktop markup/layout untouched.
+     The mobile room selector sits on the title row and fills the space to the
+     right of the title (flex-basis 0 so it never wraps to its own line); the
+     whole controls block (Play/automatch) drops to a full-width row below. */
+  .WatchScreen-header-row {
+    padding-bottom: 12px;
+  }
+
+  /* Title size for Challenges and Live Games; Play button + room selector. */
+  .PlayScreen-list .WatchScreen-header-title,
+  .WatchScreen-list .WatchScreen-header-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .PlayScreen-list .WatchScreen-header-actions .Button {
+    font-size: 13px;
+  }
+
+  .PlayScreen-room-mobile .GameListFilter-room-trigger {
+    font-size: 15px;
+  }
+
+  /* Row 1: the title alone, full width. */
+  .PlayScreen-title-line {
+    flex: 1 1 100%;
+  }
+
+  /* Row 2: the room selector fills the left, Play/automatch sit on the right.
+     flex-basis 0 keeps the selector on this row (it truncates rather than
+     wrapping), and the controls keep their content width on the right. */
+  .PlayScreen-room-mobile {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .PlayScreen-room-mobile .GameListFilter-room,
+  .PlayScreen-room-mobile .GameListFilter-room-trigger {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .PlayScreen-room-mobile .GameListFilter-room {
+    padding-left: 0;
+  }
+
+  .PlayScreen-room-mobile .GameListFilter-room-trigger-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .PlayScreen-header-controls > .GameListFilter-room {
+    display: none;
+  }
+
+  .PlayScreen-header-controls {
+    flex: 0 0 auto;
+  }
+
+  /* "Filters" heading at the top of the expanded panel — a pill that doubles as
+     the close control, so the panel needs no separate chevron. */
+  .GameFilterBar-heading {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    flex: 0 0 auto;
+    margin-bottom: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+
+  /* Heading owns the first line; every filter group starts on its own line
+     below it, all flush at the same left edge (the divider rule + its 14px
+     padding). Without the margin reset the first group would sit 14px left of
+     the rest, since only it lacks the between-groups margin. */
+  .GameFilterBar-heading ~ .GameFilterBar-group,
+  .GameFilterBar-heading ~ .GameFilterBar-bots {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+
+  body.dark-mode .GameFilterBar-heading,
+  body.mid-mode .GameFilterBar-heading {
+    color: var(--dk-fg-muted);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--dk-border);
+  }
+
+  body.mid-mode .GameFilterBar-heading {
+    background: rgba(59, 49, 39, 0.07);
+  }
+
+  /* Clear sits beside the FILTERS pill on the panel's first line, rather than
+     alone at the bottom (the groups below all take a full row each). */
+  .GameFilterBar-heading {
+    order: -2;
+  }
+
+  .GameFilterBar-clear {
+    order: -1;
+    align-self: flex-start;
+    margin: 0 0 6px 8px;
+  }
+
+  /* "19" with a smaller "×19" suffix — full label, but it still fits four
+     chips across a phone. */
+  /* On phones "Hide bots" moves into the collapsible filter bar and out of the
+     sub-bar, so it tucks away with the other filters. Desktop keeps it in the
+     sub-bar. */
+  .GameFilterBar-group--bots {
+    display: inline-flex;
+  }
+
+  .GameSubBar-left {
+    display: none;
+  }
+
+  .GameSubBar-controls {
+    justify-content: flex-end;
+  }
+
+  /* Put the (collapsed) Filters pill and the Sort control on the same row. On
+     desktop the wrapper is a plain block so they stay stacked as before. */
+  .PlayScreen-filtersort-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .PlayScreen-filtersort-row > .GameFilterBar {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .PlayScreen-filtersort-row > .GameSubBar {
+    flex: 0 0 auto;
+  }
+
+  /* My Games list: drop the type (free/rated) icon, handicap icon, board-size
+     badge and the player rank chips to declutter the cards on mobile. */
+  .MyGamesScreen .GameSummaryList-item-type,
+  .MyGamesScreen .GameSummaryList-item-handicap-icon,
+  .MyGamesScreen .GameSummaryList-item-size {
+    display: none !important;
+  }
+
+  .MyGamesScreen .GameSummaryList-item-players .UserName-rank-chip {
+    display: none !important;
+  }
+
+  /* Remove the Newest/Oldest sort control on mobile — My Games always sorts
+     newest there (enforced in MyGamesScreen). */
+  .MyGamesScreen .GameSubBar {
+    display: none !important;
+  }
+
+  /* Match the challenge list: breathing room above the first game card. */
+  .MyGamesScreen .GameSummaryList .GameSummaryList-item:first-child {
+    margin-top: 14px;
+  }
+
+  /* Hide the "Filter by username" search once the filter box is expanded — the
+     open panel already holds the filter controls. */
+  .MyGamesScreen
+    .GameFilterBar:not(.GameFilterBar-collapsed)
+    .MyGamesScreen-search {
+    display: none;
+  }
+
+  /* When expanded, the filter bar takes the full width (Sort wraps below it).
+     It keeps the desktop background — no custom fill — so it inherits the themed
+     header background, but gets a bordered, inset outline so the open panel is
+     clearly delineated. */
+  .PlayScreen-filtersort-row > .GameFilterBar:not(.GameFilterBar-collapsed) {
+    flex: 1 1 100%;
+  }
+
+  .GameFilterBar:not(.GameFilterBar-collapsed) {
+    margin: 0 16px 10px 16px;
+    border: 2px solid rgba(80, 60, 40, 0.4);
+    border-radius: 10px;
+  }
+
+  /* No group labels on mobile — the row width goes to the chips instead. Each
+     button keeps a `title` for the long form. */
+  .GameFilterBar-label {
+    display: none;
+  }
+
+  .GameListFilter-size-btn {
+    min-width: 40px;
+    padding: 0 10px;
+  }
+
+  /* Last resort so a group can never be clipped off-screen. */
+  .GameFilterBar-group {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  /* Theme-aware, clearly visible border in dark + mid. */
+  body.dark-mode .GameFilterBar:not(.GameFilterBar-collapsed) {
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+
+  body.mid-mode .GameFilterBar:not(.GameFilterBar-collapsed) {
+    border-color: rgba(59, 49, 39, 0.45);
+  }
+
+  /* Collapsed, the Filters toggle is styled to match the Sort control sitting
+     next to it: same cream fill, hairline border and 8px radius, same 13px text.
+     Mobile-only so the desktop collapsed state is unchanged. */
+  .GameFilterBar-collapsed .GameFilterBar-toggle {
+    padding: 5px 12px;
+    border: 1px solid rgba(80, 60, 40, 0.18);
+    border-radius: 8px;
+    background: #f3efe8;
+    color: #64748b;
+  }
+
+  .GameFilterBar-collapsed .GameFilterBar-toggle-label {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .GameFilterBar-collapsed .GameFilterBar-toggle.has-active {
+    color: var(--ui-color);
+    border-color: rgba(var(--ui-color-rgb), 0.35);
+    background: rgba(var(--ui-color-rgb), 0.12);
+  }
+
+  .GameFilterBar-collapsed
+    .GameFilterBar-toggle.has-active
+    .GameFilterBar-toggle-label {
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  /* Match the Sort control per theme (dark greenish, mid warm dune). */
+  body.dark-mode .GameFilterBar-collapsed .GameFilterBar-toggle {
+    background: #1a2a24;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #a8c4b4;
+  }
+
+  body.mid-mode .GameFilterBar-collapsed .GameFilterBar-toggle {
+    background: #e8dcc2;
+    border-color: rgba(59, 49, 39, 0.28);
+    color: #6b5f4b;
+  }
+
+  body.dark-mode .GameFilterBar-collapsed .GameFilterBar-toggle.has-active,
+  body.mid-mode .GameFilterBar-collapsed .GameFilterBar-toggle.has-active {
+    border-color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.18);
+    color: var(--ui-color);
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .GameListFilter {
+    padding-left: 10px;
+  }
+}
+
+@media #{$narrow-mobile-query} {
+  .GameListFilter-room {
+    width: 150px;
+  }
+}
+
+/* ── Dark mode ───────────────────────────────────────────── */
+body.dark-mode {
+
+  .WatchScreen-list,
+  .PlayScreen-list {
+    background: var(--dk-bg-off) !important;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  .WatchScreen-content,
+  .PlayScreen-content {
+    background: var(--dk-bg-off) !important;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  .GameList-container {
+    background: #1d2724 !important;
+  }
+
+  .GameList,
+  .GameSummaryList {
+    background: #1d2724 !important;
+    border-top-color: rgba(255,255,255,0.07) !important;
+  }
+
+  .GameList-item,
+  .GameSummaryList-item {
+    background: #1d2523 !important;
+    color: var(--dk-fg) !important;
+    border-top-color: rgba(var(--ui-color-rgb), 0.4) !important;
+    border-right-color: rgba(var(--ui-color-rgb), 0.4) !important;
+    border-bottom-color: rgba(var(--ui-color-rgb), 0.4) !important;
+    border-left: 3px solid rgba(var(--ui-color-rgb), 0.6) !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.25) !important;
+
+    &:hover, &:focus, &:active {
+      background: #232d2a !important;
+      color: var(--dk-fg) !important;
+    }
+  }
+
+  .GameList-item-players,
+  .GameSummaryList-item-players {
+    color: var(--dk-fg) !important;
+  }
+
+  .GamePlayersList-player .UserName,
+  .GamePlayersList-player .UserName-text { color: var(--dk-fg) !important; }
+  .GamePlayersList-player1::after { color: var(--dk-fg) !important; }
+
+  .GamePlayersList-rengo-team {
+    border-color: rgba(255, 255, 255, 0.04) !important;
+    border-left-width: 3px !important;
+
+    &.GamePlayersList-rengo-black {
+      border-left-color: #475569 !important;
+      background: rgba(255, 255, 255, 0.01) !important;
+    }
+
+    &.GamePlayersList-rengo-white {
+      border-left-color: var(--dk-fg-strong) !important;
+      background: rgba(255, 255, 255, 0.025) !important;
+    }
+  }
+
+  .GameList-item-info,
+  .GameSummaryList-item-info,
+  .GameList-item-room {
+    color: #a8c4b4 !important;
+  }
+
+  .GameList-item-rules,
+  .GameList-item-move {
+    color: #a8c4b4 !important;
+  }
+
+  .GameRulesDisplay-time,
+  .GameRulesDisplay-size,
+  .GameRulesDisplay-handicap {
+    color: var(--dk-fg) !important;
+  }
+
+  .GameRulesDisplay-size {
+    color: #f59e0b !important;
+    background: rgba(245, 158, 11, 0.12) !important;
+    border-color: rgba(245, 158, 11, 0.3) !important;
+  }
+
+  .GameTimeSystem-main { color: var(--dk-fg) !important; }
+  .GameTimeSystem-byoyomi { color: #a8c4b4 !important; }
+
+  .GameList-item-observers-count {
+    color: #a8c4b4 !important;
+    .Icon { color: #a8c4b4 !important; }
+  }
+
+  .GameList-item-note-indicator {
+    color: #5e756a !important;
+    &:hover {
+      color: #a8c4b4 !important;
+    }
+  }
+
+  .GameList-item-name,
+  .GameSummaryList-item-date-now {
+    color: var(--dk-fg) !important;
+  }
+
+  .GameList-empty {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .GameListFilter {
+    background: var(--dk-bg-off) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  // Match the dark filter buttons (Dan/SDK/DDK at #1a2a24) instead of the
+  // deepest page bg, so the unselected dropdown sits at the same tone.
+  .GameListFilter-room-trigger {
+    background: #1a2a24;
+    color: var(--dk-fg);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .GameListFilter-room.is-active .GameListFilter-room-trigger {
+    color: var(--ui-color);
+    border-color: rgba(var(--ui-color-rgb), 0.5);
+    background: rgba(var(--ui-color-rgb), 0.12);
+  }
+
+  .GameListFilter-room-menu {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .GameListFilter-room-option {
+    color: var(--dk-fg-faint);
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.16);
+    }
+  }
+
+  .GameListFilter-room-option.is-selected {
+    background: rgba(var(--ui-color-rgb), 0.18);
+  }
+
+  .GameListFilter-room-option-count {
+    color: var(--dk-fg);
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .GameList-header {
+    background: var(--dk-bg-off) !important;
+    border-bottom-color: rgba(255,255,255,0.07) !important;
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .PlayScreen,
+  .WatchScreen {
+    background: var(--dk-bg-off) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .GameList-show-more-btn {
+    background: rgba(255, 255, 255, 0.07) !important;
+    color: #a8c4b4 !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+    }
+  }
+
+  .GameFilterBar-bots-label {
+    color: var(--dk-fg);
+  }
+
+  .GameFilterBar-clear {
+    color: var(--dk-fg-dim);
+
+    &:hover {
+      color: #e07b2e;
+      background: rgba(224, 123, 46, 0.12);
+    }
+  }
+
+  .GameFilterBar-toggle {
+    color: var(--dk-fg-dim);
+
+    &:hover,
+    &.has-active {
+      color: var(--ui-color);
+    }
+  }
+
+  .GameFilterBar-label,
+  .GameSubBar-sort-label {
+    color: var(--dk-fg-muted);
+  }
+
+  .GameSubBar-sort,
+  .GameSubBar-bots {
+    background: #1a2a24;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .GameSubBar-bots .GameFilterBar-bots-label {
+    color: #a8c4b4;
+  }
+
+  .GameSubBar-sort-btn {
+    color: #a8c4b4;
+
+    &:hover {
+      color: var(--ui-color);
+    }
+
+    &.active {
+      // Accent-tinted fill + accent border (same approach as light/mid).
+      color: var(--ui-color);
+      background: rgba(var(--ui-color-rgb), 0.18);
+      border-color: var(--ui-color);
+      box-shadow: none;
+    }
+  }
+
+  .GameSubBar-view {
+    background: #1a2a24;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .GameSubBar-view-btn {
+    color: #a8c4b4;
+
+    &:hover {
+      color: var(--dk-fg);
+    }
+
+    &.active {
+      color: var(--ui-color);
+      background: #2a3a34;
+    }
+  }
+
+  .MyGamesScreen-search {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--dk-fg-muted);
+  }
+
+  input[type="text"].MyGamesScreen-search-input {
+    color: var(--dk-fg);
+
+    &::placeholder {
+      color: var(--dk-fg-muted);
+    }
+  }
+
+  .MyGamesScreen-search-clear {
+    color: var(--dk-fg-muted);
+
+    &:hover {
+      color: #f0a868;
+    }
+  }
+
+  .GameListFilter-speed-btn,
+  .GameListFilter-type-btn {
+    background: #1a2a24 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #a8c4b4 !important;
+
+    &:hover {
+      border-color: var(--ui-color) !important;
+      color: var(--ui-color) !important;
+    }
+    &.active {
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border-color: var(--ui-color) !important;
+      color: var(--ui-color) !important;
+    }
+  }
+
+  .GameList-item-direct-challenge {
+    border: 1px solid rgba(244, 63, 94, 0.2) !important;
+    border-left: 5px solid #f43f5e !important;
+    background: rgba(244, 63, 94, 0.03) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+
+    &:hover {
+      background: rgba(244, 63, 94, 0.05) !important;
+      border-color: rgba(244, 63, 94, 0.35) !important;
+      border-left-color: #f43f5e !important;
+    }
+  }
+}
+
+/* Mid (cream) theme overrides for the game-list surfaces. */
+body.mid-mode {
+  // Filter / sort / view buttons use cool greys (#f8fafc / #f1f5f9) that clash
+  // with the warm cream theme — re-tint them to warm dune tones.
+  .GameListFilter-speed-btn,
+  .GameListFilter-type-btn,
+  .GameSubBar-sort,
+  .GameSubBar-bots,
+  .GameSubBar-view {
+    background: #e8dcc2 !important;
+    border-color: rgba(59, 49, 39, 0.28) !important;
+  }
+
+  // My Games username search — transparent (like the header search), with a
+  // warm border so it reads on the cream filter bar.
+  .MyGamesScreen-search {
+    background: transparent;
+    border-color: rgba(59, 49, 39, 0.28);
+    color: var(--dk-fg-muted);
+  }
+
+  input[type="text"].MyGamesScreen-search-input {
+    color: var(--dk-fg);
+
+    &::placeholder {
+      color: var(--dk-fg-muted);
+    }
+  }
+
+  .MyGamesScreen-search-clear {
+    color: var(--dk-fg-muted);
+
+    &:hover {
+      color: var(--ui-color);
+    }
+  }
+
+  // Selected/active filter button: the base !important fill above would hide the
+  // active accent tint, so re-assert it (and the active sort tab) in mid.
+  .GameListFilter-speed-btn.active,
+  .GameListFilter-type-btn.active,
+  .GameSubBar-sort-btn.active {
+    background: rgba(var(--ui-color-rgb), 0.16) !important;
+    border-color: var(--ui-color) !important;
+    color: var(--ui-color) !important;
+    font-weight: 600 !important;
+  }
+
+  .GameListFilter-speed-btn,
+  .GameListFilter-type-btn {
+    color: #6b5f4b !important;
+  }
+
+  .GameSubBar-bots .GameFilterBar-bots-label,
+  .GameSubBar-sort-btn,
+  .GameSubBar-view-btn {
+    color: #6b5f4b !important;
+  }
+
+  .GameList-container {
+    background: #f4ebd8 !important;
+  }
+
+  .GameList,
+  .GameSummaryList {
+    background: transparent !important;
+    border-top-color: var(--dk-border) !important;
+  }
+
+  .GameSummaryList-item,
+  .GameList-item {
+    background: #fbf5ea !important;
+    // Non-important so the hover / challenge / active UI-color border rules
+    // (which are more specific) still win, matching white mode.
+    border-color: rgba(59, 49, 39, 0.15);
+  }
+
+  // Replicate the white-mode hover on the warm card base. The plain hover (UI
+  // border + accent glow) already applies; only the challenge/active variant
+  // needs its color-mix base swapped from white to the cream card color.
+  // Non-mobile only (phones have no hover).
+  @media #{$nonmobile-query} {
+    &.no-touch .GameList-item-challenge:hover,
+    &.no-touch .GameList-item-active:hover {
+      background: color-mix(in srgb, var(--ui-color) 6%, #fbf5ea) !important;
+    }
+  }
+
+  // The room dropdown otherwise falls through to the white-theme trigger/menu,
+  // which read too white on the cream surface — warm them to match the filter
+  // buttons (Dan/SDK/DDK) and the cream theme.
+  .GameListFilter-room-trigger {
+    background: #fffdf8;
+    border-color: rgba(59, 49, 39, 0.28);
+    color: #6b5f4b;
+
+    &:hover {
+      border-color: var(--ui-color);
+    }
+
+    &.is-open {
+      border-color: var(--ui-color);
+      color: var(--ui-color);
+    }
+  }
+
+  .GameListFilter-room-menu {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+  }
+
+  .GameListFilter-room-option {
+    color: var(--dk-fg);
+  }
+
+  .GameListFilter-room-option-count {
+    color: var(--dk-fg-muted);
+    background: rgba(59, 49, 39, 0.1);
+  }
+}
+
+.GameList-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #f6f1e7;
+  border-radius: 0;
+  margin: 0;
+  padding-bottom: 4px;
+}
+
+.WatchScreen-list > .GameList-container,
+.PlayScreen-list > .GameList-container {
+  padding-bottom: 0;
+}
+
+@media #{$mobile-query} {
+  .WatchScreen-list > .GameList-container,
+  .PlayScreen-list > .GameList-container {
+    padding-bottom: 0;
+  }
+}
+
+.GameList-show-more-container {
+  display: flex;
+  justify-content: center;
+  margin: 8px 20px 4px;
+  padding-top: 16px;
+  user-select: none;
+}
+
+.GameList-show-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: #475569;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.09);
+  }
+}
+
+/* ── My Games screen ──────────────────────────────────── */
+/* Reuses the .WatchScreen / .WatchScreen-content / .WatchScreen-list framing
+   so the container, width, header and list match the live-games view. */
+
+/* The fixed two-column grid + mobile single-column come from the shared
+   .GameSummaryList rules; here we just drop the list's own bottom padding so
+   the pagination footer sits flush below it. */
+.MyGamesScreen .GameSummaryList {
+  padding-bottom: 0;
+}
+
+/* Two-zone card layout mirroring the live-games list: a flexible players block
+   on the left (ellipsis-truncated) and a single right-aligned meta block that
+   holds the badges + result + date + Load button as one nowrap group. */
+.MyGamesScreen .GameSummaryList-item {
+  align-items: center;
+  gap: 12px;
+}
+
+.MyGamesScreen .GameSummaryList-item-players {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Right meta column: badges, result, date and the Load button packed together
+   and pinned to the right edge, exactly like .GameList-item-info. */
+.MyGamesScreen .GameSummaryList-item-info {
+  flex: 0 0 auto;
+  margin-left: auto;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+/* Badges (tag, type, handicap, size) now live inside the meta column, just
+   before the result/date, instead of being a separate middle zone. */
+.MyGamesScreen .GameSummaryList-item-badges {
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+/* Match the live-game list rows exactly: accent border + left accent stripe,
+   same shadow and hover treatment as .GameList-item-active. */
+.MyGamesScreen .GameSummaryList-item {
+  border: 1px solid rgba(var(--ui-color-rgb), 0.3) !important;
+  border-left: 3px solid rgba(var(--ui-color-rgb), 0.6) !important;
+  box-shadow: 0 2px 8px rgba(var(--ui-color-rgb), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  /* Keep short rows (e.g. demos with a single player) as tall as a normal
+     two-player card so the list stays even. */
+  min-height: 62px;
+  box-sizing: border-box;
+}
+
+.no-touch .MyGamesScreen .GameSummaryList-item:hover {
+  border-color: rgba(var(--ui-color-rgb), 0.4) !important;
+  border-left-color: rgba(var(--ui-color-rgb), 0.6) !important;
+  border-left-width: 5px !important;
+  padding-left: 10px;
+  box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  background: color-mix(in srgb, var(--ui-color) 5%, #fcfcfb) !important;
+}
+
+/* My Games cards open on click and show a cursor-following "Load Game" pill on
+   hover (like the challenge / live-game pills), so the inline hover-swap Load
+   button is no longer revealed and the date/result stays visible. */
+
+/* Dark mode hover matches the live games list card tone (#1e2d28) + accent
+   border/glow, so a hovered My Games row looks like a hovered challenge row. */
+body.dark-mode.no-touch .MyGamesScreen .GameSummaryList-item:hover {
+  background: #1e2d28 !important;
+  color: var(--dk-fg) !important;
+}
+
+/* Mid mode: the page-specific rule above uses a white-based color-mix; on the
+   cream theme that reads cool. Match the challenge card's warm cream hover tint. */
+body.mid-mode.no-touch .MyGamesScreen .GameSummaryList-item:hover {
+  background: color-mix(in srgb, var(--ui-color) 6%, #fbf5ea) !important;
+}
+
+/* Show the colour stones next to each player (hidden by default elsewhere). */
+.MyGamesScreen {
+  .GamePlayersList-stone {
+    display: inline-block !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
+
+  .GamePlayersList-stone-white {
+    background: radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .GamePlayersList-stone-black {
+    background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  /* Dim the current user's own name so the opponent stands out. */
+  .GamePlayersList-player-self {
+    .UserName-text {
+      color: #94a3b8 !important;
+      font-weight: 300;
+    }
+  }
+
+  /* Compact "You" pill replacing the current user's name in dense lists. */
+  .GamePlayersList-you {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.12);
+    border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+  }
+}
+
+.MyGamesScreen {
+  /* Load Game button — same hover-reveal approach as the live games "Watch"
+     button. Hidden until the row is hovered. */
+  .GameSummaryList-item-load {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 26px;
+    min-width: 78px;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    background: #fcfcfb;
+    border: 1px solid rgba(var(--ui-color-rgb), 0.25);
+    border-radius: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  /* The whole card is clickable (opens/loads the game). */
+  &.GameSummaryList-item-buttononly,
+  .GameSummaryList-item-buttononly {
+    cursor: pointer;
+  }
+
+  /* Anchor for the cursor-following "Load Game" pill. */
+  .GameSummaryList-item {
+    position: relative;
+  }
+
+  /* All type/handicap/size pills grouped at the end, right before the result. */
+  .GameSummaryList-item-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: 14px;
+  }
+
+  /* Presentation icon shown before the name on demo games. */
+  .GameSummaryList-item-demo-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 7px;
+    color: var(--ui-color);
+    flex-shrink: 0;
+  }
+
+  .GameSummaryList-item-handicap-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Board size badge, same amber style as the live games list (only shown for
+     non-19×19 boards). */
+  .GameSummaryList-item-size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #b45309;
+    background: rgba(217, 119, 6, 0.08);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    border-radius: 12px;
+    padding: 2px 7px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Personal archive tag chip. */
+  .GameSummaryList-item-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.1);
+    border: 1px solid rgba(var(--ui-color-rgb), 0.25);
+    border-radius: 12px;
+    padding: 2px 8px;
+    line-height: 1;
+  }
+
+  /* Clickable tag chip (own games) gets a pointer + hover emphasis. */
+  .GameSummaryList-item-tag-editable {
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.18);
+      border-color: rgba(var(--ui-color-rgb), 0.45);
+    }
+  }
+
+  /* Faint "add a tag" affordance shown on untagged own games. */
+  .GameSummaryList-item-tag-add {
+    cursor: pointer;
+    color: $semi-muted;
+    background: transparent;
+    border: 1px dashed rgba(0, 0, 0, 0.18);
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      color: var(--ui-color);
+      border-color: rgba(var(--ui-color-rgb), 0.45);
+    }
+  }
+
+  /* Inline tag editor (input + save/clear), shown in place of the chip. */
+  .GameSummaryList-tag-editor {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .GameSummaryList-tag-input {
+    width: 110px;
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid rgba(var(--ui-color-rgb), 0.45);
+    border-radius: 12px;
+    background: #ffffff;
+    color: $content-fg;
+  }
+
+  .GameSummaryList-tag-save,
+  .GameSummaryList-tag-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: $semi-muted;
+
+    &:hover {
+      color: var(--ui-color);
+    }
+  }
+
+  .GameSummaryList-tag-clear:hover {
+    color: #c2601a;
+  }
+
+  /* Clearer date + result. */
+  .GameSummaryList-item-date {
+    font-size: 12px;
+    font-weight: 500;
+    color: $semi-muted;
+  }
+
+  /* Subdued result, matching the player-profile look: neutral text with a small
+     soft win/loss dot (not the bright success/error colours). Laid out as a flex
+     row with an explicit dot so won and lost are identically aligned. */
+  .GameSummaryList-item-result {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    padding-left: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: $content-fg;
+  }
+
+  /* Drop the default off-card absolute dot; we render an explicit one. */
+  .GameSummaryList-item-won .GameSummaryList-item-result:before,
+  .GameSummaryList-item-lost .GameSummaryList-item-result:before {
+    display: none !important;
+  }
+
+  .GameSummaryList-item-result-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: $semi-muted;
+  }
+
+  .GameSummaryList-item-result-won .GameSummaryList-item-result-dot {
+    background: $won-color;
+  }
+
+  .GameSummaryList-item-result-lost .GameSummaryList-item-result-dot {
+    background: $lost-color;
+  }
+}
+
+body.dark-mode .MyGamesScreen {
+  .GamePlayersList-you {
+    background: rgba(var(--ui-color-rgb), 0.18);
+  }
+
+  .GameSummaryList-item-size {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .GameSummaryList-item-tag-add {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .GameSummaryList-tag-input {
+    background: var(--dk-slate-surface);
+    color: var(--dk-fg-strong);
+  }
+
+  .GamePlayersList-player-self .UserName-text {
+    color: #6b8378 !important;
+  }
+
+  .GameSummaryList-item-load {
+    color: var(--dk-fg);
+    background: var(--dk-card-bg);
+  }
+
+  /* The game result kept the default dark text — invisible on the dark card.
+     Brighten it (and warm the win/loss dots stay via their own colours). */
+  .GameSummaryList-item-result {
+    color: var(--dk-fg);
+  }
+}
+
+.MyGamesScreen-loading {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.MyGamesScreen-empty {
+  text-align: center;
+  color: $semi-muted;
+  padding: 60px 0;
+  font-size: 15px;
+}
+

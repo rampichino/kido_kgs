@@ -1,0 +1,583 @@
+// @flow
+
+export type AuthLevel =
+  | "normal"
+  | "robot_ranked"
+  | "teacher"
+  | "jr_admin"
+  | "sr_admin"
+  | "super_admin";
+
+export type UserFlags = {
+  guest?: boolean,
+  connected?: boolean,
+  deleted?: boolean,
+  sleeping?: boolean,
+  avatar?: boolean,
+  robot?: boolean,
+  tourneyWinner?: boolean,
+  tourneyRunnerUp?: boolean,
+  playing?: boolean,
+  playingTourney?: boolean,
+  kgsPlus?: boolean,
+  kgsMeijin?: boolean,
+  canPlayRanked?: boolean,
+  selfish?: boolean,
+};
+
+export type UserDetails = {
+  channelId: number,
+  forcedNoRank: boolean,
+  privateEmail: boolean,
+  emailWanted: boolean,
+  rankWanted: boolean,
+  lastOn: string,
+  regStartDate: string,
+  personalName: string,
+  personalInfo: string,
+  locale: string,
+  email?: string,
+  subscriptions?: string,
+};
+
+export type User = {
+  name: string, // A-Za-z0-9, max 10 chars
+  flags?: UserFlags,
+  rank?: string,
+  rankVal?: number,
+  authLevel?: AuthLevel,
+  details?: UserDetails,
+  // Set when a DETAILS_JOIN_REQUEST came back as nonexistant (e.g. a guest whose
+  // ephemeral session has ended). Lets the hover card stop showing "Loading…".
+  detailsNotFound?: boolean,
+  // Set when a direct message to this user failed to deliver despite them
+  // appearing connected — their presence is no longer trustworthy. Shows a gray
+  // "unknown" status dot until the next authoritative server update clears it.
+  presenceUnknown?: boolean,
+};
+
+export type UnparsedUser = {
+  name: string,
+  flags?: string,
+  rank?: string,
+  authLevel?: AuthLevel,
+};
+
+export type RoomCategory =
+  | "MAIN"
+  | "NATIONAL"
+  | "TOURNAMENT"
+  | "FRIENDLY"
+  | "SPECIAL"
+  | "LESSONS"
+  | "CLUBS"
+  | "TEMPORARY"
+  | "OTHER";
+
+export type Room = {
+  id: number,
+  name: ?string,
+  description: ?string,
+  owners: ?Array<string>,
+  users: ?Array<string>,
+  category: ?RoomCategory,
+  private?: boolean,
+  tournOnly?: boolean,
+  globalGamesOnly?: boolean,
+};
+
+export type ConversationMessage = {
+  id: string,
+  sender: string,
+  body: string,
+  date: ?Date, // date received; server doesn't provide it
+  sending?: boolean,
+  notDelivered?: boolean,
+  announcement?: boolean,
+  moderated?: boolean,
+};
+
+export type Conversation = {
+  id: number,
+  user?: string,
+  lastSeen?: number,
+  unseenCount?: number,
+  chatsDisabled?: boolean,
+  messages: Array<ConversationMessage>,
+  callbackKey?: ?number,
+  status: "pending" | "created" | "userNotFound" | "closed",
+};
+
+export type GameType =
+  | "challenge"
+  | "demonstration"
+  | "review"
+  | "rengo_review"
+  | "teaching"
+  | "simul"
+  | "rengo"
+  | "free"
+  | "ranked"
+  | "tournament";
+
+export type GameRuleSet = "japanese" | "chinese" | "aga" | "new_zealand";
+
+export type TimeSystem = "none" | "absolute" | "byo_yomi" | "canadian";
+
+export type GameRules = {
+  size: number, // 2 - 38
+  komi: number, // multiple of 0.5
+  handicap?: number,
+  rules?: GameRuleSet,
+  timeSystem?: TimeSystem,
+  mainTime?: number, // seconds
+  byoYomiTime?: number, // seconds
+  byoYomiPeriods?: number,
+  byoYomiStones?: number,
+};
+
+export type GameRole =
+  | "black"
+  | "white"
+  | "black_2"
+  | "white_2"
+  | "challengeCreator"
+  | "owner";
+
+export type PlayerColor = "white" | "black";
+
+export type GameProposalPlayer = {
+  role: GameRole,
+  user?: UnparsedUser,
+  name?: string,
+  handicap?: number,
+  komi?: number,
+  // Set true when the simul host manually overrides this slot's handicap/komi,
+  // so auto rank-based assignment won't clobber it.
+  handicapSet?: boolean,
+};
+
+export type GameProposalStatus = "setup" | "pending" | "accepted" | "declined";
+
+export type GameProposal = {
+  gameType: GameType,
+  rules: GameRules,
+  nigiri: boolean,
+  players: Array<GameProposalPlayer>,
+  private?: boolean,
+  status?: GameProposalStatus,
+};
+
+export type ProposalVisibility =
+  | "private"
+  | "roomOnly"
+  | "public"
+  | "private_public";
+
+export type ProposalEditMode = "creating" | "negotiating" | "waiting";
+
+// Scores may be a floating point number, or a string. Numbers indicate the
+// score difference (positive a black win, negative a white win).
+export type GameScore =
+  | number
+  | "UNKNOWN"
+  | "UNFINISHED"
+  | "NO_RESULT"
+  | "B+RESIGN"
+  | "W+RESIGN"
+  | "B+FORFEIT"
+  | "W+FORFEIT"
+  | "B+TIME"
+  | "W+TIME";
+
+export type GamePlayers = { [role: GameRole]: User };
+
+export type GameSummary = {
+  timestamp: string, // unique identifier
+  type: GameType,
+  rules: GameRules,
+  players: GamePlayers,
+  score?: GameScore,
+  revision?: string,
+  tag?: string,
+  private?: boolean,
+  inPlay?: boolean,
+  moveNum?: number,
+};
+
+export type RankGraph = {
+  data: { series: Array<{ x: Date, y: number }> },
+  months: Array<string>,
+};
+
+export type ClockState = {
+  paused?: boolean,
+  running?: boolean,
+  time?: number,
+  periodsLeft?: number,
+  stonesLeft?: number,
+};
+
+export type GameAction =
+  | "MOVE"
+  | "EDIT"
+  | "SCORE"
+  | "CHALLENGE_CREATE"
+  | "CHALLENGE_SETUP"
+  | "CHALLENGE_WAIT"
+  | "CHALLENGE_ACCEPT"
+  | "CHALLENGE_SUBMITTED"
+  | "EDIT_DELAY";
+
+export type Point = { x: number, y: number };
+
+export type SgfEventType = string;
+
+export type SgfLoc = "PASS" | Point;
+
+export type SgfColor = "empty" | "black" | "white";
+
+export type SgfProp = {
+  name: string,
+  text?: string,
+  color?: SgfColor,
+  loc?: SgfLoc,
+  loc2?: SgfLoc,
+  float?: number,
+  int?: number,
+};
+
+export type SgfEvent =
+  | { type: "PROP_ADDED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_REMOVED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_CHANGED", nodeId: number, prop: SgfProp }
+  | { type: "CHILDREN_REORDERED", nodeId: number, children: Array<number> }
+  | {
+      type: "CHILD_ADDED",
+      nodeId: number,
+      childNodeId: number,
+      position?: number,
+    }
+  | { type: "PROP_GROUP_ADDED", nodeId: number, props: Array<SgfProp> }
+  | { type: "PROP_GROUP_REMOVED", nodeId: number, props: Array<SgfProp> }
+  | { type: "ACTIVATED", nodeId: number, prevNodeId: number }
+  | { type: "POINTER_MOVED", nodeId: number, x: number, y: number }
+  | { type: "TIMESTAMP", nodeId: number, time: number }
+  | { type: "SPEEX_FPP", nodeId: number, fpp: number }
+  | { type: "SPEEX_MUTE_CHANGED", nodeId: number, mute: boolean }
+  | { type: "SPEEX_DATA", nodeId: number, data: string };
+
+export type BoardPointMark =
+  | "whiteTerritory"
+  | "blackTerritory"
+  | "triangle"
+  | "square"
+  | "circle"
+  | "cross"
+  | "dead"
+  | "active"
+  | "pendingWhite"
+  | "pendingBlack";
+
+export type BoardMarkup = {
+  marks: { [y: number]: { [x: number]: BoardPointMark } },
+  labels: { [y: number]: { [x: number]: ?string } },
+};
+
+export type BoardState = Array<Array<?PlayerColor>>; // y[x]
+
+export type GameNodeComputedState = {
+  blackCaptures: number,
+  whiteCaptures: number,
+  blackTimeLeft: number,
+  whiteTimeLeft: number,
+  board: BoardState,
+  markup: BoardMarkup,
+};
+
+export class GameNode {
+  props: Array<SgfProp>;
+  children: Array<number>;
+  parent: ?number;
+  constructor(props: Array<SgfProp>, children: Array<number>, parent: ?number) {
+    this.props = props;
+    this.children = children;
+    this.parent = parent;
+  }
+}
+
+export type PendingMove = {
+  nodeId: number,
+  color: PlayerColor,
+  loc: Point,
+};
+
+export type GameTree = {
+  nodes: {
+    [nodeId: number]: GameNode,
+  },
+  computedState: {
+    [nodeId: number]: GameNodeComputedState,
+  },
+  messages: {
+    [nodeId: number]: Array<ConversationMessage>,
+  },
+  rootNode: number,
+  activeNode: number,
+  currentNode: number,
+  currentLine: Array<number>,
+  pendingMove?: PendingMove,
+};
+
+export type GameChannel = {
+  id: number,
+  type: GameType,
+  time: number, // date received
+  deletedTime?: number,
+  // For a board created from a simul challenge: the originating challenge
+  // channel id, shared by every board of the same simul. Used to group the
+  // simul's boards together (set on CHALLENGE_FINAL).
+  simulChallengeId?: number,
+  initialProposal?: GameProposal, // for challenge
+  sentProposal?: GameProposal,
+  receivedProposals?: Array<GameProposal>,
+  rules?: GameRules, // for non-challenge
+  players: GamePlayers,
+  moveNum: number,
+  roomId: number,
+  observers?: number,
+  name?: string,
+  score?: GameScore,
+  actions?: Array<{ action: GameAction, user: UnparsedUser }>,
+  clocks?: { [role: GameRole]: ClockState },
+  whiteDoneSent?: boolean,
+  blackDoneSent?: boolean,
+  whiteScore?: number,
+  blackScore?: number,
+  doneId?: number,
+  summary?: GameSummary,
+  // For a game loaded from the archive: the original archive summary (correct
+  // date + players), kept separately from the review channel's own `summary`.
+  loadedSummary?: GameSummary,
+  tree?: GameTree,
+  users?: Array<string>,
+  accessDenied?: string,
+  undoRequest?: GameRole,
+  moveError?: ?string,
+  // Flags
+  global?: boolean,
+  over?: boolean,
+  adjourned?: boolean,
+  private?: boolean,
+  subscribers?: boolean,
+  event?: boolean,
+  uploaded?: boolean,
+  audio?: boolean,
+  paused?: boolean,
+  named?: boolean,
+  saved?: boolean,
+  prepType?: string,
+};
+
+export type GameFilter = {
+  type?: "game" | "challenge",
+  roomId?: ?number,
+  excludeBots?: boolean,
+  onlyRated?: boolean,
+  maxMainTime?: ?number,
+  timeSpeeds?: Array<string>,
+  gameRatings?: Array<string>,
+  playerRanks?: Array<string>,
+  category?: ?("revteach" | "simulrengo"),
+  boardSizes?: Array<number>,
+};
+
+export type GameChatSection = {
+  nodeId: number,
+  moveNum: number,
+  actions: Array<string>,
+  messages: Array<ConversationMessage>,
+};
+
+export type ChannelType =
+  | "room"
+  | "gameList"
+  | "game"
+  | "conversation"
+  | "challenge"
+  | "archive"
+  | "details";
+
+export type ChannelMembership = {
+  [channelId: string | number]: {
+    type: ChannelType,
+    complete: boolean,
+    stale: boolean,
+  },
+};
+
+export type AutomatchPrefs = {
+  blitzOk: boolean,
+  estimatedRank: string,
+  fastOk: boolean,
+  freeOk: boolean,
+  humanOk: boolean,
+  maxHandicap: number,
+  mediumOk: boolean,
+  rankedOk: boolean,
+  robotOk: boolean,
+  unrankedOk: boolean,
+};
+
+export type Playback = {
+  dateStamp: string,
+  gameSummary: GameSummary,
+  subscribersOnly: boolean,
+};
+
+export type Index<T> = {
+  [key: string | number]: T,
+};
+
+export type NavOption =
+  | "watch"
+  | "play"
+  | "mygames"
+  | "chat"
+  | "search"
+  | "more";
+
+export type UserDetailsRequest = {
+  name: string,
+  status: "pending" | "nonexistant" | "received",
+};
+
+export type KgsClientState = {
+  status: "loggedOut" | "loggingIn" | "loggedIn" | "loggingOut",
+  network: "online" | "offline" | "error",
+  retryTimes: number,
+};
+
+export type Preferences = {
+  username?: string,
+  lastProposal?: {
+    proposal: GameProposal,
+    visibility: ProposalVisibility,
+    notes?: string,
+  },
+};
+
+// Some unfinished games we get from the archive, some from game lists
+export type UnfinishedGame =
+  | { type: "channel", game: GameChannel }
+  | { type: "summary", game: GameSummary };
+
+export type LeaveMessageStatus =
+  | "sending"
+  | "success"
+  | "noUser"
+  | "full"
+  | "connected"
+  | "error";
+
+export type MailboxMessage = {
+  +time: number,
+  +user: User,
+  +text: string,
+};
+
+export type FriendEntry = {
+  name: string,
+  notes: ?string,
+};
+
+export type AppState = {
+  +clientState: KgsClientState,
+  +preferences: Preferences,
+  +initialized: boolean,
+  +savedAt: ?Date,
+  +serverInfo: ?Object,
+  +serverStats: ?Object,
+  +currentUser: ?User,
+  +loginError: ?string,
+  +logoutError: ?string,
+  // A session died on its own (not a user logout) and we're silently logging
+  // back in — the UI shows "Reconnecting…" instead of the login form.
+  +reconnecting: boolean,
+  +roomsById: Index<Room>,
+  +gamesById: Index<GameChannel>,
+  +gameSummariesByUser: Index<Array<GameSummary>>,
+  +gameTagsByTimestamp: Index<string>,
+  +archiveChannelId: ?number,
+  +rankGraphsByChannelId: Index<RankGraph>,
+  +activeGames: Array<GameChannel>,
+  +challenges: Array<GameChannel>,
+  +unfinishedGames: Array<UnfinishedGame>,
+  +watchFilter: GameFilter,
+  +watchGameId: ?(number | string),
+  +playFilter: GameFilter,
+  +playGameId: ?number,
+  +playChallengeId: ?number,
+  +usersByName: Index<User>,
+  +conversationsById: Index<Conversation>,
+  +channelMembership: ChannelMembership,
+  +automatchPrefs: ?AutomatchPrefs,
+  +automatchEnabled: boolean,
+  +playbacks: Array<Playback>,
+  +nav: NavOption,
+  +activeConversationId: ?number,
+  +userDetailsRequest: ?UserDetailsRequest,
+  // True while the login-time buddy presence refresh is still landing. The
+  // friends online-count badge is hidden until it clears so it never flashes a
+  // stale (too-high) count from the login snapshot before the refresh settles.
+  +buddyPresenceSettling: boolean,
+  +showUnderConstruction: boolean,
+  +challengeTakenNotice: ?{ gameId: ?number },
+  +showFeedbackModal: boolean,
+  +showPreferencesModal: boolean,
+  +showAboutModal: boolean,
+  +aboutModalTab: string,
+  +reviewGameId: ?number,
+  // The original channel id of a review WE just requested (via GAME_START_REVIEW).
+  // Only a GAME_REVIEW matching this navigates us into the new review channel —
+  // a GAME_REVIEW broadcast for someone else's review (e.g. of a game we're
+  // watching) must not hijack our session.
+  +pendingReviewId: ?number,
+  // The original archive summary of a game currently being loaded — attached to
+  // the resulting review channel so it keeps the correct date + players.
+  +pendingLoadSummary: ?GameSummary,
+  +buddies: Array<FriendEntry>,
+  +fans: Array<FriendEntry>,
+  +censored: Array<FriendEntry>,
+  +creatingChallenge: boolean,
+  +challengeTargetUser: ?string,
+  +challengeMinimized: boolean,
+  +showLeaveMessageModal: boolean,
+  +leaveMessageStatus: ?LeaveMessageStatus,
+  +leaveMessageTargetUser: ?string,
+  +demoSaveCloseGameId: ?number,
+  +mailboxMessages: Array<MailboxMessage>,
+  +unreadMailboxCount: number,
+  +cookieConsentStatus: ?("accepted" | "declined"),
+};
+
+export type KgsMessage =
+  // TODO - exhaustive types
+  // {
+  //   type: 'CHAT' | 'ANNOUNCE' | 'MODERATED_CHAT',
+  //   user: User
+  // } |
+  // {
+  //   type: 'CONVO_JOIN' | 'ROOM_JOIN',
+  //   channelId: number
+  // } |
+  {
+    type: string,
+    channelId?: number,
+    [key: string]: any,
+  };
+
+export type MessageDispatcher = (
+  msgs: KgsMessage | Array<KgsMessage>,
+  callback?: (AppState) => any
+) => any;

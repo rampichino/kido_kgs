@@ -1,0 +1,953 @@
+.MainNav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 50px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+  z-index: 5;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+body.has-custom-bg,
+body.has-custom-bg.GameScreen-body {
+  .MainNav {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  &.dark-mode .MainNav,
+  &.dark-mode.GameScreen-body .MainNav {
+    background: rgba(15, 23, 42, 0.3) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+body.zen-mode {
+  .MainNav {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .WatchTabs {
+    display: none !important;
+  }
+
+  .GameScreen {
+    top: 0 !important;
+    left: 0 !important;
+    padding: 0 !important;
+  }
+
+  .GameScreen-side-container {
+    display: none !important;
+  }
+
+  .BoardNav-below-board {
+    display: none !important;
+  }
+
+  .GameScreen-board-container {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    // Desktop: anchor the board to the top instead of vertically centering it,
+    // so the top margin is minimal and a board resized above 100% extends
+    // downward with its top edge still on-screen (rather than being clipped
+    // equally top and bottom).
+    @media #{$nonmobile-query} {
+      align-items: flex-start !important;
+    }
+  }
+
+  // Floating clocks overlay on the board
+  .GameScreen-zen-clocks {
+    display: flex !important;
+    pointer-events: auto !important;
+  }
+}
+
+.MainNav-inner {
+  position: relative;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+.no-touch .MainNav-item a {
+  &:hover {
+    border-bottom: 3px solid rgba(var(--ui-color-rgb), 0.4);
+    background: rgba(var(--ui-color-rgb), 0.03);
+
+    .MainNav-item-icon {
+      color: var(--ui-color);
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+    
+    .MainNav-item-label {
+      color: $content-fg;
+    }
+  }
+}
+
+.MainNav-item {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+
+  a {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    width: 110px;
+    text-align: center;
+    border-bottom: 3px solid transparent;
+    box-sizing: border-box;
+    color: $content-fg;
+    transition: all 0.2s ease;
+
+    &:active {
+      border-bottom: 3px solid rgba(var(--ui-color-rgb), 0.3);
+
+      .MainNav-item-icon {
+        color: var(--ui-color);
+        opacity: 1;
+      }
+    }
+  }
+
+  &.MainNav-item-selected a,
+  &.MainNav-item-selected a:link,
+  &.MainNav-item-selected a:visited,
+  &.MainNav-item-selected a:hover {
+    border-bottom: 3px solid var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.05);
+
+    .MainNav-item-label {
+      color: $content-fg;
+      font-weight: 600;
+    }
+
+    .MainNav-item-icon {
+      color: var(--ui-color);
+      opacity: 1;
+    }
+  }
+}
+
+.MainNav-item-more,
+.MainNav-item-search {
+  display: none;
+}
+
+.MainNav-item-icon,
+.MainNav-item-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.MainNav-item-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  color: $semi-muted;
+  transition: all 0.2s ease;
+}
+
+.MainNav-sword-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.MainNav-item-label {
+  color: $semi-muted;
+  font-size: 15px;
+}
+
+.MainNav-item-badge {
+  position: absolute;
+  right: 3px;
+  top: 10px;
+  line-height: 1;
+
+  .MainNav-item-badge-dot {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: $success-bg;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(63, 202, 140, 0.9);
+  }
+}
+
+.MainNav-tabs-with-back {
+  padding-left: 110px;
+}
+
+.MainNav-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.MainNav-logo-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1e293b;
+  letter-spacing: 0.04em;
+}
+
+.MainNav-logo {
+  position: absolute;
+  left: 96px;
+  top: 9px;
+  width: 80px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  z-index: 6;
+
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+}
+
+.MainNav-logo-back {
+  cursor: pointer;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    text-decoration: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  a:hover img {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.25));
+  }
+}
+
+.MainNav-tabs {
+  padding-left: 190px;
+}
+
+
+@media #{$mobile-query} {
+  .MainNav {
+    height: 50px;
+    width: 100%;
+    /* Solid warm background (was a washed translucent white) with a crisper
+       separation from the content below. */
+    background: #faf6ec;
+    border-bottom: 1px solid rgba(120, 95, 60, 0.18);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .MainNav-inner {
+    display: flex !important;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .MainNav-logo {
+    display: none !important;
+  }
+
+
+  .MainNav-tabs {
+    display: flex !important;
+    flex: 1 !important;
+    width: auto !important;
+    padding-left: 0 !important;
+  }
+
+  .MainNav-tabs-with-back {
+    padding-left: 0 !important;
+  }
+
+
+  .MainNav-item {
+    flex: 1;
+    width: auto !important;
+
+    a {
+      width: auto;
+      height: 50px;
+      line-height: 47px;
+      text-align: center;
+    }
+
+    &.MainNav-item-selected a,
+    &.MainNav-item-selected a:link,
+    &.MainNav-item-selected a:visited,
+    &.MainNav-item-selected a:hover {
+      border-bottom: 3px solid var(--ui-color);
+    }
+  }
+
+  .MainNav-item-icon {
+    display: inline-block;
+    margin: 0;
+    // padding: 5px 0 4px 0;
+    text-align: center;
+    font-size: 23px;
+    // background: red;
+    opacity: 1;
+  }
+
+  .MainNav-item-label {
+    display: none;
+    font-size: 11px;
+    font-weight: normal;
+    color: $muted;
+  }
+}
+
+.MainNav-account {
+  position: absolute;
+  right: 110px !important;
+  top: 0;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.MainNav-active-game-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  box-sizing: border-box;
+  gap: 6px;
+  padding: 0 12px;
+  background: rgba(34, 197, 94, 0.12) !important;
+  border: 1px solid rgba(34, 197, 94, 0.25) !important;
+  border-radius: 20px;
+  color: #15803d !important;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none !important;
+  margin-left: 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  .Icon {
+    animation: gamePulse 2s infinite ease-in-out;
+  }
+
+  &:hover {
+    background: rgba(34, 197, 94, 0.2) !important;
+    border-color: rgba(34, 197, 94, 0.4) !important;
+    transform: translateY(-0.5px);
+  }
+}
+
+@keyframes gamePulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.MainNav-leave-game-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  box-sizing: border-box;
+  gap: 6px;
+  padding: 0 12px;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  border-radius: 20px;
+  color: #dc2626 !important;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none !important;
+  margin-left: 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.18) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    transform: translateY(-0.5px);
+  }
+}
+
+.MainNav-mail-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 36px;
+  color: $semi-muted;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.03);
+  }
+
+  &:active {
+    border-bottom: 2px solid $muted;
+  }
+}
+
+.MainNav-mail-badge {
+  position: absolute;
+  top: 6px;
+  right: -2px;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+a.MainNav-account-trigger {
+  display: inline-flex;
+  align-items: center;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 5px;
+  color: $content-fg;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 15px;
+
+  &:active {
+    border-bottom: 2px solid var(--ui-color);
+
+    .MainNav-account-trigger-icon {
+      opacity: 1;
+    }
+  }
+
+  .UserName,
+  .UserName-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 17px;
+    font-weight: 400;
+    vertical-align: middle;
+    color: #2d3a32;
+
+    .UserName-rank-chip {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.no-touch a.MainNav-account-trigger {
+
+  &:hover,
+  &:focus {
+    border-bottom: 2px solid var(--ui-color);
+
+    .MainNav-account-trigger-icon {
+      opacity: 1;
+    }
+  }
+}
+
+.MainNav-account-trigger-icon {
+  display: inline-block;
+  margin-left: 6px;
+  opacity: 0.5;
+}
+
+.MainNav-account-dm-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 5px;
+  color: var(--ui-color);
+  animation: dmPulse 2s infinite ease-in-out;
+}
+
+@keyframes dmPulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.MainNav-more-menu {
+  position: absolute;
+  background: #fcfbf8;
+  top: 50px;
+  right: 0;
+  width: 220px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 6px 0;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.MainNav-account-icon {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+@media #{$mobile-query} {
+  .MainNav-item-more,
+  .MainNav-item-search {
+    display: inline-block;
+  }
+
+  // My Games is desktop-only in the tab bar; reachable via the More menu on
+  // mobile to avoid crowding the bottom bar.
+  .MainNav-item-mygames {
+    display: none !important;
+  }
+
+  .MainNav-search {
+    display: none !important;
+  }
+
+  .MainNav-account {
+    display: none;
+  }
+
+  .MainNav-game-actions {
+    display: none !important;
+
+    &.MainNav-game-actions-visible {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      height: 50px !important;
+      margin-left: 6px !important;
+      margin-right: 6px !important;
+      flex-shrink: 0 !important;
+
+      .MainNav-leave-game-btn,
+      .MainNav-active-game-btn {
+        padding: 0 !important;
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .MainNav-leave-game-label,
+      .MainNav-active-game-label {
+        display: none !important;
+      }
+    }
+  }
+
+  .Main-content {
+    padding-top: 50px;
+  }
+
+  .MainNav-friends-wrapper {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 50px !important;
+  }
+
+  /* Mirror the tab items' exact centering (a block with line-height 47px and an
+     inline-block icon that's vertical-align: middle) so the friends icon lands
+     at the same height as its neighbours regardless of font metrics — flex
+     centering put it a couple px lower. */
+  .MainNav-friends-btn {
+    width: 100% !important;
+    height: 50px !important;
+    padding: 0 !important;
+    line-height: 47px !important;
+    text-align: center !important;
+    display: block !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 18px fixed SVG (matching the other icons), aligned like .MainNav-item-icon. */
+  .MainNav-friends-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  /* The button is full-width, so the badge's default right:4px anchors it to the
+     far right — detached from the centred icon. Anchor it to the icon's own
+     top-right corner instead (icon is centred, ~18px wide). */
+  .MainNav-friends-badge {
+    left: calc(50% + 3px) !important;
+    right: auto !important;
+    top: 9px !important;
+  }
+
+  .MainNav-friends-panel {
+    right: 0 !important;
+    left: auto !important;
+  }
+
+  /* Theme toggle is hidden in the header on mobile — theme is switched from the
+     More menu (Preferences → Theme) instead. */
+  .MainNav-theme-toggle {
+    display: none !important;
+  }
+
+  /* The More (menu) icon is the rightmost control now, and larger. */
+  .MainNav-item-more .MainNav-item-icon {
+    font-size: 30px;
+  }
+}
+
+
+/* ── Friends ────────────────────────────────────────────────── */
+.MainNav-game-actions {
+  display: inline-flex;
+  align-items: center;
+  height: 50px;
+  vertical-align: top;
+  margin-left: 12px;
+}
+
+.MainNav-friends-wrapper {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  height: 50px;
+  position: relative;
+}
+
+.MainNav-friends-btn {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0 10px;
+  height: 50px;
+  font-size: 16px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  outline: none;
+  border-radius: 8px;
+
+  &:hover {
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.08);
+    transform: scale(1.12);
+  }
+
+  &:active {
+    transform: scale(1.0);
+    background: rgba(var(--ui-color-rgb), 0.14);
+  }
+}
+
+.MainNav-friends-btn-active {
+  color: var(--ui-color);
+}
+
+.MainNav-friends-btn-online {
+  color: var(--ui-color);
+}
+
+.MainNav-friends-badge {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  // Matches the toggle-switch green (#16a34a); solid fill, so no opacity.
+  background: #16a34a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.MainNav-friends-panel {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 240px;
+  // Lifted dropdown surface — follows the dropdown-menu convention (DESIGN_RULES
+  // §5 Dropdowns): faint warm tint in light, #f6efe0 in mid, --dk-surface in dark.
+  background: #fcfbf8;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+  overflow: hidden;
+  z-index: 100;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* ── Dark mode toggle ───────────────────────────────────────── */
+.MainNav-theme-toggle {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  z-index: 10;
+}
+
+.MainNav-theme-toggle-track {
+  display: flex;
+  align-items: center;
+  width: 52px;
+  height: 28px;
+  border-radius: 14px;
+  background: #e2e8f0;
+  border: 1.5px solid rgba(0,0,0,0.10);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  position: relative;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.MainNav-theme-toggle-mid .MainNav-theme-toggle-track {
+  background: #e2cba0;
+  border-color: rgba(59,49,39,0.18);
+}
+
+.MainNav-theme-toggle-dark .MainNav-theme-toggle-track {
+  background: var(--dk-bg-off, #232f2c);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.MainNav-theme-toggle-thumb {
+  position: absolute;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #f59e0b;
+  transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease;
+}
+
+.MainNav-theme-toggle-mid .MainNav-theme-toggle-thumb {
+  left: 14px;
+  background: #cba871;
+  color: #3b3127;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.MainNav-theme-toggle-dark .MainNav-theme-toggle-thumb {
+  left: 25px;
+  background: var(--dk-surface, #243028);
+  color: var(--dk-fg-muted, #7a9e8e);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.45);
+}
+
+.no-touch .MainNav-theme-toggle:hover .MainNav-theme-toggle-track {
+  border-color: rgba(var(--ui-color-rgb), 0.5);
+}
+
+/* ── Nav inline search ───────────────────────────────────── */
+.MainNav-search {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  vertical-align: top;
+  height: 50px;
+  margin: 0 8px;
+  gap: 6px;
+}
+
+.MainNav-search-icon {
+  color: #94a3b8;
+  font-size: 18px;
+  pointer-events: none;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+input.MainNav-search-input {
+  height: 30px;
+  width: 160px;
+  padding: 0 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: #1e1e1e;
+  box-sizing: border-box;
+  transition: width 0.2s ease, border-color 0.2s ease;
+
+  &::placeholder { color: #94a3b8; }
+
+  &:focus {
+    width: 200px;
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.15);
+  }
+}
+
+.MainNav-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  padding: 6px;
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  z-index: 100;
+  min-width: 220px;
+}
+
+.MainNav-search-result {
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.12s ease, color 0.12s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background: rgba(var(--ui-color-rgb), 0.08);
+    color: var(--ui-color);
+  }
+}
+
+.NavSearch-status-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+
+  &.NavSearch-status-online { background: #22c55e; }
+  &.NavSearch-status-playing { background: #0284c7; }
+  &.NavSearch-status-idle { background: #f59e0b; }
+  &.NavSearch-status-offline { background: #cbd5e1; }
+}
+
+/* Dark mode */
+body.dark-mode {
+  .MainNav {
+    background: rgba(26, 36, 32, 0.85) !important;
+    border-bottom-color: rgba(255,255,255,0.07) !important;
+  }
+
+  .MainNav-logo-text {
+    color: var(--dk-fg) !important;
+  }
+
+  .MainNav-account-trigger .UserName,
+  .MainNav-account-trigger .UserName-text {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .MainNav-item-label { color: #f6f5f2 !important; }
+  .MainNav-item-icon { color: #f6f5f2 !important; }
+  .MainNav-item-selected .MainNav-item-label { color: var(--ui-color) !important; }
+  .MainNav-item-selected .MainNav-item-icon { color: var(--ui-color) !important; }
+  .MainNav-mail-trigger { color: #f6f5f2 !important; }
+
+  .MainNav-active-game-btn {
+    background: rgba(34, 197, 94, 0.15) !important;
+    border-color: rgba(34, 197, 94, 0.3) !important;
+    color: #4ade80 !important;
+  }
+
+  .MainNav-leave-game-btn {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: #fca5a5 !important;
+  }
+
+  .MainNav-friends-panel {
+    background: var(--dk-surface) !important;
+    border-color: rgba(255,255,255,0.12) !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45) !important;
+  }
+
+  input.MainNav-search-input {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    &::placeholder { color: var(--dk-fg-muted); }
+    &:focus {
+      border-color: var(--ui-color) !important;
+      box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.18) !important;
+    }
+  }
+
+  .MainNav-search-icon { color: var(--dk-fg-muted); font-size: 18px; }
+
+  .MainNav-search-dropdown {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .MainNav-search-result {
+    color: var(--dk-fg-faint);
+    &:before { background: var(--dk-fg-muted); }
+    &:hover { background: rgba(var(--ui-color-rgb), 0.16); color: var(--ui-color); &:before { background: var(--ui-color); } }
+  }
+
+  .MainNav-more-menu {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Mid mode: the search/account dropdowns otherwise fall through to the white
+   theme, which reads too white on the cream surface — warm lifted tone. */
+body.mid-mode {
+  .MainNav-search-dropdown,
+  .MainNav-more-menu,
+  .MainNav-friends-panel {
+    background: #f6efe0 !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  .MainNav-search-result {
+    color: var(--dk-fg);
+  }
+}

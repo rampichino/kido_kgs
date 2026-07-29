@@ -1,0 +1,98 @@
+{
+  "name": "kido",
+  "version": "1.1.0",
+  "homepage": ".",
+  "devDependencies": {
+    "@types/react": "^18.3.29",
+    "@types/react-dom": "^18.3.7",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.129.0",
+    "prettier": "^3.5.0",
+    "react-scripts": "^5.0.1",
+    "sass": "1.77.8",
+    "serve": "^11.3.2",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/app": "^6.0.3",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
+    "autolinker.js": "0.7.0",
+    "axios": "^1.16.1",
+    "date-fns": "^3.6.0",
+    "dom-helpers": "^5.1.4",
+    "flag-icons": "^7.5.0",
+    "font-awesome": "4.7.0",
+    "history": "^5.0.0",
+    "idb-keyval": "^3.2.0",
+    "jdenticon": "^3.3.0",
+    "locale-string": "1.0.0",
+    "lodash.get": "^4.4.2",
+    "lucide-react": "^1.17.0",
+    "playwright": "^1.61.0",
+    "prop-types": "^15.6.2",
+    "prop-types-extra": "^1.1.0",
+    "rc-slider": "^10.6.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7",
+    "uuid": "^11.1.1"
+  },
+  "overrides": {
+    "rc-slider": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "cross-spawn": "^7.0.6",
+    "ini": "^1.3.8",
+    "minimatch": "^3.1.5",
+    "nth-check": "^2.0.1",
+    "postcss": "^8.4.31",
+    "serialize-javascript": "^7.0.5",
+    "underscore": "^1.13.8",
+    "@tootallnate/once": "^2.0.1",
+    "ansi-regex": "^5.0.1",
+    "on-headers": "^1.1.0",
+    "path-to-regexp": "^3.3.0",
+    "serve": {
+      "ajv": "^6.15.0"
+    },
+    "brace-expansion": "^1.1.15",
+    "uuid": "^11.1.1"
+  },
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=\"/json-cors/access\"  react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build:web": "npm run build",
+    "build:extension": "npm run build && rm -rf chrome-extension && cp -r build chrome-extension && cp chrome-extension-src/* chrome-extension/ && sed -i 's#<link rel=\"manifest\"[^>]*>##' chrome-extension/index.html && rm chrome-extension/precache-manifest* 2>/dev/null || true",
+    "build:android": "npm run build && npx cap sync android",
+    "build:all": "npm run build && npm run build:extension && npm run build:android",
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src/",
+    "flow": "flow check",
+    "typecheck": "tsc --noEmit"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "proxy": "https://www.gokgs.com",
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">0.25%",
+      "not op_mini all",
+      "ie 11"
+    ]
+  }
+}

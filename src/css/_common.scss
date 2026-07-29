@@ -1,0 +1,1692 @@
+
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+$max-width: 1320px;
+$content-bg: #ffffff;
+$content-fg: #1e293b;
+$off-white: #f8fafc;
+$accent: #14b8a6;
+$accent-gradient: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+$button-bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+$nav-bg: rgba(255, 255, 255, 0.8);
+$shadow-bg: #000;
+$muted: #94a3b8;
+$very-muted: #cbd5e1;
+$semi-muted: #64748b;
+$inverted-bg: #171f1d; // carbon-black
+$inverted-bg-off: #1e293b;
+$inverted-fg: #f8fafc;
+$gray-badge-fg: $inverted-fg;
+$gray-badge-bg: $muted;
+$link-color: #0284c7;
+$hover-bg: #f1f5f9;
+$med-line: #e2e8f0;
+$chat-divider: #f1f5f9;
+$chat-message-bar-outline: $very-muted;
+$chat-message-bar-outline-focus: #aaa;
+$chat-message-bg: #f4f4f4;
+$chat-message-time: #ccc;
+$modal-shade: rgba(#444, 0.7);
+$modal-top-bar-bg: #000;
+$modal-top-bar-fg: #fff;
+$modal-close: #ccc;
+$modal-close-active: #fff;
+$input-border: $med-line;
+$input-bg: $content-bg;
+$input-fg: $content-fg;
+$input-placeholder: $muted;
+$input-focus: $accent;
+$button-bg: $accent;
+$button-fg: #fff;
+$button-disabled-bg: #ccc;
+$ranked-color: $link-color;
+$free-color: #4eb8d0;
+$rengo-color: #d2d171;
+$simul-color: #a28ce6;
+$demo-color: #c34897;
+$tournament-color: #ff9f28;
+$board-bg: hsl(42, 64%, 65%);
+$board-border: #a78a48; //darken($board-bg, 25%);
+$board-mark: #1c2430; // dark slate — clean contrast on the wood board
+$stone-white: #fff;
+$stone-black: #333;
+$won-color: #5c5;
+$lost-color: #d77;
+$error-bg: #ef4444;
+$error-fg: $inverted-fg;
+$success-bg: #3fca8c;
+$success-fg: $inverted-fg;
+$warning-bg: #f59e0b;
+$warning-fg: $inverted-fg;
+$unseen-badge-major: #ef4444;
+$unseen-badge-minor: $accent;
+$narrow-mobile-query: "only screen and (max-width: 374px)";
+$mobile-query: "only screen and (max-width: 736px)";
+$tablet-query: "only screen and (max-width: 1024px)";
+$desktop-query: "only screen and (min-width: 1025px)";
+$nonmobile-query: "only screen and (min-width: 737px)";
+
+/* ── Lucide Icon base ─────────────────────────────────── */
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.Icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.Icon--spin {
+  animation: icon-spin 0.9s linear infinite;
+}
+
+
+:root {
+  font-size: 100%; /* respects user's browser setting, usually 16px */
+  --ui-color: #00827f;
+  --ui-color-rgb: 0, 130, 127;
+}
+
+/* Native control popups (the <select> option list, scrollbars, etc.) resolve
+   their light/dark look from the document root, not from a nested element — so
+   color-scheme must live on :root for the dark dropdown to actually render. */
+:root:has(body.dark-mode),
+:root:has(body.mid-mode) {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+  font-size: 1rem; /* = 16px baseline */
+  background: #f6f5f2;
+  color: $content-fg;
+  touch-action: manipulation;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.caption {
+  font-size: 0.875rem; /* 14px — small text floor */
+}
+
+@media #{$mobile-query} {
+  body {
+    background: $content-bg;
+  }
+}
+
+@media #{$nonmobile-query} {
+  body.no-scroll {
+    overflow: hidden;
+  }
+}
+
+a {
+  color: $content-fg;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    color: darken($link-color, 5%);
+  }
+}
+
+button {
+  background: none;
+  color: $content-fg;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
+  cursor: pointer;
+  // display: block;
+  text-align: left;
+  // width: 100%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+textarea,
+select {
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-family: $font-family;
+  background: $input-bg;
+  color: $content-fg;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  max-width: 100%;
+  display: inline-block;
+  margin: 0;
+  line-height: 1.15;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  @include placeholder {
+    color: $input-placeholder;
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: 0;
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 4px rgba(var(--ui-color-rgb), 0.15);
+  }
+}
+
+/* Native <select> closed-box (trigger) matches the reference dropdown
+   trigger (.GameListFilter-room-trigger): 1.5px border, 10px radius, accent
+   open/focus ring. */
+select {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.12);
+  }
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+textarea {
+  width: 100%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.no-touch .Button {
+
+  &:hover,
+  &:focus {
+    background: var(--ui-color);
+    border: 1px solid var(--ui-color);
+    color: var(--ui-color-contrast, #fff);
+    outline: 0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.25);
+  }
+
+  &.Button-danger {
+
+    &:hover,
+    &:focus {
+      color: darken($error-bg, 10%);
+      border: 1px solid darken($error-bg, 10%);
+      outline: 0;
+    }
+  }
+
+  &.Button-muted {
+
+    // font-weight: 600;
+    &:hover,
+    &:focus {
+      color: darken($semi-muted, 10%);
+      border: 1px solid darken($muted, 10%);
+      outline: 0;
+    }
+  }
+
+  &.Button-secondary {
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      color: var(--ui-color);
+      border: 1px solid var(--ui-color);
+      outline: 0;
+    }
+
+    &.Button-danger {
+
+      &:hover,
+      &:focus {
+        background: $error-bg;
+        color: $error-fg;
+        border: 1px solid $error-bg;
+      }
+    }
+  }
+
+  &.Button-warning {
+    background: $warning-bg;
+    color: $warning-fg;
+    border: 1px solid $warning-bg;
+
+    &:hover,
+    &:focus {
+      background: darken($warning-bg, 10%);
+      border: 1px solid darken($warning-bg, 10%);
+    }
+  }
+}
+
+.touch .Button,
+.no-touch .Button {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 7px 16px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid var(--ui-color);
+  background: var(--ui-color);
+  color: var(--ui-color-contrast, #fff);
+  font-family: $font-family;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+    opacity: 0.9;
+    outline: 0;
+  }
+
+  &[disabled] {
+    background: $button-disabled-bg;
+    border: 1px solid $button-disabled-bg;
+    cursor: default;
+  }
+
+  .Button-icon {
+    display: inline-block;
+    margin-right: 5px;
+    line-height: 16px;
+  }
+
+  .Button-content {
+    display: inline-block;
+  }
+
+  &.Button-danger {
+    color: $error-bg;
+    background: transparent;
+    border: 1px solid $error-bg;
+
+    &:active {
+      color: darken($error-bg, 10%);
+      border: 1px solid darken($error-bg, 10%);
+    }
+  }
+
+  &.Button-muted {
+    color: $semi-muted;
+    background: transparent;
+    border: 1px solid $muted;
+
+    &:active {
+      color: darken($semi-muted, 10%);
+      border: 1px solid darken($muted, 10%);
+    }
+  }
+
+  &.Button-secondary {
+    background: transparent;
+    color: #4a9e8e;
+    border: 1px solid #4a9e8e;
+
+    &:active {
+      color: darken($button-bg, 10%);
+      border: 1px solid darken($button-bg, 10%);
+      outline: 0;
+    }
+
+    &[disabled] {
+      color: $button-disabled-bg;
+      border: 1px solid $button-disabled-bg;
+      cursor: default;
+    }
+
+    &.Button-danger {
+      &:active {
+        background: $error-bg;
+        color: $error-fg;
+        border: 1px solid $error-bg;
+      }
+    }
+  }
+
+  &.Button-small {
+    padding: 7px 15px 7px 15px;
+    font-size: 14px;
+  }
+
+  &.Button-no-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+
+    .Button-icon {
+      margin-right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &.Button-loading {
+    .Button-icon {
+      animation: spin 1s infinite linear;
+      opacity: 0.5;
+    }
+  }
+}
+
+/* Custom dropdown — trigger + floating menu — matching the reference room
+   filter (.GameListFilter-room). Shared by every SelectInput in the app. */
+.SelectInput {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+  font-size: 14px;
+}
+
+.SelectInput-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1e1e;
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  .Icon {
+    color: $muted;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &.is-open {
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.12);
+
+    .Icon {
+      color: var(--ui-color);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.SelectInput-trigger-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// position:fixed + coords are set inline from the trigger rect so the menu is
+// never clipped by an ancestor's overflow:hidden (e.g. inside a modal).
+.SelectInput-menu {
+  z-index: 10000;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.SelectInput-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  text-align: left;
+  color: #334155;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background: rgba(var(--ui-color-rgb), 0.08);
+    color: var(--ui-color);
+  }
+
+  &.is-selected {
+    color: var(--ui-color);
+    font-weight: 600;
+    background: rgba(var(--ui-color-rgb), 0.1);
+  }
+}
+
+/* Mid is light-leaning and follows the white theme — the trigger uses the
+   light styling. Only the open menu gets a per-theme tone (dark surface in
+   dark, warm lifted cream in mid) so it doesn't read as a plain white box. */
+body.dark-mode {
+  .SelectInput-trigger {
+    background: var(--dk-bg);
+    color: var(--dk-fg);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .SelectInput-menu {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .SelectInput-option {
+    color: var(--dk-fg-faint);
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.16);
+      color: var(--ui-color);
+    }
+
+    &.is-selected {
+      background: rgba(var(--ui-color-rgb), 0.18);
+    }
+  }
+}
+
+body.mid-mode {
+  // Every SelectInput dropdown always holds a value, so its trigger uses the
+  // accent-tinted "selected" style (like a picked room) in mid.
+  .SelectInput-trigger {
+    color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.06);
+    border-color: rgba(var(--ui-color-rgb), 0.45);
+    font-weight: 600;
+
+    .Icon {
+      color: var(--ui-color);
+    }
+
+    &:hover {
+      border-color: var(--ui-color);
+    }
+
+    &.is-open {
+      border-color: var(--ui-color);
+      box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.12);
+    }
+  }
+
+  .SelectInput-menu {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+  }
+
+  .SelectInput-option {
+    color: var(--dk-fg);
+  }
+}
+
+.CheckboxInput-control,
+.CheckboxInput-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.CheckboxInput-label {
+  margin-left: 5px;
+}
+
+.CheckboxInput {
+  label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+      border: 1px solid $input-border;
+      background: $input-bg;
+      pointer-events: none;
+    }
+
+    &:after {
+      content: "";
+      border: solid;
+      border-width: 0 0 3px 3px;
+      background: transparent;
+      width: 8px;
+      height: 4px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  .CheckboxInput-control {
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+
+  input[type=checkbox] {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 0;
+    z-index: 1;
+  }
+
+  &.CheckboxInput-unchecked {
+    label:after {
+      display: none;
+    }
+  }
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+.StonesIcon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.StonesIcon-black {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 20px;
+  background-color: $stone-black;
+}
+
+.StonesIcon-white {
+  position: absolute;
+  bottom: 1px;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 16px;
+  border: 1px solid $stone-black;
+}
+
+@media #{$mobile-query} {
+  .StonesIcon {
+    width: 22px;
+    height: 22px;
+    position: relative;
+  }
+
+  .StonesIcon-black {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 12px;
+    height: 12px;
+    border-radius: 24px;
+    background-color: $stone-black;
+  }
+
+  .StonesIcon-white {
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 18px;
+    border: 1.5px solid $stone-black;
+  }
+}
+
+.Spinner {
+  color: $very-muted;
+  font-size: 32px;
+  text-align: center;
+}
+
+.Spinner-icon {
+  animation: spin 1s infinite linear;
+}
+
+.RichContent {
+  a {
+    color: $link-color;
+  }
+}
+
+.RichContent-heading {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.no-touch .RichContent a:hover {
+  text-decoration: underline;
+}
+
+.Modal,
+.UserDetailsModal,
+.ScreenModal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Modal,
+.UserDetailsModal {
+  z-index: 5;
+}
+
+.ScreenModal {
+  top: 20px;
+}
+
+.Modal-main,
+.UserDetailsModal-main,
+.ScreenModal-main {
+  background: #ffffff;
+  position: relative;
+  margin: 0;
+  max-width: 620px;
+  width: 90%;
+  box-sizing: border-box;
+  border-radius: 20px;
+  // Primary Window border & elevation (light) — see DESIGN_RULES §5.
+  border: none;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 3px 10px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+
+.Modal-content,
+.ScreenModal-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+.Modal-with-title .Modal-content,
+.ScreenModal-with-title .ScreenModal-content {
+  padding: 20px 24px;
+}
+
+.Modal-without-title .Modal-content,
+.ScreenModal-without-title .ScreenModal-content {
+  padding: 40px 24px 20px 24px;
+}
+
+.UserDetailsModal-main {
+  min-height: 340px;
+  padding: 20px 20px 0 20px;
+  // Border + elevation come from the shared .Modal-main rule (DESIGN_RULES §5).
+}
+
+.Modal-title,
+.ScreenModal-title {
+  position: relative;
+  left: auto;
+  top: auto;
+  right: auto;
+  padding: 20px 24px 16px 24px;
+  background: transparent;
+  color: #7a9e8e;
+  font-size: 24px;
+  font-weight: 300;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  letter-spacing: -0.01em;
+}
+
+.ChatScreen-rooms-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  color: #1e293b;
+}
+
+body.dark-mode .ChatScreen-rooms-modal-title {
+  color: var(--dk-fg) !important;
+}
+
+.Modal-close,
+.UserDetailsModal-close,
+.ScreenModal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  color: #64748b;
+  background: transparent;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 3;
+    transition: transform 0.18s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.28);
+  }
+
+  &:active svg {
+    transform: scale(1.12);
+  }
+}
+
+/* The challenge / automatch modals use a bigger close button on all sizes — the
+   default 20px icon reads too small on those full-form windows. */
+.ScreenModal-without-title:has(.ChallengeEditor) .ScreenModal-close {
+  width: 40px;
+  height: 40px;
+}
+
+.ScreenModal-without-title:has(.ChallengeEditor) .ScreenModal-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.no-touch {
+
+  .Modal-with-title .Modal-close:hover,
+  .ScreenModal-with-title .ScreenModal-close:hover {
+    color: #c2601a;
+    background: rgba(194, 96, 26, 0.1);
+  }
+}
+
+.UnseenBadge {
+  font-size: 11px;
+  font-weight: 500;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 20px;
+  padding: 0 7px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.UnseenBadge-major {
+  background: $unseen-badge-major;
+  color: $inverted-fg;
+}
+
+.UnseenBadge-minor {
+  background: $unseen-badge-minor;
+  color: #ffffff;
+}
+
+.TabNav-tabs {
+  text-align: center;
+  border-bottom: 2px solid $very-muted;
+
+  .TabNav-tab {
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    color: $semi-muted;
+    border-bottom: 3px solid transparent;
+
+    &.TabNav-tab-active {
+      color: $content-fg;
+      border-bottom: 3px solid $link-color;
+    }
+  }
+}
+
+.TabNav-tabs-inner {
+  padding: 0 20px;
+}
+
+@media #{$mobile-query} {
+
+  .Modal,
+  .ScreenModal {
+    padding: 10px;
+  }
+
+  .ScreenModal {
+    top: 50px;
+  }
+
+  .Modal-main,
+  .UserDetailsModal-main,
+  .ScreenModal-main {
+    margin: 0 auto 40px auto;
+  }
+
+  .UserDetailsModal-main {
+    padding: 20px 10px 0 10px;
+  }
+
+  /* The challenge modal goes (nearly) full-viewport on phones. It starts below
+     the fixed 50px top nav (which has a higher z-index), so its own header/badge
+     and close button aren't hidden behind the nav. */
+  .ScreenModal-without-title:has(.ChallengeEditor) {
+    top: 50px;
+    padding: 0;
+  }
+
+  /* `body` prefix bumps specificity above the base max-height: 90vh rule in
+     _challenge.scss (which loads after this file). */
+  body .ScreenModal-without-title:has(.ChallengeEditor) .ScreenModal-main {
+    width: 100%;
+    max-width: 100%;
+    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  /* The tab area is a fixed 480px on desktop; let it fill the full-height modal
+     on phones so there's no empty space below and only the form scrolls. */
+  .ScreenModal-without-title:has(.ChallengeEditor) .ChallengeEditor-tabs {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ScreenModal-without-title:has(.ChallengeEditor) .ChallengeEditor-tabs .TabNav {
+    height: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Bigger, cleaner close button sitting in the header strip. */
+  /* Just the icon — no button chrome (no background / border / radius). */
+  .ScreenModal-without-title:has(.ChallengeEditor) .ScreenModal-close {
+    width: 36px;
+    height: 36px;
+    top: 9px;
+    right: 12px;
+  }
+
+  .ScreenModal-without-title:has(.ChallengeEditor) .ScreenModal-close svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 3;
+  }
+
+  /* ── Default full-screen mobile modal (mirrors the challenge modal). Applied
+     to the Preferences and Friends modals; reuse `:has(.YourRoot)` for future
+     modals. ── */
+  .Modal:has(.PreferencesModal),
+  .Modal:has(.FriendsList),
+  .Modal:has(.ChatRoomList),
+  .Modal:has(.LeaveMessageModal),
+  .Modal:has(.UserGameSummary) {
+    top: 50px;
+    padding: 0;
+  }
+
+  body .Modal:has(.PreferencesModal) .Modal-main,
+  body .Modal:has(.FriendsList) .Modal-main,
+  body .Modal:has(.ChatRoomList) .Modal-main,
+  body .Modal:has(.LeaveMessageModal) .Modal-main,
+  body .Modal:has(.UserGameSummary) .Modal-main {
+    width: 100%;
+    max-width: 100%;
+    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  /* These three manage their own inner scrolling, so let the content fill the
+     sheet instead of the modal's own max-height box. */
+  body .Modal:has(.ChatRoomList) .Modal-content,
+  body .Modal:has(.LeaveMessageModal) .Modal-content,
+  body .Modal:has(.UserGameSummary) .Modal-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Match the challenge form's mobile content padding (16px), instead of the
+     default 24px, so the two full-screen modals feel consistent. */
+  body .Modal:has(.PreferencesModal) .Modal-content {
+    padding: 16px;
+  }
+
+  /* The Friends list manages its own tabs/padding, so let it fill the sheet. */
+  body .Modal:has(.FriendsList) .Modal-content {
+    padding: 0;
+  }
+
+  /* Use the same modal background token as the challenge editor so the
+     full-screen modals read identically per theme (the shared .Modal-main rule
+     otherwise gives them the lifted --dk-surface, a different cream). */
+  body.dark-mode .Modal:has(.PreferencesModal) .Modal-main,
+  body.dark-mode .Modal:has(.FriendsList) .Modal-main,
+  body.dark-mode .Modal:has(.ChatRoomList) .Modal-main,
+  body.dark-mode .Modal:has(.LeaveMessageModal) .Modal-main,
+  body.dark-mode .Modal:has(.UserGameSummary) .Modal-main {
+    background: var(--dk-modal-bg);
+  }
+
+  body.mid-mode .Modal:has(.PreferencesModal) .Modal-main,
+  body.mid-mode .Modal:has(.FriendsList) .Modal-main,
+  body.mid-mode .Modal:has(.ChatRoomList) .Modal-main,
+  body.mid-mode .Modal:has(.LeaveMessageModal) .Modal-main,
+  body.mid-mode .Modal:has(.UserGameSummary) .Modal-main {
+    background: var(--dk-bg);
+  }
+
+  /* Title becomes the accent header bar (same as the challenge modal). The
+     `body` prefix outranks the desktop dark-gradient header rule in _user.scss
+     (same class-specificity otherwise, which would tie and win on source
+     order). !important covers the theme's forced muted-green title color. */
+  body .Modal:has(.PreferencesModal) .Modal-title,
+  body .Modal:has(.FriendsList) .Modal-title,
+  body .Modal:has(.ChatRoomList) .Modal-title,
+  body .Modal:has(.LeaveMessageModal) .Modal-title,
+  body .Modal:has(.UserGameSummary) .Modal-title {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 0 10px 0 !important;
+    padding: 15px 56px 15px 18px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    text-align: left;
+    color: var(--ui-color) !important;
+    background: rgba(var(--ui-color-rgb), 0.1) !important;
+    border-bottom: 1px solid rgba(var(--ui-color-rgb), 0.22) !important;
+    border-radius: 0 !important;
+  }
+
+  /* Friends content is flush to the header (no field padding to offset). */
+  body .Modal:has(.FriendsList) .Modal-title {
+    margin-bottom: 0 !important;
+  }
+
+  .Modal:has(.PreferencesModal) .Modal-close,
+  .Modal:has(.FriendsList) .Modal-close {
+    width: 36px;
+    height: 36px;
+    top: 9px;
+    right: 12px;
+  }
+
+  .Modal:has(.PreferencesModal) .Modal-close svg,
+  .Modal:has(.FriendsList) .Modal-close svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 3;
+  }
+
+  /* Player profile — full-screen on mobile, matching the default modal style.
+     Its dark gradient top-bar already acts as the header, so we only align the
+     window chrome: full-bleed sheet + bare (chrome-less) close. */
+  .UserDetailsModal {
+    top: 50px;
+    padding: 0;
+  }
+
+  body .UserDetailsModal .UserDetailsModal-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+    max-height: none !important;
+    min-height: 0 !important;
+    margin: 0;
+    border-radius: 0 !important;
+  }
+
+  .UserDetailsModal .UserDetailsModal-close {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .UserDetailsModal .UserDetailsModal-close svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 3;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════
+   DARK MODE  — toggled via .dark-mode on <body>
+   MID MODE   — toggled via .mid-mode on <body>; shares this whole block via the
+                --dk-* variables, then overrides those vars (and a few hardcoded
+                spots) below to a warm mid-tone "dune" palette.
+   ════════════════════════════════════════════════════ */
+body.dark-mode,
+body.mid-mode {
+  // Base palette — deep teal-charcoal inspired by reference. The values form an
+  // elevation ramp: each higher layer is lighter than the one below so panels
+  // and cards lift off the page instead of reading flat.
+  --dk-bg:        #141b19; // page — lowest layer (deepest)
+  --dk-bg-off:    #1d2724; // panels, rails, list background
+  --dk-surface:   #283631; // cards / lifted surfaces (lightest)
+  --dk-surface2:  #324340; // raised controls
+  --dk-border:    rgba(255, 255, 255, 0.10);
+  --dk-fg:        #d4e4dc;
+  --dk-fg-muted:  #7a9e8e;
+  --dk-accent:    #5a9e78;
+
+  /* Slate-family tokens used by the secondary surfaces (modals, game details,
+     challenge editor) per DESIGN_RULES. Dark mode keeps the original hexes so it
+     is visually unchanged; mid mode overrides them below. */
+  --dk-slate-bg:      #0f172a; // deep page bg
+  --dk-slate-surface: #1e293b; // card/surface
+  --dk-slate-soft:    #162032; // off-white→dark equivalent
+  --dk-modal-bg:      #202c28; // moss-black modal/drawer (lifted)
+  --dk-card-bg:       #283631; // game card — lifts above the page
+  --dk-fg-strong:     #f1f5f9; // strongest text
+  --dk-fg-dim:        #94a3b8; // dim/secondary text
+  --dk-fg-faint:      #cbd5e1; // faint text / disabled
+
+  background: var(--dk-bg);
+  color: var(--dk-fg);
+
+  /* ── Nav ───────────────────────────────────────── */
+  .MainNav {
+    background: rgba(26, 36, 32, 0.92) !important;
+    border-bottom-color: var(--dk-border) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4) !important;
+
+    .MainNav-item a { color: #a8c4b4 !important; }
+    .MainNav-item-label { color: #f6f5f2 !important; }
+    .MainNav-item-icon { color: #f6f5f2 !important; }
+    .MainNav-item-selected a {
+      color: var(--dk-fg) !important;
+      border-bottom-color: var(--ui-color) !important;
+    }
+    .MainNav-item-selected .MainNav-item-label { color: var(--ui-color) !important; }
+    .MainNav-item-selected .MainNav-item-icon { color: var(--ui-color) !important; }
+    .MainNav-account-trigger { color: #a8c4b4 !important; }
+
+  }
+
+  /* ── Content panels ────────────────────────────── */
+  .content,
+  .Screen,
+  .Screen-content,
+  .WatchScreen,
+  .ChatScreen,
+  .SearchScreen,
+  .MoreScreen {
+    background: var(--dk-bg);
+    color: var(--dk-fg);
+  }
+
+  /* The account nickname sits in a link, so it kept the default dark text and
+     read faintly on the dark sheet — use the bright foreground. (--dk-fg is
+     light in dark mode, dark in the mid/cream theme, so it works for both.) */
+  .MoreScreen-account .UserName,
+  .MoreScreen-account .UserName-text,
+  .MoreScreen-account a {
+    color: var(--dk-fg) !important;
+  }
+
+  .PlayScreen,
+  .WatchScreen {
+    background: var(--dk-bg-off);
+    color: var(--dk-fg);
+  }
+
+  .Button:not(.Button-secondary):not(.Button-danger):not(.Button-muted):not(.Button-warning) {
+    background: var(--ui-color) !important;
+    color: #111 !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(var(--ui-color-rgb), 0.4) !important;
+    font-weight: 600 !important;
+
+    &:hover, &:focus {
+      background: var(--ui-color) !important;
+      color: #111 !important;
+      opacity: 0.85;
+      box-shadow: 0 6px 20px rgba(var(--ui-color-rgb), 0.5) !important;
+    }
+  }
+
+  &.ui-color-light .Button:not(.Button-secondary):not(.Button-danger):not(.Button-muted):not(.Button-warning) {
+    background: var(--ui-color) !important;
+    color: #0f1a17 !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+
+    &:hover, &:focus {
+      color: #0f1a17 !important;
+    }
+  }
+
+  .Button-secondary {
+    color: var(--ui-color) !important;
+    border-color: rgba(var(--ui-color-rgb), 0.5) !important;
+
+    &:hover, &:focus {
+      color: var(--ui-color) !important;
+      border-color: var(--ui-color) !important;
+      background: rgba(var(--ui-color-rgb), 0.1) !important;
+    }
+  }
+
+  .Button-muted {
+    color: var(--dk-fg-muted) !important;
+    border-color: rgba(122, 158, 142, 0.4) !important;
+    background: transparent !important;
+
+    &:hover, &:focus {
+      color: var(--dk-fg) !important;
+      border-color: var(--dk-fg-muted) !important;
+      background: rgba(122, 158, 142, 0.1) !important;
+    }
+  }
+
+  .GameList,
+  .GameList-body { background: var(--dk-bg-off); }
+
+  .GameList-header {
+    background: var(--dk-bg-off);
+    border-bottom-color: var(--dk-border);
+    color: var(--dk-fg-muted);
+  }
+
+  .GameList-item {
+    border-bottom-color: var(--dk-border);
+    &:hover { background: rgba(255,255,255,0.03); }
+  }
+
+  /* ── Inputs & forms ────────────────────────────── */
+  input,
+  textarea,
+  select {
+    background: var(--dk-surface);
+    color: var(--dk-fg);
+    border-color: var(--dk-border);
+    &::placeholder { color: var(--dk-fg-muted); }
+    &:focus {
+      border-color: var(--ui-color);
+      box-shadow: 0 0 0 3px rgba(var(--ui-color-rgb), 0.18);
+    }
+  }
+
+  select {
+    &:hover { border-color: rgba(255, 255, 255, 0.2); }
+  }
+
+  select option {
+    background: var(--dk-surface);
+    color: var(--dk-fg);
+  }
+
+  /* ── Modals ─────────────────────────────────────── */
+  .Modal-main,
+  .ScreenModal-main,
+  .UserDetailsModal-main {
+    background: var(--dk-surface);
+    color: var(--dk-fg);
+    border: 1px solid var(--dk-border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .Modal-title,
+  .ScreenModal-title {
+    color: #7a9e8e !important;
+    border-bottom-color: var(--dk-border) !important;
+  }
+
+  .Modal-close,
+  .ScreenModal-close,
+  .UserDetailsModal-close {
+    color: var(--dk-fg-muted) !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* ── Dividers ───────────────────────────────────── */
+  hr, .med-line { border-color: var(--dk-border); }
+
+  /* ── Tables ─────────────────────────────────────── */
+  table { color: var(--dk-fg); }
+  th {
+    background: transparent;
+    color: var(--dk-fg-muted) !important;
+    border-color: var(--dk-border);
+  }
+  td { border-color: var(--dk-border); color: var(--dk-fg) !important; }
+
+  /* ── Chat ───────────────────────────────────────── */
+  .ChatMessageBar {
+    background: transparent;
+    border-color: var(--dk-border);
+  }
+
+  input.ChatMessageBar-input {
+    background: var(--dk-surface);
+    color: var(--dk-fg);
+    border: 1px solid var(--dk-border);
+    &::placeholder { color: var(--dk-fg-muted); }
+
+    &:focus {
+      border-color: var(--dk-accent);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(90, 158, 120, 0.2);
+    }
+  }
+
+  .ChatMessageBar-user-panel {
+    background: var(--dk-surface);
+    border-color: var(--dk-border);
+  }
+
+  .ChatMessageBar-user-panel-header {
+    background: var(--dk-bg-off);
+    border-bottom-color: var(--dk-border);
+  }
+
+  .ChatMessageBar-user-item {
+    color: var(--dk-fg);
+    &:hover { background: rgba(255,255,255,0.04); }
+  }
+
+  .ChatMessage { color: var(--dk-fg); }
+  .ChatMessage-time { color: var(--dk-fg-muted); }
+
+  .ChatMessages-item-content {
+    color: var(--dk-fg) !important;
+    display: inline-block !important;
+    width: auto !important;
+  }
+
+  .UserChat .ChatMessages-item-content {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .UserChat .ChatMessages-item-self .ChatMessages-item-content {
+    background: rgba(90, 158, 120, 0.25) !important;
+  }
+
+  .ChatMessages-item-self .ChatMessages-item-content {
+    background: #3a6b52 !important;
+    color: #e8f5ee !important;
+  }
+
+  .ChatMessages-item-announcement .ChatMessages-item-content {
+    background: rgba(200, 160, 40, 0.2) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatMessages-item-user a,
+  .ChatMessages-item-user div,
+  .ChatMessages-item-user .UserName {
+    color: var(--dk-accent) !important;
+  }
+
+  .ChatMessages-item-time {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  // ── Chat screens ──────────────────────────────────────
+  .ChatScreen,
+  .ChatScreen-active-chat,
+  .RoomChat,
+  .RoomChat-messages-container,
+  .RoomChat-messages,
+  .UserChat,
+  .UserChat-messages {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatScreen-tabs {
+    background: var(--dk-bg-off) !important;
+    border-right-color: var(--dk-border) !important;
+    border-bottom-color: var(--dk-border) !important;
+  }
+
+  .ChatScreen-tab {
+    border-color: var(--dk-border) !important;
+    a, .ChatScreen-tab-name { color: var(--dk-fg-muted) !important; }
+  }
+
+  .ChatScreen-tab-active {
+    background: var(--dk-surface) !important;
+    .ChatScreen-tab-name { color: var(--dk-fg) !important; font-weight: 600; }
+  }
+
+  .ChatScreen-banner {
+    background: var(--dk-bg-off) !important;
+    border-bottom-color: var(--dk-border) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .RoomChat-sidebar {
+    background: var(--dk-bg-off) !important;
+    border-left-color: var(--dk-border) !important;
+    color: var(--dk-fg) !important;
+
+    .UserList-header {
+      border-left-color: var(--dk-border) !important;
+    }
+
+    .UserList-players-header {
+      background: var(--dk-bg-off) !important;
+    }
+  }
+
+  .RoomGameLink a {
+    background: var(--dk-surface) !important;
+    border-color: var(--dk-border) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatRoomList,
+  .ChatRoomList-rooms {
+    background: var(--dk-bg-off) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatRoomList-cat-title {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  a.ChatRoomList-room {
+    color: var(--dk-fg) !important;
+    &:hover { background: rgba(255,255,255,0.04) !important; }
+  }
+
+  .RoomChat-message-bar {
+    background: var(--dk-bg-off) !important;
+    border-top: 1px solid var(--dk-border) !important;
+  }
+
+  .ChatMessageBar {
+    background: transparent !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  input.ChatMessageBar-input {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg) !important;
+    border: 1px solid var(--dk-border) !important;
+    &::placeholder { color: var(--dk-fg-muted) !important; }
+
+    &:focus {
+      border-color: var(--dk-accent) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(90, 158, 120, 0.2) !important;
+    }
+  }
+
+  /* ── Game screen (dark override) ────────────────── */
+  &.GameScreen-body {
+    background-color: var(--dk-bg) !important;
+
+    .GameScreen-side-container {
+      background-color: #111a15 !important;
+    }
+
+    .GameScreen-side-inner {
+      background-color: var(--dk-surface) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    .GameScreen-players .GamePlayersInfo-color {
+      background: var(--dk-surface2) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    .GameScreen-players {
+      background: var(--dk-surface) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    .GameScreen-chat-scroll {
+      background: var(--dk-surface) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    .ChatMessages-item-content {
+      background: var(--dk-surface2) !important;
+      border-color: var(--dk-border) !important;
+      color: var(--dk-fg) !important;
+    }
+
+    .ChatMessages-item-self .ChatMessages-item-content {
+      background: rgba(90, 158, 120, 0.15) !important;
+      border-color: rgba(90, 158, 120, 0.25) !important;
+    }
+
+    .GameMoreMenu-button {
+      background: var(--dk-surface2) !important;
+      color: var(--dk-fg) !important;
+      border-color: var(--dk-border) !important;
+      &:hover { background: rgba(255,255,255,0.08) !important; }
+    }
+
+    .GamePlayersInfo-players .UserName { color: var(--dk-fg) !important; }
+    .GameClock { color: var(--dk-fg) !important; }
+    .GameClock-active, .GameClock-running { color: var(--dk-accent) !important; }
+
+    .GameInfo-table th { color: var(--dk-fg-muted) !important; }
+    .GameInfo-table td { color: var(--dk-fg) !important; }
+    .GameScreen-chat-info { border-bottom-color: var(--dk-border) !important; }
+
+    .ChatMessage-item { color: var(--dk-fg) !important; }
+    .GameChat-section-title { color: var(--dk-fg-muted) !important; }
+
+    .MainNav {
+      background: rgba(26, 36, 32, 0.95) !important;
+      border-bottom-color: var(--dk-border) !important;
+    }
+
+    .BoardNav-below-board .BoardNav {
+      background: rgba(31, 45, 40, 0.95) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    a.BoardNav-prev,
+    a.BoardNav-next,
+    a.BoardNav-first,
+    a.BoardNav-last,
+    a.BoardNav-play {
+      background: var(--dk-surface2) !important;
+      color: var(--dk-fg) !important;
+      border-color: var(--dk-border) !important;
+    }
+
+    .BoardNav-move { color: var(--dk-fg-muted) !important; }
+  }
+
+  /* ── CheckboxInput dark mode ────────────────────── */
+  .CheckboxInput label:before {
+    background: var(--dk-surface) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  .CheckboxInput label:after {
+    border-color: var(--dk-accent) !important;
+  }
+
+  /* ── Scrollbars ─────────────────────────────────── */
+  * { scrollbar-color: #3a5045 var(--dk-bg); }
+  *::-webkit-scrollbar-track { background: var(--dk-bg); }
+  *::-webkit-scrollbar-thumb { background: #3a5045; border-radius: 4px; }
+}
+
+/* ════════════════════════════════════════════════════
+   MID MODE  — a warm mid-tone "dune" theme that sits between light and dark.
+   It reuses the entire dark-mode block above (every var(--dk-*) rule) and only
+   redefines the palette variables + the handful of hardcoded dark spots. Pure
+   light mode (no body class) and dark mode are untouched.
+   Starting palette derived from the dune reference — tune freely.
+   ════════════════════════════════════════════════════ */
+body.mid-mode {
+  --dk-bg:        #fbf5ea; // warm cream — page background
+  --dk-bg-off:    #f0e4cc; // panels, rails (sand, deeper than page)
+  --dk-surface:   #fffdf8; // cards/surfaces — lifted off the page
+  --dk-surface2:  #f6efe0; // raised controls
+  --dk-border:    rgba(226, 203, 160, 0.7); // dune border
+  --dk-fg:        #3b3127; // primary text (black stone)
+  --dk-fg-muted:  #9a7b49; // secondary text/icons
+  --dk-accent:    #a8854b; // dune accent (used where UI color isn't)
+
+  /* Slate-family tokens re-tinted to the warm cream palette. */
+  --dk-slate-bg:      #f0e4cc;
+  --dk-slate-surface: #fffdf8;
+  --dk-slate-soft:    #f6efe0;
+  --dk-modal-bg:      #fffdf8;
+  --dk-card-bg:       #fffdf8;
+  --dk-fg-strong:     #2e251c;
+  --dk-fg-dim:        #9a7b49;
+  --dk-fg-faint:      #b59a6b;
+
+  /* Hardcoded dark spots from the shared block, re-tinted for mid. The shared
+     block assumes light-on-dark; mid is light-leaning, so flip text to dark. */
+  .MainNav {
+    background: rgba(251, 245, 234, 0.85) !important;
+
+    .MainNav-item a { color: #3b3127 !important; }
+    .MainNav-item-label { color: #2e251c !important; }
+    .MainNav-item-icon { color: #2e251c !important; }
+    .MainNav-account-trigger { color: #3b3127 !important; }
+    .MainNav-logo-text { color: #2e251c !important; }
+  }
+
+  /* Primary buttons: keep accent bg but ensure readable contrast text. */
+  .Button:not(.Button-secondary):not(.Button-danger):not(.Button-muted):not(.Button-warning) {
+    color: var(--ui-color-contrast, #fff) !important;
+  }
+
+  .GameList-item:hover,
+  .GameSummaryList-item:hover {
+    background: rgba(154, 123, 73, 0.08) !important;
+  }
+
+  .BoardNav-below-board .BoardNav {
+    background: rgba(240, 228, 204, 0.95) !important;
+  }
+
+  .ChatMessageBar {
+    background: transparent !important;
+  }
+
+  /* Scrollbars: warm thumb on the cream track. */
+  * { scrollbar-color: #cba871 var(--dk-bg); }
+  *::-webkit-scrollbar-thumb { background: #cba871; }
+}
+

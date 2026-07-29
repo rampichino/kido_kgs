@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Background Color Picker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, sans-serif; background: #f0f0f0; padding: 20px; }
+    h2 { margin-bottom: 16px; font-size: 16px; color: #333; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .swatch {
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .swatch:hover { transform: translateY(-2px); }
+    .swatch.selected { border-color: #0284c7; }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e1e1e;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chip {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(16,185,129,0.1);
+      color: #065f46;
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+    .label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .result {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 14px;
+      color: #333;
+    }
+    .result code {
+      font-family: monospace;
+      background: #f0f0f0;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    button {
+      margin-top: 12px;
+      padding: 10px 24px;
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #0173ae; }
+  </style>
+</head>
+<body>
+  <h2>Pick a background color — click a card to select</h2>
+  <div class="grid" id="grid"></div>
+  <div class="result" id="result">No color selected yet.</div>
+
+  <script>
+    const colors = [
+      { name: "Warm Sand",       value: "#e8e3da" },
+      { name: "Slate Blue-gray", value: "#dde3ec" },
+      { name: "Soft Green-gray", value: "#dde8e2" },
+      { name: "Light Lavender",  value: "#e4e0ed" },
+      { name: "Cool Stone",      value: "#e2e4e8" },
+      { name: "Dusty Rose",      value: "#ecdde0" },
+    ];
+
+    const grid = document.getElementById("grid");
+    const result = document.getElementById("result");
+
+    colors.forEach(c => {
+      const div = document.createElement("div");
+      div.className = "swatch";
+      div.style.background = c.value;
+      div.innerHTML = `
+        <div class="label">${c.name}</div>
+        <div class="card"><span>weixng <span class="chip">3d</span></span><span style="color:#94a3b8;font-size:11px">37 mv</span></div>
+        <div class="card"><span>ILoveU <span class="chip">2d</span></span><span style="color:#94a3b8;font-size:11px">180 mv</span></div>
+        <div style="font-size:11px;color:#666;margin-top:6px;font-family:monospace">${c.value}</div>
+      `;
+      div.addEventListener("click", () => {
+        document.querySelectorAll(".swatch").forEach(s => s.classList.remove("selected"));
+        div.classList.add("selected");
+        result.innerHTML = `Selected: <strong>${c.name}</strong> — <code>${c.value}</code><br><br>Tell Claude: <em>"use ${c.value}"</em>`;
+      });
+      grid.appendChild(div);
+    });
+  </script>
+</body>
+</html>

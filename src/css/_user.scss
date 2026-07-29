@@ -1,0 +1,2954 @@
+.UserName-icons {
+  display: inline-block;
+
+  .UserIcons {
+    display: inline-block;
+    margin-left: 4px;
+  }
+}
+
+.UserName-text-link {
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+
+.no-touch .UserName-text-link:hover {
+  color: var(--ui-color);
+  font-weight: 600;
+}
+
+.Username-with-prefix-icons {
+
+  .UserName-robot,
+  .UserName-guest,
+  .UserName-selfish {
+    margin-right: 4px;
+  }
+}
+
+.UserName-robot {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #0369a1;
+  background: rgba(3, 105, 161, 0.1);
+  border: 1px solid rgba(3, 105, 161, 0.25);
+  border-radius: 4px;
+  padding: 1px 4px;
+  line-height: 14px;
+  vertical-align: middle;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.UserName-guest {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: $semi-muted;
+}
+
+.UserName-selfish {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: $warning-bg;
+}
+
+.UserName-friend-star {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 13px;
+  color: #94a3b8;
+  cursor: pointer;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+
+  &:hover { color: #f59e0b; }
+}
+
+.UserName-friend-star-active {
+  color: #f59e0b;
+}
+
+.UserName-selfish-icon {
+  vertical-align: top;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  line-height: 0.9;
+}
+
+.UserName-bot-icon {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: $semi-muted;
+  opacity: 0.75;
+}
+
+.UserDetailsModal-name .UserName-bot-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.UserName-rank-chip {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 15px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+.UserName-rank-bot-icon {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 3px;
+  color: inherit;
+  opacity: 0.95;
+}
+
+// Pro: 1p–9p
+.UserName-rank-chip-pro {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+// Dan: 1d–9d
+.UserName-rank-chip-dan {
+  background: rgba(234, 179, 8, 0.15);
+  color: #92700a;
+  border: 1px solid rgba(234, 179, 8, 0.18);
+}
+
+// SDK: 1k–9k
+.UserName-rank-chip-sdk {
+  background: rgba(16, 185, 129, 0.1);
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+// DDK: 10k+
+.UserName-rank-chip-ddk {
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.13);
+}
+
+body.dark-mode {
+  // Same hue per tier as light mode (rank→color mapping is unchanged); only the
+  // fill/border opacity and text lightness are raised so the pills read clearly
+  // against the dark game-list rows. Text uses the lighter 300-level tint of the
+  // same hue.
+  .UserName-rank-chip-pro {
+    background: rgba(239, 68, 68, 0.28);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  .UserName-rank-chip-dan {
+    background: rgba(234, 179, 8, 0.28);
+    color: #fcd34d;
+    border-color: rgba(234, 179, 8, 0.4);
+  }
+
+  .UserName-rank-chip-sdk {
+    background: rgba(16, 185, 129, 0.26);
+    color: #6ee7b7;
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .UserName-rank-chip-ddk {
+    background: rgba(99, 102, 241, 0.28);
+    color: #a5b4fc;
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+}
+
+.UserList {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.UserList-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  .ToggleSwitch {
+    flex: 1;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+
+    .ToggleSwitch-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #475569;
+    }
+
+    .ToggleSwitch-control {
+      width: 32px;
+      height: 18px;
+    }
+
+    .ToggleSwitch-slider {
+      border-radius: 18px;
+
+      &:before {
+        height: 12px;
+        width: 12px;
+        left: 3px;
+        bottom: 3px;
+      }
+    }
+
+    input:checked + .ToggleSwitch-slider:before {
+      transform: translateX(14px);
+    }
+  }
+}
+
+.UserList-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.03em;
+}
+
+
+.UserList-players-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  margin-top: 8px;
+
+  .UserList-section-title {
+    margin-top: 0 !important;
+    border-top: none !important;
+  }
+}
+
+// Game-view list (closable, no Hide-bots toggle): title + close affordance sit
+// on one row instead of stacked.
+.UserList-players-header-closable {
+  flex-direction: row;
+  align-items: center;
+
+  .UserList-section-title {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Game-view observers list: the whole header is clickable to close the panel.
+// (The header + its section-title carry !important backgrounds per theme, so the
+// hover tint is applied with !important to both to win the cascade.)
+.UserList-players-header-closable {
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover,
+  &:hover .UserList-section-title {
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  body.dark-mode & {
+    &:hover,
+    &:hover .UserList-section-title {
+      background: #283631 !important;
+    }
+  }
+
+  body.mid-mode & {
+    &:hover,
+    &:hover .UserList-section-title {
+      background: #ece0c8 !important;
+    }
+  }
+}
+
+.UserList > .UserList-players-header:first-child {
+  margin-top: 0;
+}
+
+.UserList-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ui-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #ffffff;
+  margin-top: 8px;
+}
+
+.UserList-section-title-collapsible {
+  cursor: pointer;
+  user-select: none;
+  border-top: none;
+  border-bottom: none;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+  }
+}
+
+.UserList-header + .UserList-section-title {
+  margin-top: 0;
+  border-top: none;
+}
+
+.UserList-item {
+  display: flex;
+  align-items: center;
+
+  > a {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 16px;
+    font-size: 13px;
+    color: $content-fg;
+    text-decoration: none;
+    gap: 6px;
+
+    // Warm-neutral tint (the floral-white sidebar is warm; the cool $hover-bg
+    // slate read cold on it). Dark/mid have their own overrides.
+    &:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+// Editor marker (pencil) replaces the status dot, to the left of the name.
+.UserList-demo-role-editor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 8px;
+  margin-right: 6px;
+  color: var(--ui-color);
+}
+
+// "Give control" button — sits right after the username, revealed on row hover.
+a.UserList-demo-grant {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $semi-muted;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  vertical-align: middle;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+.GameScreen-demo-confirm-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.GameScreen-demo-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.UserList-item-offline {
+  a {
+    opacity: 0.4;
+  }
+}
+
+.no-touch .UserList-item-offline a:hover {
+  opacity: 1;
+}
+
+.UserList-item-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// When a demo grant button is present, lay the name + button in a row with a
+// clear gap. Scoped to the demo variant so normal rows are unaffected.
+.UserList-item-name-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .UserName {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.UserList-status-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+
+  &.UserList-status-online { background: #22c55e; }
+  &.UserList-status-playing { background: #0284c7; }
+  &.UserList-status-idle { background: #f59e0b; }
+  &.UserList-status-offline { background: #cbd5e1; }
+  &.UserList-status-unknown { background: #94a3b8; }
+}
+
+.UserList-item-rank {
+  flex-shrink: 0;
+}
+
+.UserList-item-icons,
+.UserIcons-icon {
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.UserIcons-icon {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.UserIcons-maintainer {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ui-color);
+}
+
+// The modal header is always a dark green gradient (all themes), and it forces
+// its whole name subtree to muted teal via `!important`. A dark accent wrench
+// would vanish against it, so give the badges light, high-contrast colors that
+// read on the dark header regardless of the active theme/accent.
+.UserDetailsModal-name .UserIcons-maintainer {
+  color: #9cd1bd !important; // light mint — visible on the dark green header
+}
+
+.UserDetailsModal-name .UserIcons-medal,
+.UserDetailsModal-name .UserIcons-runner-up {
+  color: #f0c674 !important; // light amber — readable on the dark header
+}
+
+.UserIcons-medal {
+  color: #b45309;
+}
+
+.UserIcons-runner-up {
+  color: #b45309;
+}
+
+/* Tournament winner/runner-up + KGS Plus badges are noise in the dense
+   game/challenge player rows — keep them only in the profile modal and
+   user lists. */
+.GamePlayersList .UserIcons-medal,
+.GamePlayersList .UserIcons-runner-up,
+.GamePlayersList .UserIcons-kgs-plus {
+  display: none;
+}
+
+/* ── User Details Modal ──────────────────────────────── */
+.UserDetailsModal-main {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  max-width: 680px !important;
+  width: 90% !important;
+  padding: 0 !important;
+  min-height: auto !important;
+}
+
+.UserDetailsModal-top-bar {
+  position: relative;
+  background: linear-gradient(135deg, #2d3a32 0%, #1a2420 100%);
+  height: auto;
+  padding: 28px 24px 22px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-shadow: none;
+}
+
+.UserDetailsModal-status {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: #7a9e8e;
+  margin-top: 4px;
+}
+
+/* The games tab reads "365 Games" — the count is its own span (mobile hides
+   it), so the gap has to come from the style, not a text node. */
+.UserDetailsModal-tab-count {
+  margin-right: 0.35em;
+}
+
+/* Rated is the norm in an archive, so only free/demo/review markers are worth
+   the space — profile game list and My Games, both breakpoints. */
+.UserDetailsModal-games-list .GameSummaryList-item-type-rated,
+.MyGamesScreen .GameSummaryList-item-type-rated {
+  display: none;
+}
+
+/* Second copy of the game-type icon, rendered inside the result so it shares
+   the result's line. Used by the profile game list (both breakpoints);
+   everywhere else the badges copy is the one shown. */
+.GameSummaryList-item-type-inline {
+  display: none;
+}
+
+/* Profile game list: marker on the result's line at every breakpoint — the
+   badges copy would otherwise float off to the left of the result/date
+   column on desktop. Must follow the rule above (source order decides). */
+.UserDetailsModal-games-list .GameSummaryList-item-badges
+  .GameSummaryList-item-type {
+  display: none;
+}
+
+.UserDetailsModal-games-list .GameSummaryList-item-type-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+}
+
+/* Presence dot preceding the status text ("Online", "Playing", …). Mobile
+   only: on desktop the written status alone is the cue. */
+.UserDetailsModal-status-dot {
+  display: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  flex: none;
+}
+
+.UserDetailsModal-status-dot.UserDetailsModal-status-online {
+  background: #22c55e;
+}
+
+.UserDetailsModal-status-dot.UserDetailsModal-status-playing {
+  background: #0284c7;
+}
+
+.UserDetailsModal-status-dot.UserDetailsModal-status-idle {
+  background: #f59e0b;
+}
+
+.UserDetailsModal-status-dot.UserDetailsModal-status-offline {
+  background: #cbd5e1;
+}
+
+.UserDetailsModal-status-dot.UserDetailsModal-status-unknown {
+  background: #94a3b8;
+}
+
+.UserDetailsModal-avatar {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  border: none;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.UserAvatar {
+  background: transparent;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+  }
+}
+
+.UserAvatar-missing {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  user-select: none;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+}
+
+.UserDetailsModal-actions {
+  position: absolute;
+  right: 16px;
+  bottom: 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  // These buttons sit on the dark-green panel header (same in all 3 themes), so
+  // they do NOT follow --ui-color — they use fixed colors tuned for legibility
+  // on that header instead. The extra `&.Button-secondary` / body-scoped
+  // selectors below raise specificity above the theme's accent override
+  // (`body.dark-mode .Button-secondary { color: var(--ui-color) !important }`).
+  .Button,
+  .Button.Button-secondary,
+  .Button.Button-warning,
+  .Button.Button-danger {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #9db8aa !important; // soft sage — idle icon
+
+    &:hover,
+    &:focus {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      color: #e3ede7 !important; // brighten on hover
+    }
+  }
+
+  // Active buddy / fan (filled heart / star).
+  .Button.Button-warning {
+    color: #f0b35a !important;
+
+    &:hover,
+    &:focus {
+      color: #f7c97f !important;
+    }
+  }
+
+  // Active block — same icon style, but a bolder, slightly larger ban glyph so
+  // "blocked" reads clearly (no filled chip).
+  .Button.Button-danger {
+    color: #ef6a4d !important;
+
+    svg {
+      stroke-width: 2.75;
+      width: 19px;
+      height: 19px;
+    }
+
+    &:hover,
+    &:focus {
+      color: #f5896f !important;
+    }
+  }
+}
+
+.UserDetailsModal-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.18);
+  margin: 0 4px;
+}
+
+.UserDetailsModal-friending {
+  display: none;
+}
+
+// Name + status inside top-bar flex
+.UserDetailsModal-top-bar-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.UserDetailsModal-details {
+  margin: 0;
+  padding: 18px 24px 20px 24px;
+  line-height: 1.5;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.UserDetailsModal-top-bar .UserDetailsModal-name,
+.UserDetailsModal-top-bar .UserDetailsModal-name .UserName,
+.UserDetailsModal-top-bar .UserDetailsModal-name a {
+  color: #7a9e8e !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.UserDetailsModal-name {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: #7a9e8e;
+  line-height: 1.2;
+
+  .UserName {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .UserName-rank-chip {
+    flex-shrink: 0;
+    margin-left: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 7px;
+  }
+
+  .UserName-rank-chip-pro {
+    background: rgba(255, 255, 255, 0.92);
+    color: #b91c1c;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .UserName-rank-chip-dan {
+    background: rgba(255, 255, 255, 0.92);
+    color: #92700a;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .UserName-rank-chip-sdk {
+    background: rgba(255, 255, 255, 0.92);
+    color: #065f46;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .UserName-rank-chip-ddk {
+    background: rgba(255, 255, 255, 0.92);
+    color: #4338ca;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.UserDetailsModal-realname-header {
+  font-size: 15px;
+  font-weight: 300;
+  color: #7a9e8e;
+  margin-top: 2px;
+  letter-spacing: -0.01em;
+}
+
+.UserDetailsModal-metadata-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0 0;
+
+  .UserDetailsModal-authname {
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(var(--ui-color-rgb), 0.2);
+    color: var(--ui-color);
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--ui-color-rgb), 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 4px;
+
+    .Icon {
+      color: inherit;
+    }
+  }
+
+  .UserDetailsModal-info-bullet {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0efeb;
+    color: #475569;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    .Icon {
+      color: #64748b;
+      flex-shrink: 0;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: $link-color;
+      }
+    }
+  }
+}
+
+.UserDetailsModal-loading,
+.UserDetailsModal-not-found {
+  margin: 30px 0;
+  color: $muted;
+  text-align: center;
+}
+
+// Loading state for the Games / Rank tabs (data still arriving), matching the
+// game page's centered spinner.
+.UserDetailsModal-tab-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.UserDetailsModal-guest-note {
+  margin: 30px auto;
+  max-width: 320px;
+  padding: 0 24px;
+  color: $muted;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.UserDetailsModal-tabs {
+  margin: 18px 0 12px 0;
+  border-bottom: none;
+  display: flex;
+  justify-content: center;
+
+  a.UserDetailsModal-tab {
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+    border-radius: 9999px;
+    border-bottom: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    text-decoration: none;
+
+    &:hover {
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+    }
+
+    &.UserDetailsModal-tab-active {
+      color: #0f172a;
+      background: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+.UserDetailsModal-tabs-inner {
+  display: inline-flex;
+  padding: 4px;
+  // Warm-neutral grey (white-smoke family) instead of cool slate, so it doesn't
+  // read as a lavender tint on the white player-info modal.
+  background: #f0efeb;
+  border-radius: 9999px;
+  gap: 4px;
+}
+
+.UserDetailsModal-tabs,
+.UserDetailsModal-tab-content {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.UserDetailsModal-tab-content {
+  background: transparent;
+  border-top: none;
+}
+
+.UserDetailsModal-bio {
+  font-size: 14px;
+  max-height: 260px;
+  min-height: 60px;
+  padding: 16px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  color: #3a3a3a;
+  line-height: 1.6;
+}
+
+.UserDetailsModal-bio-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  color: $muted;
+  font-style: italic;
+}
+
+.UserDetailsModal-games-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.UserDetailsModal-games-list {
+  padding: 0;
+  overflow: visible;
+  max-height: none;
+
+  .GameSummaryList {
+    padding: 0 4px 4px 4px;
+    /* Single column inside the profile modal (the shared list is two columns).
+       minmax(0,…) — plain `1fr` floors the track at the item's min-content and
+       would stop the row from shrinking to the sheet. */
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .GameSummaryList-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: transparent;
+    gap: 10px;
+
+    &:last-child { border-bottom: none; }
+    &:hover {
+      border-color: rgba(var(--ui-color-rgb), 0.4) !important;
+      box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.10) !important;
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--ui-color) 5%, #fcfcfb) !important;
+    }
+  }
+
+  .GameSummaryList-item-type {
+    flex-shrink: 0;
+  }
+
+  .GameSummaryList-item-players {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    font-size: 13px;
+    width: auto;
+
+    .GamePlayersList { flex-wrap: nowrap; overflow: hidden; }
+    .GamePlayersList-player {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .UserName {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .UserName-rank-chip {
+      flex-shrink: 0;
+      margin-left: 4px;
+    }
+  }
+
+  .GameSummaryList-item-info {
+    text-align: right;
+    flex-shrink: 0;
+    padding: 0;
+    font-size: 12px;
+    color: #94a3b8;
+    min-width: 90px;
+  }
+
+  .GameSummaryList-item-result {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    font-weight: 600;
+    color: #3a3a3a;
+    font-size: 12px;
+  }
+
+  /* Drop the default off-card absolute dot; use the explicit flex dot instead. */
+  .GameSummaryList-item-won .GameSummaryList-item-result:before,
+  .GameSummaryList-item-lost .GameSummaryList-item-result:before {
+    display: none !important;
+  }
+
+  .GameSummaryList-item-result-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: $semi-muted;
+  }
+
+  .GameSummaryList-item-result-won .GameSummaryList-item-result-dot {
+    background: $won-color;
+  }
+
+  .GameSummaryList-item-result-lost .GameSummaryList-item-result-dot {
+    background: $lost-color;
+  }
+
+  .GameSummaryList-item-date {
+    font-size: 13px;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+
+  .GameSummaryList-item-date-now {
+    font-weight: 600;
+    color: $accent;
+    font-size: 12px;
+  }
+
+  /* Type / handicap / size pills grouped before the result. */
+  .GameSummaryList-item-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  /* Presentation icon shown before the name on demo games. */
+  .GameSummaryList-item-demo-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 7px;
+    color: var(--ui-color);
+    flex-shrink: 0;
+  }
+
+  /* Handicap badge, same style as the live game list. */
+  .GameSummaryList-item-handicap-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Board size badge, same amber style as the live game list. */
+  .GameSummaryList-item-size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #b45309;
+    background: rgba(217, 119, 6, 0.08);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    border-radius: 12px;
+    padding: 2px 7px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .GameSummaryList-item-result-rules {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+body.dark-mode .UserDetailsModal-games-list,
+body.mid-mode .UserDetailsModal-games-list {
+  .GameSummaryList-item-size {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  /* The result kept the light theme's near-black text — barely legible on the
+     dark card. Same treatment as the My Games list. */
+  .GameSummaryList-item-result {
+    color: var(--dk-fg-strong);
+  }
+
+  .GameSummaryList-item-date {
+    color: var(--dk-fg-muted);
+  }
+}
+
+.UserDetailsModal-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 0 16px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  .UserDetailsModal-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+
+    &:hover:not(:disabled) {
+      background: #f0efeb !important;
+      color: #0f172a !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none !important;
+      background: #faf9f6 !important;
+      border-color: rgba(0, 0, 0, 0.05) !important;
+    }
+  }
+
+  .UserDetailsModal-pagination-info {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    min-width: 90px;
+    text-align: center;
+    user-select: none;
+  }
+}
+
+.UserDetailsModal-rank-graph {
+  padding: 16px 0;
+  min-height: 220px;
+}
+
+.UserDetailsModal-no-rank-graph {
+  color: $muted;
+  padding: 0 16px;
+}
+
+.UserDetailsModal-message,
+.UserDetailsModal-edit-button {
+  margin-top: 0;
+  font-weight: 300;
+}
+
+@media #{$mobile-query} {
+  /* Action icons move out of the dark header into their own row beneath it.
+     Absolutely positioned in the header they overlapped the status line
+     ("Online") on narrow screens. The header is the flex container, so the
+     actions wrap onto a second line once they're static + full width. */
+  .UserDetailsModal-top-bar {
+    flex-wrap: wrap;
+    padding-bottom: 0;
+  }
+
+  /* Own row beneath the name block, keeping the header's dark background (the
+     icon colors are tuned for it). Full-bleed: `flex-basis: 100%` resolves
+     against the header's *content* box, so the width must add back both 24px
+     paddings or the row stops short of the right edge. */
+  .UserDetailsModal-top-bar .UserDetailsModal-actions {
+    position: static;
+    flex-basis: auto;
+    width: calc(100% + 48px);
+    margin: 6px -24px 0 -24px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    gap: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Presence dot sits inline, immediately before the status text. */
+  .UserDetailsModal-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .UserDetailsModal-status-dot {
+    display: block;
+  }
+
+  /* The metadata line sits at the top of the Bio panel; tighter margin here. */
+  .UserDetailsModal-metadata-line-bio {
+    margin: 0 0 12px 0;
+  }
+
+  /* Bio, rank graph and games all get the same narrow inset as each other —
+     the sheet's 24px side padding wastes width on a phone. */
+  .UserDetailsModal-details {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* The count is noise on a narrow segmented control — "Games" alone fits. */
+  .UserDetailsModal-tab-count {
+    display: none !important;
+  }
+
+  /* Profile game list: drop the handicap + board-size badges and give the
+     freed width to the usernames. The type (rated/free) icon survives but
+     moves next to the result — `display: contents` promotes it and the
+     result/date out of their wrappers so `order` can interleave them. */
+  .UserDetailsModal-games-list {
+    .GameSummaryList-item-handicap-icon,
+    .GameSummaryList-item-size {
+      display: none !important;
+    }
+
+    /* Promote the type (rated/free) icon out of the badges wrapper so it can be
+       ordered next to the result. The result/date pair becomes a column — NOT
+       `display: contents` + `flex-basis: 100%`: a wrapping flex container
+       computes its max-content width as if every item shared one line, so the
+       date's width got reserved twice and stole ~80px from the names. */
+    .GameSummaryList-item-badges {
+      display: contents;
+    }
+
+    .GameSummaryList-item-tag {
+      order: 1;
+    }
+
+    /* Result line reads: type icon · score · outcome dot, with the date
+       right-aligned underneath. The icon used here is the copy rendered inside
+       the result (`-type-inline`): the badges copy sits outside the
+       result/date column, so the wider date pushed it far from the score. */
+    .GameSummaryList-item-badges .GameSummaryList-item-type {
+      display: none;
+    }
+
+    .GameSummaryList-item-type-inline {
+      display: inline-flex;
+      align-items: center;
+      order: -1;
+      margin-right: 2px;
+    }
+
+    .GameSummaryList-item-outcome {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .GameSummaryList-item-result {
+      margin-right: 0 !important;
+    }
+
+    /* Dot is first in the DOM; the score is an anonymous flex item at order 0,
+       so ordering the dot after it puts it last. */
+    .GameSummaryList-item-result-dot {
+      order: 2;
+    }
+
+    .GameSummaryList-item-date {
+      text-align: right;
+      align-self: stretch;
+    }
+
+    /* Sized by its own content only (result + date), never stretched — the
+       leftover width belongs to the names. `nowrap` keeps the intrinsic width
+       honest now that the outcome column handles the line break itself. */
+    .GameSummaryList-item-info {
+      justify-content: flex-end;
+      flex-wrap: nowrap !important;
+      gap: 6px !important;
+      flex: 0 0 auto !important;
+      min-width: 0 !important;
+      width: auto;
+      margin-left: 0;
+    }
+
+    /* Names were truncated ("mjtost…") while empty space sat in the middle of
+       the row: the players column is shrink-to-fit, so it never claimed the
+       width its parent had. Stretch the whole chain and drop the desktop
+       150px cap, then ellipsis only at the actual edge. */
+    /* Zero flex-basis: the cell claims whatever the result/date column leaves,
+       instead of being sized by its own (truncated) content. Every level down
+       to the name must then stretch, or the row keeps a hole in the middle
+       while the name ellipsises early. */
+    .GameSummaryList-item-players {
+      flex: 1 1 0% !important;
+      min-width: 0;
+      overflow: hidden;
+
+      .GamePlayersList {
+        width: 100% !important;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .GamePlayersList-player {
+        max-width: none !important;
+        width: 100% !important;
+        min-width: 0;
+      }
+
+      .UserName {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .UserName-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+      }
+
+      .UserName-rank-chip {
+        flex-shrink: 0;
+      }
+    }
+
+    .GameSummaryList-item-date {
+      white-space: nowrap;
+    }
+
+    /* Tighter horizontal margins — more room for the names. */
+    .GameSummaryList {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .GameSummaryList-item {
+      padding-left: 8px;
+      padding-right: 10px;
+    }
+  }
+
+
+  /* The edit-profile button (own profile) reads better left-aligned than
+     spread across the row. */
+  .UserDetailsModal-top-bar
+    .UserDetailsModal-actions
+    .UserDetailsModal-edit-button {
+    margin: 0 auto 0 0;
+  }
+
+  /* Shorter, full-width segmented control on mobile — the desktop pill reads
+     too tall and floaty on the narrow sheet. Softer (less pill-round) corners,
+     tighter height, and larger text that fills the tabs. */
+  .UserDetailsModal-tabs {
+    margin: 0 0 10px 0;
+
+    a.UserDetailsModal-tab {
+      flex: 1;
+      min-width: 0;
+      padding: 4px 6px;
+      font-size: 14px;
+      border-radius: 7px;
+    }
+  }
+
+  .UserDetailsModal-tabs-inner {
+    display: flex;
+    width: 100%;
+    padding: 2px;
+    border-radius: 9px;
+  }
+
+  /* Fill the full sheet height: let the content column stretch so the bio (or
+     games / rank panel) extends to the bottom instead of a short floating box. */
+  body .UserDetailsModal .UserDetailsModal-user-info {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .UserDetailsModal-tabs-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .UserDetailsModal-tab-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .UserDetailsModal-bio {
+    max-height: none;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .UserList-players-header,
+  .UserList-section-title-collapsible {
+    display: none !important;
+  }
+
+  .UserName-selfish {
+    display: none !important;
+  }
+}
+
+.UserDetailsEditForm {
+  padding: 4px 0 0 0;
+}
+
+.UserDetailsEditForm-fields {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 16px 0;
+  gap: 6px;
+
+  input,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.UserDetailsEditForm-country {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.UserDetailsEditForm-country-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .SelectInput {
+    flex: 1;
+    box-sizing: border-box;
+  }
+}
+
+.UserDetailsEditForm-country-flag {
+  flex: none;
+  width: 22px;
+  height: 16px;
+  border-radius: 2px;
+}
+
+.UserDetailsEditForm-country-note {
+  font-size: 11px;
+  color: $semi-muted;
+
+  body.dark-mode & {
+    color: #64748b;
+  }
+}
+
+.UserDetailsEditForm-input-error {
+  border-color: $error-bg !important;
+
+  &:focus {
+    border-color: $error-bg !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+  }
+}
+
+.UserDetailsEditForm-field-error {
+  font-size: 12px;
+  font-weight: 500;
+  color: $error-bg;
+  margin: -6px 0 0 2px;
+}
+
+.UserDetailsEditForm-bio {
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    min-height: 260px;
+    resize: vertical;
+  }
+}
+
+.UserDetailsEditForm-bio-count {
+  font-size: 11px;
+  color: $semi-muted;
+  text-align: right;
+  padding-top: 3px;
+
+  body.dark-mode & {
+    color: #64748b;
+  }
+}
+
+
+// "Primary window" modals — substantive editor/settings windows (Load game,
+// Edit profile, Mailbox, Preferences, the board/stone/background customizers,
+// About) — use the same dark-green gradient header as the Challenge window,
+// intentionally identical in all themes, instead of the plain transparent header
+// that blended into the body. See DESIGN_RULES §2 "Primary Modal Header".
+// Small info/confirm popups (Feedback, Game Info, Give Control, etc.) keep the
+// plain secondary header.
+.Modal:has(.UserGameSummary),
+.Modal:has(.UserDetailsEditForm),
+.Modal:has(.LeaveMessageModal),
+.Modal:has(.PreferencesModal),
+.Modal:has(.PreferencesModal-loading),
+.Modal:has(.CustomBoardModal),
+.Modal:has(.CustomStoneModal),
+.Modal:has(.BgModal),
+.Modal:has(.AboutModal-tabs-container) {
+  .Modal-title {
+    background: linear-gradient(135deg, #2d3a32 0%, #1a2420 100%);
+    color: #7a9e8e !important;
+    border-bottom: none !important;
+    padding: 28px 24px 22px 24px;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+}
+
+.UserGameSummary {
+  padding: 20px 24px 0 24px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  // 3-dots loader shown while the game loads (matches the board loader).
+  .UserGameSummary-loading {
+    padding: 28px 0;
+  }
+
+  .UserGameLoadForm-room {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: $semi-muted;
+      white-space: nowrap;
+      margin: 0;
+    }
+
+    .SelectInput {
+      flex: 1;
+    }
+  }
+
+  .UserGameLoadForm-fields {
+    .ToggleSwitch {
+      display: inline-flex;
+      width: auto;
+      gap: 16px;
+    }
+  }
+
+  .UserGameLoadForm-action {
+    margin: 0 -48px;
+    padding: 16px 48px 24px 48px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+  }
+}
+
+.UserGameSummary-players {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px 0 18px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  margin-bottom: 14px;
+}
+
+.UserGameSummary-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.UserGameSummary-vs {
+  font-size: 13px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.UserGameSummary-stone {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.UserGameSummary-stone-white {
+  background: radial-gradient(circle at 33% 33%, #fff 0%, #f0f0ee 38%, #d8d8d4 72%, #b4b4b0 100%);
+  border: 1px solid rgba(0,0,0,0.35);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.UserGameSummary-stone-black {
+  background: radial-gradient(circle at 33% 33%, #686868 0%, #2c2c2c 30%, #111 68%, #050505 100%);
+  border: 1px solid rgba(0,0,0,0.5);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.UserGameSummary-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+}
+
+.UserGameSummary-meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  padding: 6px 0;
+
+  & + & {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
+
+.UserGameSummary-meta-label {
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+.UserGameSummary-meta-value {
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.UserGameSummary-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.07);
+  margin: 0 0 16px 0;
+}
+
+/* ── Rank Graph (Recharts) ─────────────────────────── */
+.RankGraph-container {
+  --graph-grid: rgba(0, 0, 0, 0.06);
+  --graph-axis: rgba(0, 0, 0, 0.45);
+  --graph-cursor: rgba(0, 0, 0, 0.12);
+  --accent: var(--ui-color);
+  width: 100%;
+  height: 260px;
+  margin-top: 8px;
+}
+
+.RankGraph-tooltip {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-family: inherit;
+  pointer-events: none;
+}
+
+.RankGraph-tooltip-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.RankGraph-tooltip-rank {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 500;
+
+  // Theme accent (consistent per theme, same for every rank) — not the fixed
+  // teal/green that ignored the UI color.
+  strong {
+    color: var(--ui-color);
+    font-weight: 500;
+  }
+}
+
+.UserIcons-jr-admin {
+  color: #0284c7; // Sky blue
+}
+
+.UserIcons-sr-admin {
+  color: #f59e0b; // Gold / Amber
+}
+
+.UserIcons-super-admin {
+  color: #ef4444; // Red
+}
+
+.UserIcons-teacher {
+  color: #64748b; // Slate
+}
+
+body.dark-mode {
+  .RankGraph-container {
+    --graph-grid: rgba(255, 255, 255, 0.08);
+    --graph-axis: rgba(255, 255, 255, 0.5);
+    --graph-cursor: rgba(255, 255, 255, 0.2);
+    --accent: var(--dk-accent);
+  }
+
+  .RankGraph-tooltip {
+    background: var(--dk-surface, #243028);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  .RankGraph-tooltip-date {
+    color: var(--dk-fg-dim);
+  }
+
+  .RankGraph-tooltip-rank {
+    color: var(--dk-fg-strong);
+  }
+
+  .UserList-players-header {
+    background: var(--dk-bg-off) !important;
+  }
+
+  .UserList-header {
+    background: transparent !important;
+    border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+
+    .CheckboxInput-label {
+      color: var(--dk-fg-muted) !important;
+    }
+
+    .ToggleSwitch {
+      background: var(--dk-bg-off) !important;
+    }
+  }
+
+  .UserList-count {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .UserList-item {
+    a {
+      color: var(--dk-fg) !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.04) !important;
+      }
+    }
+  }
+
+  .UserList-section-title {
+    background: var(--dk-bg-off) !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .UserList-section-title-collapsible {
+    &:hover {
+      background: var(--dk-bg-off) !important;
+      color: #9cd4b9 !important;
+    }
+  }
+
+  .UserIcons-jr-admin {
+    color: #38bdf8;
+  }
+
+  .UserIcons-sr-admin {
+    color: #fbbf24;
+  }
+
+  .UserIcons-super-admin {
+    color: #f87171;
+  }
+
+  .UserIcons-teacher {
+    color: #94a3b8;
+  }
+
+  /* Segmented tabs dark mode styling */
+  .UserDetailsModal-main {
+    background: var(--dk-modal-bg) !important;
+  }
+
+  .UserDetailsModal-top-bar {
+    background: var(--dk-bg) !important;
+  }
+
+  .UserDetailsModal-top-bar .UserDetailsModal-name,
+  .UserDetailsModal-top-bar .UserDetailsModal-name .UserName,
+  .UserDetailsModal-top-bar .UserDetailsModal-name a {
+    color: var(--dk-fg-muted) !important;
+    font-weight: 300 !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .UserDetailsModal-realname-header {
+    color: var(--dk-fg-muted) !important;
+    font-weight: 300 !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .UserDetailsModal-tabs-inner {
+    background: var(--dk-bg) !important;
+  }
+
+  a.UserDetailsModal-tab {
+    color: var(--dk-fg-muted) !important;
+
+    &:hover {
+      color: var(--dk-fg) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    &.UserDetailsModal-tab-active {
+      color: var(--dk-fg) !important;
+      background: var(--dk-bg-off) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    }
+  }
+
+  .UserDetailsModal-tab-content {
+    background: transparent !important;
+  }
+
+  .UserDetailsModal-bio {
+    color: var(--dk-fg) !important;
+  }
+
+  .UserDetailsModal-metadata-line {
+    .UserDetailsModal-realname {
+      color: #a8c4b4 !important;
+    }
+
+    .UserDetailsModal-info-bullet {
+      background: var(--dk-bg) !important;
+      color: var(--dk-fg) !important;
+
+      .Icon {
+        color: var(--dk-fg-muted) !important;
+      }
+    }
+  }
+
+  .UserDetailsModal-pagination {
+    border-top-color: rgba(255,255,255,0.08) !important;
+
+    .UserDetailsModal-pagination-btn {
+      background: var(--dk-bg) !important;
+      color: var(--dk-fg) !important;
+      border-color: rgba(255,255,255,0.1) !important;
+      box-shadow: none !important;
+
+      &:hover:not(:disabled) {
+        background: var(--dk-bg-off) !important;
+        color: var(--dk-fg) !important;
+        border-color: rgba(255,255,255,0.2) !important;
+      }
+
+      &:disabled {
+        opacity: 0.35;
+        background: var(--dk-bg) !important;
+        border-color: rgba(255,255,255,0.08) !important;
+      }
+    }
+
+    .UserDetailsModal-pagination-info {
+      color: var(--dk-fg-muted) !important;
+    }
+  }
+
+  /* Game Summary Modal dark mode styling overrides */
+  .UserGameSummary-player {
+    color: var(--dk-fg) !important;
+  }
+
+  .UserGameSummary-meta {
+    background: var(--dk-bg) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .UserGameSummary-meta-item + .UserGameSummary-meta-item {
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .UserGameSummary-meta-value {
+    color: var(--dk-fg-strong) !important;
+  }
+
+  .UserGameSummary-players {
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .UserGameSummary-divider {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .UserGameLoadForm-action {
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .UserGameLoadForm-room label {
+    color: var(--dk-fg-muted) !important;
+  }
+}
+
+/* Automatch Panel Styles */
+.PlayScreen-automatch-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  .PlayScreen-automatch-settings-btn {
+    background: transparent !important;
+    border-color: rgba(var(--ui-color-rgb), 0.6) !important;
+    color: rgba(var(--ui-color-rgb), 0.6) !important;
+
+    &.active {
+      background: transparent !important;
+      border-color: rgba(var(--ui-color-rgb), 0.6) !important;
+      color: rgba(var(--ui-color-rgb), 0.6) !important;
+    }
+  }
+
+  .PlayScreen-automatch-settings-btn.searching {
+    border-color: $warning-bg !important;
+    color: $warning-bg !important;
+
+    .Button-icon {
+      animation: spin 1s infinite linear;
+    }
+  }
+
+  .PlayScreen-automatch-status {
+    font-size: 13px;
+    font-weight: 600;
+    color: $accent;
+    margin-left: 8px;
+    letter-spacing: 0.02em;
+    animation: PlayScreen-pulse-text 1.8s infinite ease-in-out;
+  }
+}
+
+@keyframes PlayScreen-pulse-text {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Play icon button + its "Create challenge / Automatch" dropdown menu. */
+.PlayScreen-play-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+// Spin the play glyph while an automatch search is running.
+.PlayScreen-play-btn.searching .Button-icon {
+  animation: spin 1s infinite linear;
+}
+
+.PlayScreen-play-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.PlayScreen-play-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 41;
+  min-width: 200px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  // Lifted dropdown surface — follows the dropdown-menu convention
+  // (DESIGN_RULES §5): faint warm tint in light, #f6efe0 in mid, surface in dark.
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+
+  body.mid-mode & {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+  }
+
+  body.dark-mode & {
+    background: var(--dk-modal-bg);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.PlayScreen-play-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  text-align: left;
+  cursor: pointer;
+
+  svg {
+    color: var(--ui-color);
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: rgba(var(--ui-color-rgb), 0.1);
+  }
+
+  body.dark-mode & {
+    color: var(--dk-fg);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+}
+
+// Automatch now uses the same ScreenModal + ChallengeEditor chrome as Create
+// Challenge (dark gradient header, rounded card). Width matches the challenge
+// modal so the two windows feel identical.
+// Constrain the modal card itself (not just the inner editor) so there is no
+// empty white gutter around the automatch form. Matches the Create Challenge
+// chrome, just narrower since the form is more compact.
+.ScreenModal-main:has(.PlayScreen-automatch-modal) {
+  width: 540px;
+  max-width: 95%;
+}
+
+.PlayScreen-automatch-modal {
+  width: 100%;
+}
+
+.PlayScreen-automatch-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 4px 24px 8px 24px;
+}
+
+.PlayScreen-automatch-actions.ChallengeEditor-buttons {
+  justify-content: flex-end;
+
+  .Button {
+    min-width: 120px;
+  }
+}
+
+.PlayScreen-automatch-form-row {
+  display: flex;
+  gap: 18px;
+
+  .PlayScreen-automatch-section {
+    flex: 1;
+    margin: 0;
+  }
+}
+
+.PlayScreen-automatch-section {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: #faf9f6;
+}
+
+.PlayScreen-automatch-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.PlayScreen-automatch-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.PlayScreen-automatch-checkbox-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  row-gap: 14px;
+}
+
+.PlayScreen-automatch-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--ui-color);
+    cursor: pointer;
+  }
+}
+
+.PlayScreen-automatch-diff-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.PlayScreen-automatch-diff-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.PlayScreen-automatch-diff-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.PlayScreen-automatch-diff-val {
+  width: 32px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0f172a;
+  user-select: none;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  background: #ffffff;
+  line-height: 28px;
+}
+
+.PlayScreen-automatch-diff-label {
+  font-size: 14px;
+  color: #334155;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.PlayScreen-automatch-diff-range {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.PlayScreen-automatch-est-rank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.PlayScreen-automatch-label-inline {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Now a SelectInput (custom dropdown) — the trigger inherits the reference
+   style; this just sizes the control. */
+.PlayScreen-automatch-select {
+  min-width: 90px;
+}
+
+.PlayScreen-automatch-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.PlayScreen-automatch-spinner {
+  color: var(--ui-color);
+
+  svg.animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Searching state: the automatch icon gently pulses its opacity and scale, so
+// it reads as a calm "searching" state rather than a fast loader. Scoped to the
+// automatch buttons only.
+.PlayScreen-automatch-settings-btn.searching .Icon,
+.PlayScreen-automatch-actions .Icon {
+  animation: automatch-pulse 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes automatch-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.PlayScreen-automatch-loading-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* Game Prep Countdown Overlay */
+.GameScreen-prep-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: all;
+  border-radius: 4px;
+}
+
+.GameScreen-prep-card {
+  background: var(--dk-surface, #243028);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 32px 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.GameScreen-prep-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ui-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.GameScreen-prep-timer {
+  font-size: 64px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 12px;
+  font-feature-settings: "tnum";
+}
+
+.GameScreen-prep-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.GameScreen-prep-warning {
+  font-size: 12px;
+  color: #f87171;
+  line-height: 1.5;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+body.dark-mode {
+  .PlayScreen-automatch-controls {
+    .PlayScreen-automatch-settings-btn {
+      color: var(--ui-color) !important;
+      border-color: var(--ui-color) !important;
+
+      &.active {
+        background: rgba(var(--ui-color-rgb), 0.15) !important;
+        color: var(--ui-color) !important;
+        border-color: var(--ui-color) !important;
+      }
+    }
+
+    .PlayScreen-automatch-status {
+      color: var(--ui-color);
+    }
+  }
+
+  .PlayScreen-automatch-section {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--dk-bg);
+  }
+
+  .PlayScreen-automatch-section-title {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayScreen-automatch-checkbox {
+    color: var(--dk-fg);
+  }
+
+  .PlayScreen-automatch-diff-control {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--dk-bg);
+  }
+
+  .PlayScreen-automatch-diff-btn {
+    background: var(--dk-bg);
+    color: #a8c4b4;
+
+    &:hover:not(:disabled) {
+      background: var(--dk-bg-off);
+      color: var(--dk-fg);
+    }
+  }
+
+  .PlayScreen-automatch-diff-val {
+    background: var(--dk-bg);
+    color: var(--dk-fg);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .PlayScreen-automatch-diff-label {
+    color: var(--dk-fg);
+  }
+
+  .PlayScreen-automatch-diff-range {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayScreen-automatch-diff-row {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .PlayScreen-automatch-est-rank {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .PlayScreen-automatch-label-inline {
+    color: #a8c4b4;
+  }
+
+  .PlayScreen-automatch-actions {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .PlayScreen-automatch-loading-text {
+    color: var(--dk-fg);
+  }
+}
+
+/* Mid (cream) theme — the Automatch modal otherwise falls through to the white
+   theme (#faf9f6 / #ffffff), which reads too white on the warm cream UI. Mirror
+   the Create Challenge treatment: section cards blend with the window, nested
+   fields (diff control, dropdown trigger) sit a notch deeper. No white patches. */
+body.mid-mode {
+  .PlayScreen-automatch-section {
+    background: #fbf5ea;
+    border-color: var(--dk-border);
+  }
+
+  .PlayScreen-automatch-section-title {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayScreen-automatch-checkbox {
+    color: var(--dk-fg);
+  }
+
+  .PlayScreen-automatch-diff-row {
+    border-top-color: var(--dk-border);
+  }
+
+  .PlayScreen-automatch-diff-control {
+    background: #f4ebd8;
+    border-color: var(--dk-border);
+  }
+
+  .PlayScreen-automatch-diff-btn {
+    background: #f4ebd8;
+    color: #6b5f4b;
+
+    &:hover:not(:disabled) {
+      background: #ece0c8;
+      color: var(--dk-fg);
+    }
+  }
+
+  .PlayScreen-automatch-diff-val {
+    background: #f4ebd8;
+    color: var(--dk-fg);
+    border-color: var(--dk-border);
+  }
+
+  .PlayScreen-automatch-diff-label {
+    color: var(--dk-fg);
+  }
+
+  .PlayScreen-automatch-diff-range {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayScreen-automatch-est-rank {
+    border-top-color: var(--dk-border);
+  }
+
+  .PlayScreen-automatch-label-inline {
+    color: var(--dk-fg-muted);
+  }
+}
+
+/* ── Player hover card (rich tooltip on game-list name hover) ────────────── */
+.PlayerHoverCard-trigger {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.PlayerHoverCard {
+  position: fixed;
+  z-index: 9999;
+  width: 272px;
+  padding: 12px 14px;
+  // Lifted floating surface — matches the dropdown-menu convention (DESIGN_RULES
+  // §5 Dropdowns): faint warm tint in light, --dk-surface in dark, #f6efe0 in mid.
+  background: #fcfbf8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  color: #334155;
+  // The card is interactive (friend/follow/block buttons), so it must receive
+  // pointer events; its own mouseenter cancels the trigger's hide timer.
+  pointer-events: auto;
+}
+
+.PlayerHoverCard-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .UserAvatar {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .UserAvatar img,
+  .UserAvatar svg,
+  .UserAvatar canvas {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+  }
+}
+
+.PlayerHoverCard-head-text {
+  min-width: 0;
+}
+
+.PlayerHoverCard-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.PlayerHoverCard-status-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.PlayerHoverCard-status-online {
+  background: #22c55e;
+}
+
+.PlayerHoverCard-status-playing {
+  background: #0284c7;
+}
+
+.PlayerHoverCard-status-idle {
+  background: #f59e0b;
+}
+
+.PlayerHoverCard-status-offline {
+  background: #cbd5e1;
+}
+
+.PlayerHoverCard-status-unknown {
+  background: #94a3b8;
+}
+
+.PlayerHoverCard-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.PlayerHoverCard-name-link {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+.PlayerHoverCard-bot {
+  display: inline-flex;
+  align-items: center;
+  color: #64748b;
+}
+
+.PlayerHoverCard-realname {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.PlayerHoverCard-status {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+.PlayerHoverCard-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  font-size: 12px;
+  color: #475569;
+}
+
+.PlayerHoverCard-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  svg {
+    color: #94a3b8;
+  }
+}
+
+.PlayerHoverCard-flag {
+  width: 22px;
+  height: 16px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.UserDetailsModal-flag {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.PlayerHoverCard-loading {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.PlayerHoverCard-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.PlayerHoverCard-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.12s ease;
+
+  &:hover {
+    color: var(--ui-color);
+  }
+}
+
+.PlayerHoverCard-action-divider {
+  align-self: stretch;
+  width: 1px;
+  margin: 2px 2px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.PlayerHoverCard-action-active {
+  color: var(--ui-color);
+}
+
+.PlayerHoverCard-action-block {
+  &.PlayerHoverCard-action-active {
+    color: $error-bg;
+  }
+}
+
+body.dark-mode {
+  .PlayerHoverCard {
+    background: var(--dk-surface);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    color: var(--dk-fg);
+  }
+
+  .PlayerHoverCard-name {
+    color: var(--dk-fg-strong);
+  }
+
+  .PlayerHoverCard-realname {
+    color: var(--dk-fg-dim);
+  }
+
+  .PlayerHoverCard-status {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-meta {
+    border-top-color: rgba(255, 255, 255, 0.08);
+    color: var(--dk-fg-faint);
+  }
+
+  .PlayerHoverCard-meta-item svg {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-actions {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .PlayerHoverCard-action {
+    color: var(--dk-fg-dim);
+  }
+
+  .PlayerHoverCard-action-divider {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+/* ── Mid (cream) theme ───────────────────────────────────── */
+body.mid-mode {
+  .UserList-header,
+  .UserList-section-title,
+  .UserList-players-header {
+    background: #f4ebd8 !important;
+  }
+
+  /* Load Game modal — warm the text/dividers to match the cream theme (was
+     falling through to the cool light colors). */
+  .UserGameSummary-player {
+    color: var(--dk-fg) !important;
+  }
+
+  .UserGameSummary-meta {
+    background: #f4ebd8 !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  .UserGameSummary-meta-item + .UserGameSummary-meta-item {
+    border-top-color: var(--dk-border) !important;
+  }
+
+  .UserGameSummary-vs {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .UserGameSummary-meta-label {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  .UserGameSummary-meta-value {
+    color: var(--dk-fg) !important;
+  }
+
+  .UserGameSummary-players {
+    border-bottom-color: var(--dk-border) !important;
+  }
+
+  .UserGameSummary-divider {
+    background: var(--dk-border) !important;
+  }
+
+  .UserGameLoadForm-action {
+    border-top-color: var(--dk-border) !important;
+  }
+
+  .UserGameLoadForm-room label {
+    color: var(--dk-fg-muted) !important;
+  }
+
+  // Row hover otherwise uses the cool white-theme $hover-bg (#f1f5f9); warm it
+  // to match the cream chat panel.
+  .UserList-item > a:hover {
+    background: rgba(59, 49, 39, 0.06) !important;
+  }
+
+  // Primary windows (player-info, challenge editor, screen modals): no border —
+  // just a soft warm shadow for separation. See DESIGN_RULES §5.
+  .Modal-main,
+  .ScreenModal-main,
+  .UserDetailsModal-main {
+    border: none !important;
+    box-shadow: 0 12px 32px rgba(59, 49, 39, 0.14),
+      0 3px 10px rgba(59, 49, 39, 0.07) !important;
+  }
+
+  // Profile Bio / Games / Rank tabs otherwise use the cool slate light theme
+  // (#f1f5f9 track, #ffffff active) — warm them to the cream theme.
+  .UserDetailsModal-tabs-inner {
+    background: #f0e4cc !important;
+  }
+
+  a.UserDetailsModal-tab {
+    color: var(--dk-fg-muted) !important;
+
+    &:hover {
+      color: var(--dk-fg) !important;
+      background: rgba(255, 255, 255, 0.45) !important;
+    }
+
+    &.UserDetailsModal-tab-active {
+      color: var(--dk-fg) !important;
+      background: #fffdf8 !important;
+      box-shadow: 0 1px 3px rgba(59, 49, 39, 0.12) !important;
+    }
+  }
+
+  // "Joined … ago" / country meta pills — same cool slate (#f1f5f9) → warm sand.
+  .UserDetailsModal-metadata-line .UserDetailsModal-info-bullet {
+    background: #f0e4cc !important;
+    color: var(--dk-fg) !important;
+
+    .Icon {
+      color: var(--dk-fg-muted) !important;
+    }
+  }
+
+  // Games-tab pagination buttons — same warm treatment (were #ffffff / cool).
+  .UserDetailsModal-pagination {
+    border-top-color: var(--dk-border) !important;
+
+    .UserDetailsModal-pagination-btn {
+      background: #fffdf8 !important;
+      color: var(--dk-fg) !important;
+      border-color: var(--dk-border) !important;
+      box-shadow: 0 1px 2px rgba(59, 49, 39, 0.06) !important;
+
+      &:hover:not(:disabled) {
+        background: #f0e4cc !important;
+        color: var(--dk-fg) !important;
+        border-color: rgba(59, 49, 39, 0.28) !important;
+      }
+    }
+  }
+
+  // Player hover card otherwise falls through to the white theme (#ffffff),
+  // which reads too white on the cream surface — warm lifted tone like the
+  // dropdown menus.
+  .PlayerHoverCard {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+    box-shadow: 0 12px 32px rgba(59, 49, 39, 0.18);
+    color: var(--dk-fg);
+  }
+
+  .PlayerHoverCard-name {
+    color: var(--dk-fg);
+  }
+
+  .PlayerHoverCard-realname,
+  .PlayerHoverCard-status {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-meta {
+    border-top-color: var(--dk-border);
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-meta-item svg {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-actions {
+    border-top-color: var(--dk-border);
+  }
+
+  .PlayerHoverCard-action {
+    color: var(--dk-fg-muted);
+  }
+
+  .PlayerHoverCard-action-divider {
+    background: var(--dk-border);
+  }
+}

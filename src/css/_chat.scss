@@ -1,0 +1,2401 @@
+@media #{$nonmobile-query} {
+  .ChatScreen {
+    position: fixed;
+    // Align the top edge with the Watch/Play card: .Main-content padding-top
+    // (58px) + the .WatchScreen/.PlayScreen margin-top (24px) = 82px.
+    top: 82px;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 1320px;
+    background: #eef4f0;
+    border: none;
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  .ChatScreen-tabs {
+    position: relative;
+    width: 340px;
+    flex-shrink: 0;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    background: #fcfcfb;
+    border-right: 1px solid rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px 8px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+  }
+
+  // The sidebar splits into a Rooms pane and a Players pane with a draggable
+  // divider between them; each pane scrolls independently.
+  .ChatScreen-tabs-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  // flex-basis (set inline) is the chosen height; grow 0 / shrink 1 lets the
+  // pane give way when the sidebar is too short, so the divider below always
+  // stays on-screen and grabbable.
+  .ChatScreen-tabs-inner > .ChatScreen-tabs-section-rooms {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 44px;
+    margin-bottom: 0;
+
+    .ChatScreen-tabs-section-items {
+      flex: 1 1 0;
+      // !important: the global .ChatScreen-tabs-section-rooms cap is same
+      // specificity but later in the file, so it would otherwise win and leave
+      // an empty gap below the list.
+      max-height: none !important;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  .ChatScreen-tabs-inner > .ChatScreen-tabs-section-players {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 56px;
+    margin-bottom: 0;
+
+    .ChatScreen-player-results {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  .ChatScreen-tab {
+    &.ChatScreen-tab-active {
+      background: rgba($accent, 0.08);
+      border-radius: 12px;
+      border-bottom: none;
+
+      .ChatScreen-tab-name {
+        font-weight: 600;
+        color: $accent;
+      }
+
+      .ChatScreen-tab-info {
+        color: #64748b;
+      }
+    }
+  }
+
+  .ChatScreen-active-chat {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    flex: 1;
+    background: #ffffff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // A direct-message (.UserChat) is narrower (right:220px); fill the gap on the
+  // right with the chat panel tone instead of leaving a bare white strip.
+  .ChatScreen-active-chat:has(.UserChat) {
+    background: #fcfcfb;
+  }
+
+  .RoomChat-messages-container {
+    position: absolute;
+    left: 0;
+    top: 61px;
+    right: 220px;
+    bottom: 72px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    background: #ffffff;
+  }
+
+  .RoomChat-messages {
+    padding: 20px 24px;
+  }
+
+  .RoomChat-message-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 220px;
+    padding: 10px 16px;
+    background: #fcfcfb;
+    border-top: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .RoomChat-sidebar {
+    position: absolute;
+    right: 0;
+    top: 61px;
+    bottom: 0;
+    width: 220px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    font-size: 14px;
+    border-left: 1px solid rgba(0,0,0,0.07);
+    background: #fcfcfb;
+    padding: 0 0 12px 0;
+    .UserList-header {
+      width: 100%;
+      box-sizing: border-box;
+      background: #fcfcfb;
+    }
+
+    .UserList-players-header,
+    .UserList-section-title {
+      background: #fcfcfb;
+    }
+
+    .UserName { font-size: 15px; }
+    .UserName-icons { font-size: 15px; }
+    .UserIcons-icon { margin-right: 2px; }
+  }
+
+  .UserChat {
+    position: absolute;
+    left: 0;
+    top: 0;
+    // Match the room message area width (RoomChat-messages-container ends at
+    // right:220px, reserving the user-sidebar gap) so a DM doesn't stretch
+    // full-width. The 220px on the right stays as the panel background.
+    right: 220px;
+    bottom: 0;
+    background: #ffffff;
+  }
+
+  .UserChat-header,
+  .UserChat-messages,
+  .UserChat-message-bar {
+    max-width: 100%;
+  }
+
+  .UserChat-messages {
+    position: absolute;
+    top: 61px;
+    left: 0;
+    right: 0;
+    bottom: 64px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    padding: 16px 0;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .UserChat-message-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: #fcfcfb;
+  }
+
+  /* Sidebar split handle: just the chevrons on desktop — the flanking rules
+     read as a divider the narrow sidebar doesn't need. */
+  .ChatScreen-tabs-resize-grip::before,
+  .ChatScreen-tabs-resize-grip::after {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .ChatScreen {
+    left: 0;
+    right: 0;
+    width: auto;
+    margin: 0;
+  }
+}
+
+.ChatScreen-tab {
+  display: block;
+  margin: 2px 0;
+  background: transparent;
+  border-bottom: none;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  position: relative;
+  transition: background 0.12s ease;
+
+  .ChatScreen-tab-info {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 1px;
+  }
+
+  a.ChatScreen-tab-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: none;
+    text-decoration: none;
+    color: #3a3a3a;
+  }
+
+  .ChatScreen-tab-avatar {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    svg {
+      width: 32px !important;
+      height: 32px !important;
+      display: block;
+    }
+  }
+
+  a.ChatScreen-tab-close {
+    padding: 6px 10px;
+    border: none;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b0b8c8;
+    font-size: 16px;
+    line-height: 1;
+    transition: color 0.12s ease;
+  }
+
+  &:hover {
+    background: rgba(0,0,0,0.04);
+  }
+
+  &.ChatScreen-tab-join {
+    a.ChatScreen-tab-label {
+      color: $accent;
+      font-weight: 500;
+    }
+  }
+
+  &.ChatScreen-tab-friends {
+    a.ChatScreen-tab-label {
+      color: #f59e0b;
+      font-weight: 500;
+    }
+  }
+}
+
+.ChatScreen-tabs-section {
+  margin-bottom: 8px;
+
+  &.ChatScreen-tabs-section-rooms {
+    .ChatScreen-tabs-section-items {
+      max-height: 360px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+.ChatScreen-tabs-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 4px 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 4px;
+}
+
+.ChatScreen-tabs-section-title {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #64748b;
+}
+
+.ChatScreen-player-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 8px;
+  padding: 0 8px;
+  height: 34px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  svg { flex-shrink: 0; color: #64748b; }
+}
+
+.ChatScreen-player-search-input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  line-height: 1;
+  height: 100%;
+  padding: 0;
+  color: #1e293b;
+  outline: none;
+
+  &::placeholder { color: #64748b; }
+}
+
+.ChatScreen-player-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.1s ease;
+
+  &:hover { background: rgba(0, 0, 0, 0.04); }
+}
+
+.ChatScreen-tab-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+
+  .ChatScreen-player-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+}
+
+.ChatScreen-player-status {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+
+  &.ChatScreen-player-status-online { background: #22c55e; }
+  &.ChatScreen-player-status-playing { background: #0284c7; }
+  &.ChatScreen-player-status-idle { background: #f59e0b; }
+  &.ChatScreen-player-status-offline { background: #cbd5e1; }
+  &.ChatScreen-player-status-unknown { background: #94a3b8; }
+}
+
+.ChatScreen-join-room-btn {
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--ui-color);
+    background: var(--ui-color);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(var(--ui-color-rgb), 0.25);
+    }
+
+    &:active {
+      transform: translateY(0);
+      opacity: 0.9;
+    }
+  }
+}
+
+
+.ChatScreen-friends-panel {
+  overflow-y: auto;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  max-height: 260px;
+}
+
+.FriendsList {
+  padding: 4px 0;
+}
+
+.FriendsList-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+
+  .Icon { font-size: 24px; margin-bottom: 8px; color: #f59e0b; opacity: 0.5; }
+}
+
+.FriendsList-empty-hint {
+  font-size: 11px;
+  margin-top: 4px;
+  color: #b0bec5;
+}
+
+.FriendsList-section-title {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  padding: 6px 12px 2px;
+}
+
+.FriendsList-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 13px;
+
+  &:hover { background: rgba(0,0,0,0.03); }
+}
+
+.FriendsList-status {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  flex-shrink: 0;
+
+  &.online { background: #22c55e; }
+}
+
+.FriendsList-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1e1e1e;
+  font-weight: 500;
+}
+
+/* The friend list is a full-screen modal on mobile — give the rows a little
+   more size and breathing room than the compact desktop dropdown. */
+@media #{$mobile-query} {
+  .FriendsList-item {
+    font-size: 15px;
+    padding: 9px 16px;
+  }
+
+  .FriendsList-section-title {
+    font-size: 13px;
+    padding: 10px 16px 4px;
+  }
+}
+
+.FriendsList-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.FriendsList-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #64748b;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.FriendsList-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.01);
+  padding: 0 4px;
+}
+
+.FriendsList-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #0f172a;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  &.active {
+    color: var(--ui-color);
+    border-bottom-color: var(--ui-color);
+  }
+}
+
+.no-touch .ChatScreen-tab {
+  a.ChatScreen-tab-close { display: none; }
+  &:hover a.ChatScreen-tab-close { display: block; }
+  a.ChatScreen-tab-close:hover { color: #3a3a3a; }
+  &.ChatScreen-tab-active a.ChatScreen-tab-close:hover { color: $accent; }
+}
+
+.ChatScreen-tab-active {
+  font-weight: 600;
+  background: rgba(var(--ui-color-rgb), 0.08) !important;
+  border-radius: 12px;
+
+  a.ChatScreen-tab-label { color: var(--ui-color); }
+  .ChatScreen-tab-name { color: var(--ui-color); }
+  .ChatScreen-tab-info { color: #64748b; }
+
+}
+
+.ChatScreen-tab-info {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.ChatScreen-tab-badge {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.ChatScreen-tab-unread {
+  border-left: 3px solid $accent;
+  border-radius: 0 12px 12px 0;
+
+  .ChatScreen-tab-room-name,
+  .ChatScreen-tab-user-name {
+    font-weight: 500;
+    color: #1e1e1e;
+  }
+}
+
+.ChatScreen-tab-user-name,
+.ChatScreen-tab-room-name {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 400;
+  font-size: 16px;
+  color: #1e1e1e;
+}
+
+.ChatScreen-banner {
+  display: none;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  align-items: center;
+  gap: 12px;
+}
+
+.ChatScreen-back {
+  display: none;
+}
+
+.RoomChat-messages {
+  padding: 30px 20px;
+}
+
+.RoomChat-desc {
+  font-size: 14px;
+  line-height: 1.3;
+  background: #fcfcfb;
+  border-bottom: 1px solid #cbd5e1;
+  border-top: none;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.RoomChat-desc-text {
+  padding: 14px 18px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  overflow: hidden;
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.RoomChat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fcfcfb;
+  border-bottom: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  .RoomChat-header-avatar {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    svg {
+      width: 36px !important;
+      height: 36px !important;
+      display: block;
+    }
+  }
+
+  .RoomChat-header-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .RoomChat-header-name {
+    font-size: 22px;
+    font-weight: 400;
+    color: $content-fg;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .RoomChat-header-count {
+    font-size: 12px;
+    color: $semi-muted;
+    margin-top: 1px;
+  }
+}
+
+.UserChat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fcfcfb;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.UserChat-header-avatar {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.UserChat-avatar-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: visible;
+
+  .UserAvatar,
+  .UserAvatar svg,
+  .UserAvatar img {
+    width: 36px !important;
+    height: 36px !important;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
+
+.UserChat-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #cbd5e1;
+
+  &.UserChat-status-online { background: #22c55e; }
+  &.UserChat-status-playing { background: #0284c7; }
+  &.UserChat-status-idle { background: #f59e0b; }
+  &.UserChat-status-offline { background: #cbd5e1; }
+  &.UserChat-status-unknown { background: #94a3b8; }
+}
+
+.UserChat-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.UserChat-header-name {
+  font-size: 22px;
+  font-weight: 400;
+  color: $content-fg;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.UserChat-header-disabled {
+  font-size: 12px;
+  color: $muted;
+  flex-shrink: 0;
+}
+
+.UserChat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+
+  .UserChat-header-actions-divider {
+    width: 1px;
+    height: 18px;
+    background: #cbd5e1;
+    margin: 0 4px;
+  }
+
+  .Button {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: $semi-muted !important;
+
+    &:hover {
+      color: $content-fg !important;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .Button-warning {
+    color: #f59e0b !important;
+  }
+
+  .Button-danger {
+    color: #c2410c !important;
+  }
+
+  // The clear-history confirmation reads as a real destructive action: a solid
+  // filled pill rather than the bare-text treatment of the other header icons.
+  .Button.UserChat-clear-confirm {
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    background: $error-bg !important;
+    color: #ffffff !important;
+    font-weight: 600;
+
+    &:hover {
+      background: darken($error-bg, 6%) !important;
+      color: #ffffff !important;
+    }
+  }
+}
+
+.UserChat-messages {
+  border-top: none;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── UserChat bubble layout (scoped, does not affect room chat) ── */
+.UserChat {
+  .ChatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 0;
+    flex: 1;
+  }
+
+  .ChatMessages-item {
+    margin: 0 36px 0 24px;
+
+    &.ChatMessages-item-self {
+      align-items: flex-end;
+      margin: 0 24px 0 36px;
+
+      .ChatMessages-item-content {
+        border-radius: 18px 18px 4px 18px;
+        background: #d1fae5;
+      }
+    }
+
+    &:not(.ChatMessages-item-self) {
+      .ChatMessages-item-content {
+        border-radius: 18px 18px 18px 4px;
+        background: #e2e8f0;
+      }
+    }
+  }
+
+  .ChatMessages-item-content {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 14px;
+    line-height: 1.5;
+  }
+
+  .ChatMessages-item-user {
+    order: -1;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    color: $semi-muted;
+    opacity: 0.6;
+    margin-bottom: 4px;
+    margin-left: 0;
+    margin-right: 0;
+
+    a,
+    div {
+      display: inline;
+    }
+  }
+
+  .ChatMessages-item-body {
+    display: block;
+    font-size: 14px;
+  }
+
+  .ChatMessages-item-time {
+    opacity: 1;
+    display: inline-block;
+    margin: 4px 0 0;
+    align-self: flex-end;
+  }
+}
+
+.ChatMessageBar {
+  position: relative;
+  padding: 6px 8px;
+  background: transparent;
+}
+
+.ChatMessageBar-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4px 4px 4px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.ChatMessageBar-form {
+  flex: 1;
+  min-width: 0;
+}
+
+input.ChatMessageBar-input {
+  width: 100%;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: transparent;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    outline: none;
+    border-color: var(--ui-color);
+    box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 0.15);
+  }
+}
+
+.ChatMessageBar-send-btn {
+  background: var(--ui-color);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+
+  &:hover { background: rgba(var(--ui-color-rgb), 0.85); }
+}
+
+/* ── Users toggle button ─────────────────────────────── */
+.ChatMessageBar-users-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: $semi-muted;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background 0.18s ease, color 0.18s ease;
+  padding: 0;
+  flex-shrink: 0;
+  position: relative;
+
+  &:hover {
+    background: rgba($accent, 0.1);
+    color: $accent;
+  }
+
+  &.ChatMessageBar-users-btn-active {
+    background: rgba($accent, 0.15);
+    color: $accent;
+  }
+}
+
+.ChatMessageBar-users-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: $accent;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 9px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ── User panel ──────────────────────────────────────── */
+.ChatMessageBar-user-panel {
+  border-top: 1px solid $med-line;
+  background: #fff;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 4px 4px 0 0;
+  animation: userPanelSlideIn 0.18s ease;
+}
+
+@keyframes userPanelSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ChatMessageBar-user-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 6px 10px;
+  border-bottom: 1px solid $med-line;
+  background: $off-white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.ChatMessageBar-user-panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: $semi-muted;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ChatMessageBar-user-panel-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $muted;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+
+  &:hover {
+    color: $content-fg;
+    background: $hover-bg;
+  }
+}
+
+.ChatMessageBar-user-list {
+  padding: 4px 0;
+}
+
+.ChatMessageBar-user-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  color: $content-fg;
+
+  &:hover {
+    background: $hover-bg;
+  }
+}
+
+.ChatMessageBar-user-item-icon {
+  color: $muted;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+
+/* ── Emoji toggle ────────────────────────────────────── */
+.ChatMessageBar-emoji-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: $semi-muted;
+  transition: color 0.15s ease, transform 0.15s ease;
+
+  svg {
+    display: block;
+    stroke: #64748b;
+    transition: stroke 0.15s ease, transform 0.15s ease;
+  }
+
+  &:hover svg {
+    stroke: $accent;
+    transform: scale(1.15);
+  }
+
+  &.active svg {
+    stroke: $accent;
+  }
+}
+
+/* ── Emoji panel ─────────────────────────────────────── */
+.ChatMessageBar-emoji-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 8px;
+  background: #fff;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  border-radius: 4px 4px 0 0;
+}
+
+.ChatMessageBar-emoji-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: background 0.1s ease;
+
+  &:hover { background: rgba(0,0,0,0.07); }
+}
+
+/* ── @mention dropdown ───────────────────────────────── */
+.ChatMessageBar-mention-dropdown {
+  padding: 6px;
+  background: #fcfbf8;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+  margin-bottom: 6px;
+
+  .dark-mode & {
+    background: var(--dk-surface);
+    border-color: rgba(255,255,255,0.12);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+  }
+
+  .mid-mode & {
+    background: #f6efe0;
+    border-color: var(--dk-border);
+  }
+}
+
+.ChatMessageBar-mention-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover, &.active {
+    background: rgba(var(--ui-color-rgb), 0.08);
+    color: var(--ui-color);
+  }
+
+  .dark-mode & {
+    color: var(--dk-fg-faint);
+
+    &:hover, &.active {
+      background: rgba(var(--ui-color-rgb), 0.16);
+      color: var(--ui-color);
+    }
+  }
+
+  .mid-mode & {
+    color: var(--dk-fg);
+  }
+}
+
+.ChatMessageBar-mention-rank {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* ── @mention highlight in messages ─────────────────── */
+.ChatMessages-mention {
+  background: rgba($accent, 0.15);
+  color: darken($accent, 10%);
+  border-radius: 3px;
+  padding: 0 3px;
+  font-weight: 600;
+}
+
+.ChatMessages-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  min-height: 200px;
+  gap: 12px;
+}
+
+.ChatMessages-empty-icon {
+  color: #4a9e8e;
+  opacity: 0.25;
+}
+
+.ChatMessages-empty-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  opacity: 0.6;
+  letter-spacing: 0.01em;
+}
+
+/* ── Room description toggle ─────────────────────────── */
+.RoomChat-desc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .RoomChat-desc-actions {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  a.RoomChat-desc-toggle {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+}
+
+a.RoomChat-create-challenge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid rgba(80, 60, 40, 0.22);
+  padding: 4px 10px;
+  background: #f3efe8;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+
+  &:active {
+    border-color: var(--ui-color);
+  }
+}
+
+.no-touch a.RoomChat-create-challenge:hover {
+  background: rgba(var(--ui-color-rgb), 0.08);
+  border-color: var(--ui-color);
+  color: var(--ui-color);
+}
+
+.RoomChat-create-challenge-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ui-color);
+}
+
+.RoomChat-create-challenge-label {
+  display: inline-block;
+}
+
+a.RoomChat-desc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: #f3efe8;
+  border: 1.5px solid rgba(80, 60, 40, 0.22);
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--ui-color);
+    border-color: var(--ui-color);
+    background: rgba(var(--ui-color-rgb), 0.08);
+  }
+}
+
+.RoomChat-users {
+  padding: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.ChatMessages-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 36px 18px 24px;
+
+  &.ChatMessages-item-announcement .ChatMessages-item-content {
+    background: #fff8cc;
+
+    &:before {
+      content: "Announcement";
+      display: block;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+  }
+
+  &.ChatMessages-item-self {
+    align-items: flex-end;
+    margin: 0 24px 18px 36px;
+
+    .ChatMessages-item-content {
+      border-radius: 18px 18px 4px 18px;
+      background: #d1fae5;
+    }
+  }
+
+  &:not(.ChatMessages-item-self) {
+    .ChatMessages-item-content {
+      border-radius: 18px 18px 18px 4px;
+    }
+  }
+}
+
+.ChatMessages-item-content {
+  display: block;
+  padding: 8px 14px;
+  line-height: 1.5;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 18px 18px 18px 4px;
+}
+
+.ChatMessages-item-user {
+  display: inline;
+  font-size: 12px;
+  font-weight: 200;
+  font-style: normal;
+  color: #2d3a32;
+  margin-left: 10px;
+  margin-right: 0;
+
+  a,
+  div {
+    display: inline;
+  }
+
+  .UserName-rank-chip,
+  .UserName-friend-star,
+  .UserName-icons,
+  .UserName-bot-icon {
+    display: none;
+  }
+}
+
+.ChatMessages-item-user-unverified {
+  a {
+    color: $muted;
+  }
+}
+
+.ChatMessages-item-body {
+  display: inline;
+  font-size: 16px;
+  line-height: 1.5;
+
+  div {
+    display: inline;
+  }
+}
+
+.ChatMessages-item-time {
+  display: inline-block;
+  opacity: 1;
+  font-size: 11px;
+  color: $semi-muted;
+  white-space: nowrap;
+  margin: 0 8px;
+  vertical-align: bottom;
+  line-height: 1.8;
+}
+
+// A direct message the server never acknowledged (recipient went offline).
+.ChatMessages-item-undelivered {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: $warning-bg;
+
+  svg {
+    vertical-align: middle;
+  }
+}
+
+// Day separator between messages from different calendar days. A centered pill
+// label flanked by hairline rules.
+.ChatMessages-day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 16px;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+}
+
+.ChatMessages-day-label {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: $semi-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+body.dark-mode {
+  .ChatMessages-day {
+    &::before,
+    &::after {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .ChatMessages-day-label {
+    color: var(--dk-fg-muted);
+  }
+}
+
+a.ChatMessages-game {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $content-fg;
+  margin: 6px 0 6px 10px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: rgba($accent, 0.06);
+  border: 1px solid rgba($accent, 0.12);
+  line-height: 1.4;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    color: $link-color;
+    background: rgba($accent, 0.12);
+    border-color: rgba($accent, 0.2);
+    box-shadow: 0 2px 8px rgba($accent, 0.08);
+  }
+}
+
+.ChatMessages-game-icon,
+.ChatMessages-game-players,
+.ChatMessages-game-time,
+.ChatMessages-game-name {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ChatMessages-game-icon {
+  position: static;
+  flex-shrink: 0;
+}
+
+a.ChatMessages-game-type-challenge {
+  opacity: 1;
+
+  .ChatMessages-game-players {
+    font-weight: 500;
+    color: $content-fg;
+  }
+}
+
+.ChatMessages-game-players {
+  color: $content-fg;
+
+  .GamePlayersList {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+
+  .GamePlayersList-player {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .GamePlayersList-player1 {
+    &::after {
+      display: none !important;
+    }
+  }
+
+  .GamePlayersList-player2 {
+    &:before {
+      content: "vs";
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 6px;
+      color: $semi-muted;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .UserName {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  .GamePlayersList-white2,
+  .GamePlayersList-black2 {
+    margin-left: 4px;
+  }
+}
+
+.ChatMessages-game-time {
+  color: $semi-muted;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.ChatMessages-game-name {
+  color: $semi-muted;
+  font-size: 12px;
+
+  &:before {
+    content: "–";
+    margin-right: 4px;
+  }
+}
+
+a.ChatMessages-game-deleted {
+  opacity: 0.35;
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 999px) {
+  .ChatMessages-item-time {
+    display: none;
+  }
+}
+
+.RoomGameLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.RoomGameLink {
+  display: block;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid rgba(80, 60, 40, 0.22);
+    padding: 4px 10px;
+    background: #f3efe8;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:active {
+      border-color: var(--ui-color);
+    }
+  }
+}
+
+.no-touch .RoomGameLink a:hover {
+  background: rgba(var(--ui-color-rgb), 0.08);
+  border-color: var(--ui-color);
+  color: var(--ui-color);
+}
+
+.RoomGameLink-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ui-color);
+}
+
+.RoomGameLink-label {
+  display: inline-block;
+}
+
+@media #{$mobile-query} {
+  .ChatScreen {
+    padding-bottom: 30px;
+  }
+
+  .ChatScreen-tabs {
+    display: none;
+  }
+
+  /* Rooms / Players split on the mobile list view: same draggable divider as
+     the desktop sidebar (the desktop rules live in the $nonmobile-query block,
+     so the layout + grip are repeated here). */
+  /* Anchored to the viewport, NOT to content: if the list can grow the page,
+     resizing changes the document height, which scrolls, which moves the
+     handle under the finger — the feedback loop that made the split jump. The
+     50px offset is the fixed nav bar. The parent's bottom padding is dropped
+     for the same reason (it would push the list past the viewport). */
+  .ChatScreen-with-list {
+    padding-bottom: 0;
+  }
+
+  .ChatScreen-list {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .ChatScreen-list > .ChatScreen-tabs-section-rooms {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 44px;
+    margin-bottom: 0;
+
+    .ChatScreen-tabs-section-items {
+      flex: 1 1 0;
+      max-height: none !important;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  .ChatScreen-list > .ChatScreen-tabs-section-players {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 56px;
+    margin-bottom: 0;
+
+    .ChatScreen-tabs-section-items,
+    .ChatScreen-player-results {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  /* The "Create Challenge" action is removed from the room chat header on
+     mobile — challenges are created from the Play screen instead. */
+  a.RoomChat-create-challenge {
+    display: none !important;
+  }
+
+  .ChatScreen-tab {
+    font-size: 16px;
+  }
+
+  .ChatScreen-banner {
+    display: block;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background: $off-white;
+    text-align: center;
+    font-size: 14px;
+    height: 44px !important;
+    line-height: 44px !important;
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
+    border-bottom: 1px solid $very-muted;
+    z-index: 1;
+  }
+
+  .ChatScreen-banner-title {
+    display: inline-block;
+    padding: 0 5px;
+    font-weight: 500;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  .ChatScreen-banner-info {
+    display: block;
+    font-size: 12px;
+    color: $muted;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 7px 0 5px;
+  }
+
+  .ChatScreen-back {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    a {
+      display: block;
+      color: $link-color;
+    }
+  }
+
+  .ChatScreen-back-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    padding: 0 5px;
+  }
+
+  .ChatScreen-back-label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+    padding-bottom: 1px;
+    font-weight: 500;
+  }
+
+  .ChatScreen-back-badge {
+    position: absolute;
+    right: -15px;
+    top: 3px;
+  }
+
+  .ChatMessageBar {
+    padding: 10px 15px;
+    border-radius: 0;
+  }
+
+  input.ChatMessageBar-input {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .UserChat-view-profile,
+  .UserChat-info {
+    display: none;
+  }
+
+  .ChatScreen-room-users {
+    margin: 50px 0 0 0;
+    padding: 0;
+    line-height: 1.4;
+  }
+
+  .ChatScreen-active-chat {
+    position: static !important;
+  }
+
+  .UserChat,
+  .RoomChat {
+    position: fixed !important;
+    top: 50px !important; // below MainNav
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: #FFFFFF !important;
+  }
+
+  .UserChat-messages {
+    position: absolute !important;
+    top: 44px !important; // below banner (44px)
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 66px !important; // above input bar (66px)
+    padding: 10px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+
+    .ChatMessages-item-content {
+      max-width: 295px;
+    }
+  }
+
+  .RoomChat-messages-container {
+    position: absolute !important;
+    top: 44px !important; // below banner (44px)
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 66px !important; // above input bar (66px)
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .RoomChat-messages {
+    padding: 10px !important;
+
+    .ChatMessages-item-content {
+      max-width: 295px;
+    }
+  }
+
+  .UserChat-message-bar,
+  .RoomChat-message-bar {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: #fcfcfb !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.07) !important;
+    box-sizing: border-box !important;
+    z-index: 10 !important;
+  }
+
+  .RoomChat-header,
+  .UserChat-header {
+    display: none !important;
+  }
+
+  .RoomChat-sidebar {
+    display: none;
+  }
+}
+
+.ChatRoomList {
+  padding: 0;
+}
+
+.ChatRoomList-search {
+  margin: 10px 0 0 0;
+}
+
+.ChatRoomList-search-input {
+  width: 100%;
+}
+
+.ChatRoomList-cat {
+  padding: 20px 0;
+}
+
+;
+
+.ChatRoomList-cat-title {
+  font-weight: 500;
+  border-bottom: 2px solid $very-muted;
+  padding: 5px 0;
+}
+
+.ChatRoomList-rooms {
+  font-size: 14px;
+  columns: 2;
+  padding: 10px 0;
+}
+
+/* One room per row on a phone — two columns are too cramped. Must come after
+   the rule above: same specificity, so source order decides. */
+@media #{$mobile-query} {
+  .ChatRoomList-rooms {
+    columns: 1;
+  }
+}
+
+a.ChatRoomList-room {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+}
+
+.ChatRoomList-room-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ChatRoomList-room-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92700a;
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  border-radius: 10px;
+  padding: 1px 6px;
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+/* ── Dark mode ───────────────────────────────────────────── */
+body.dark-mode {
+  .ChatScreen {
+    background-color: var(--dk-bg) !important;
+    // Lift the panel off the page: deeper drop shadow + a faint light top
+    // border and inset highlight so the raised edge reads clearly.
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: var(--dk-fg) !important;
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.55),
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .ChatScreen-tabs {
+    background: var(--dk-bg-off) !important;
+    border-right-color: rgba(255,255,255,0.10) !important;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.25) !important;
+  }
+
+  .ChatScreen-tab {
+    border-color: rgba(255,255,255,0.07) !important;
+    .ChatScreen-tab-name,
+    .ChatScreen-tab-room-name,
+    .ChatScreen-tab-user-name { color: #a8c4b4 !important; }
+    .ChatScreen-tab-info { color: var(--dk-fg-muted) !important; }
+    a { color: #a8c4b4 !important; }
+    &:hover { background: rgba(255,255,255,0.04) !important; }
+    &.ChatScreen-tab-active {
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      .ChatScreen-tab-name,
+      .ChatScreen-tab-room-name,
+      .ChatScreen-tab-user-name { color: var(--ui-color) !important; }
+      a { color: var(--ui-color) !important; }
+    }
+  }
+
+  .ChatScreen-player-search {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+  }
+
+  .ChatScreen-player-search-input {
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatMessages-item-user,
+  .ChatMessages-item-user .UserName,
+  .ChatMessages-item-user .UserName-text {
+    color: var(--dk-fg-muted) !important;
+    opacity: 1;
+  }
+
+  .ChatScreen-player-result {
+    color: #a8c4b4 !important;
+    &:hover { background: rgba(255,255,255,0.05) !important; }
+  }
+
+  .ChatScreen-active-chat {
+    background: #151e1b !important;
+  }
+
+  .ChatScreen-active-chat:has(.UserChat) {
+    background: #1d2724 !important;
+  }
+
+  .ChatScreen-banner {
+    background: var(--dk-bg-off) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .RoomChat-messages-container,
+  .RoomChat-messages,
+  .UserChat,
+  .UserChat-messages {
+    background: #151e1b !important;
+    color: var(--dk-fg) !important;
+    border-color: rgba(255,255,255,0.07) !important;
+  }
+
+  .RoomChat-desc {
+    background: var(--dk-bg-off) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  }
+
+  .RoomChat-desc-text {
+    background: var(--dk-surface) !important;
+    color: var(--dk-fg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    box-shadow: none !important;
+  }
+
+  a.RoomChat-desc-toggle {
+    background: #1a2a24 !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+    color: #a8c4b4 !important;
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border-color: var(--ui-color) !important;
+      color: var(--ui-color) !important;
+    }
+  }
+
+  .RoomChat-sidebar {
+    background: var(--dk-bg-off) !important;
+    border-left-color: rgba(255,255,255,0.07) !important;
+    color: var(--dk-fg) !important;
+
+    .UserList-header {
+      background: transparent !important;
+      border-bottom-color: rgba(255,255,255,0.07) !important;
+    }
+
+    .UserList-players-header {
+      background: var(--dk-bg-off) !important;
+    }
+  }
+
+  .RoomChat-message-bar,
+  .UserChat-message-bar {
+    background: var(--dk-bg-off) !important;
+    border-top: 1px solid rgba(255,255,255,0.07) !important;
+  }
+
+  .RoomChat-header {
+    background: var(--dk-bg-off) !important;
+    border-bottom: 1px solid var(--dk-bg-off) !important;
+
+    .RoomChat-header-name { color: var(--dk-fg) !important; }
+    .RoomChat-header-count { color: var(--dk-fg-muted) !important; }
+  }
+
+  .UserChat-header {
+    background: var(--dk-bg-off) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+
+    .UserChat-header-actions-divider {
+      background: rgba(255, 255, 255, 0.15) !important;
+    }
+  }
+
+  .UserChat-header-name,
+  .UserChat-header-name .UserName,
+  .UserChat-header-name .UserName-text,
+  .UserChat-header-name .UserName-text-link {
+    color: var(--dk-fg-strong) !important;
+  }
+
+  .ChatMessageBar-inner {
+    background: var(--dk-bg) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    box-shadow: none !important;
+  }
+
+  .ChatMessageBar {
+    background: transparent !important;
+    border-color: rgba(255,255,255,0.07) !important;
+  }
+
+  input.ChatMessageBar-input {
+    background: var(--dk-bg) !important;
+    color: var(--dk-fg) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    &::placeholder { color: var(--dk-fg-muted) !important; }
+
+    &:focus {
+      border-color: var(--ui-color) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(var(--ui-color-rgb), 0.2) !important;
+    }
+  }
+
+  .ChatMessageBar-user-panel {
+    background: var(--dk-bg-off) !important;
+    border-color: rgba(255,255,255,0.07) !important;
+  }
+
+  .ChatMessageBar-user-panel-header {
+    background: var(--dk-bg) !important;
+    border-bottom-color: rgba(255,255,255,0.07) !important;
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatMessageBar-user-item {
+    color: var(--dk-fg) !important;
+    &:hover { background: rgba(255,255,255,0.04) !important; }
+  }
+
+  .ChatRoomList,
+  .ChatRoomList-rooms {
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatRoomList-cat-title {
+    color: var(--dk-fg-muted) !important;
+    border-bottom-color: rgba(255,255,255,0.07) !important;
+  }
+
+  a.ChatRoomList-room {
+    color: #a8c4b4 !important;
+    &:hover { background: rgba(255,255,255,0.04) !important; }
+  }
+
+  .RoomGameLink a,
+  a.RoomChat-create-challenge {
+    background: #1a2a24 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #a8c4b4 !important;
+  }
+
+  .RoomGameLink a:hover,
+  a.RoomChat-create-challenge:hover {
+    background: rgba(var(--ui-color-rgb), 0.15) !important;
+    border-color: var(--ui-color) !important;
+    color: var(--ui-color) !important;
+  }
+
+  a.ChatMessages-game {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: var(--dk-fg) !important;
+
+    &:hover {
+      background: rgba(var(--ui-color-rgb), 0.15) !important;
+      border-color: rgba(var(--ui-color-rgb), 0.3) !important;
+      color: var(--ui-color) !important;
+
+      .ChatMessages-game-players {
+        color: var(--ui-color) !important;
+      }
+    }
+
+    .ChatMessages-game-players {
+      color: var(--dk-fg) !important;
+    }
+
+    .ChatMessages-game-time {
+      background: rgba(255, 255, 255, 0.06) !important;
+      color: var(--dk-fg-muted) !important;
+    }
+
+    .ChatMessages-game-name {
+      color: var(--dk-fg-muted) !important;
+    }
+  }
+
+  .UserChat-info { color: var(--dk-fg-muted) !important; }
+
+  /* FriendsList dark mode */
+  .FriendsList-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .FriendsList-tab {
+    color: var(--dk-fg-muted);
+    &:hover {
+      color: var(--dk-fg);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    &.active {
+      color: var(--ui-color);
+      border-bottom-color: var(--ui-color);
+    }
+  }
+
+  .FriendsList-item {
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .FriendsList-name {
+    color: var(--dk-fg);
+  }
+
+  .FriendsList-empty {
+    color: var(--dk-fg-muted);
+  }
+
+  .FriendsList-empty-hint {
+    color: #5d7e6f;
+  }
+
+  .ChatMessages-empty-icon {
+    color: var(--ui-color) !important;
+    opacity: 0.3 !important;
+  }
+
+  .ChatMessages-empty-text {
+    color: var(--dk-fg-muted) !important;
+    opacity: 0.7 !important;
+  }
+
+  &.ui-color-light {
+    .ChatScreen-join-room-btn a {
+      color: #0f1a17 !important;
+      &:hover { color: #0f1a17 !important; }
+    }
+    .ChatMessageBar-send-btn {
+      color: #0f1a17 !important;
+      &:hover { color: #0f1a17 !important; }
+    }
+  }
+}
+
+/* ── Mid (cream) theme ───────────────────────────────────── */
+body.mid-mode {
+  // Fill the DM right-gap with the cream panel tone.
+  .ChatScreen-active-chat:has(.UserChat) {
+    background: #f4ebd8 !important;
+  }
+
+  .ChatScreen-tabs,
+  .ChatScreen-tabs-section-header,
+  .RoomChat-message-bar,
+  .RoomChat-sidebar,
+  .RoomChat-header,
+  .RoomChat-desc,
+  .UserChat-header {
+    background: #f4ebd8 !important;
+  }
+
+  /* Chat bubbles: mid is light-leaning, so it must NOT inherit the dark-theme
+     bubble colors (dark-green self, white-tint other) from the shared
+     body.dark-mode, body.mid-mode block. Use light-style bubbles that suit the
+     cream theme — dark text on a soft mint (self) / warm-neutral (other). */
+  .ChatMessages-item-content {
+    color: var(--dk-fg) !important;
+  }
+
+  .ChatMessages-item-self .ChatMessages-item-content,
+  .UserChat .ChatMessages-item-self .ChatMessages-item-content {
+    background: #d8efd9 !important;
+    color: var(--dk-fg) !important;
+  }
+
+  // DM messages have no per-user coloring, so give them the warm-neutral other
+  // bubble. Room messages keep their per-user inline color (getUserColor's mid
+  // palette) — don't override it here.
+  .UserChat .ChatMessages-item-content {
+    background: #ece0c8 !important;
+  }
+
+  // Room-description card — was white #ffffff (no mid override) on the warm
+  // #f4ebd8 container; lift it to the mid card tone with a warm border.
+  .RoomChat-desc-text {
+    background: #fffdf8 !important;
+    color: var(--dk-fg) !important;
+    border: 1px solid var(--dk-border) !important;
+    box-shadow: none !important;
+  }
+
+  // Direct-message header — warm border + divider to match the shared chat tone
+  // (was a near-white #fcfcfb header with a cool #cbd5e1 border).
+  .UserChat-header {
+    border-bottom: 1px solid var(--dk-border) !important;
+
+    .UserChat-header-actions-divider {
+      background: var(--dk-border) !important;
+    }
+  }
+
+  // Chat input pill — was white #ffffff; warm it to the input standard (#fffdf8).
+  .ChatMessageBar-inner {
+    background: #fffdf8 !important;
+    border-color: var(--dk-border) !important;
+    box-shadow: none !important;
+  }
+
+  .ChatMessageBar {
+    background: transparent !important;
+  }
+
+  // The input sits inside the pill — keep it transparent/borderless so the pill
+  // is the only visible box.
+  input.ChatMessageBar-input {
+    background: transparent !important;
+    border-color: transparent !important;
+  }
+
+  .ChatScreen-tabs-section-header,
+  .RoomChat-desc {
+    border-bottom-color: var(--dk-border) !important;
+  }
+
+  .RoomChat-header {
+    border-bottom: 1px solid #f4ebd8 !important;
+  }
+
+  // Room header action buttons (games / challenge / Create Challenge / room info)
+  // — warm dune tone matching the filter buttons (were white / cool slate).
+  .RoomGameLink a,
+  a.RoomChat-create-challenge,
+  a.RoomChat-desc-toggle {
+    background: #e8dcc2 !important;
+    border-color: rgba(59, 49, 39, 0.28) !important;
+    color: #6b5f4b !important;
+  }
+
+  .RoomGameLink a:hover,
+  a.RoomChat-create-challenge:hover,
+  a.RoomChat-desc-toggle:hover {
+    background: rgba(var(--ui-color-rgb), 0.1) !important;
+    border-color: var(--ui-color) !important;
+    color: var(--ui-color) !important;
+  }
+}
+
+/* Rooms/Players resize handle — lives in the Players header, filling the gap
+   between the title and Search. A rule either side of the up/down chevrons so
+   it reads as draggable, with a target big enough for a finger. Shared by the
+   desktop sidebar and the mobile list. */
+.ChatScreen-tabs-resize-grip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: stretch;
+  min-width: 60px;
+  margin: 0 10px;
+  padding: 10px 0;
+  cursor: row-resize;
+  color: rgba(0, 0, 0, 0.45);
+  /* Without this a touch drag scrolls the list instead of resizing. */
+  touch-action: none;
+  transition: color 0.15s ease;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.16);
+    transition: background 0.15s ease;
+  }
+
+  .Icon {
+    flex: 0 0 auto;
+    display: block;
+    color: inherit;
+  }
+}
+
+.no-touch .ChatScreen-tabs-resize-grip:hover {
+  color: rgba(var(--ui-color-rgb), 0.85);
+
+  &::before,
+  &::after {
+    background: rgba(var(--ui-color-rgb), 0.55);
+  }
+}
+
+body.dark-mode .ChatScreen-tabs-resize-grip {
+  color: rgba(255, 255, 255, 0.6);
+
+  &::before,
+  &::after {
+    background: rgba(255, 255, 255, 0.22);
+  }
+}
+
+body.mid-mode .ChatScreen-tabs-resize-grip {
+  color: rgba(59, 49, 39, 0.6);
+
+  &::before,
+  &::after {
+    background: rgba(59, 49, 39, 0.25);
+  }
+}

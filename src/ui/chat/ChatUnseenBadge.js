@@ -1,0 +1,41 @@
+// @flow
+import React, { PureComponent as Component } from "react";
+import { UnseenBadge } from "../common";
+import { getChatNotifySetting } from "../meta/PreferencesModal";
+import type { Conversation, ChannelMembership, Index } from "../../model";
+
+type Props = {
+  conversationsById: Index<Conversation>,
+  channelMembership?: ChannelMembership,
+};
+
+export default class ChatUnseenBadge extends Component<Props> {
+  render() {
+    let { conversationsById, channelMembership } = this.props;
+    const chatNotify = getChatNotifySetting();
+    if (chatNotify === "none") {
+      return null;
+    }
+    let minorCount = 0;
+    for (let id of Object.keys(conversationsById)) {
+      let convo = conversationsById[id];
+      if (channelMembership) {
+        let chan = channelMembership[id];
+        if (!chan || (chan.type !== "room" && chan.type !== "conversation")) {
+          continue;
+        }
+        if (chatNotify === "users" && chan.type !== "conversation") {
+          continue;
+        }
+      }
+      if (convo.unseenCount) {
+        minorCount += convo.unseenCount;
+      }
+    }
+    return (
+      <div className="ChatUnseenBadge">
+        <UnseenBadge minorCount={minorCount} />
+      </div>
+    );
+  }
+}

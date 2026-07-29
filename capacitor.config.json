@@ -1,0 +1,14 @@
+{
+  "appId": "org.kido.app",
+  "appName": "Kido",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https",
+    "hostname": "www.gokgs.com"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

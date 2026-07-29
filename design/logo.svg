@@ -1,0 +1,43 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Go yin yang stones icon">
+  <defs>
+    <radialGradient id="gNavy" cx="40%" cy="34%" r="78%">
+      <stop offset="0%" stop-color="#2c5193"/>
+      <stop offset="55%" stop-color="#1b3c74"/>
+      <stop offset="100%" stop-color="#122a54"/>
+    </radialGradient>
+    <!-- flat-glossy: tight highlight, low contrast gradient, stays disc-like -->
+    <radialGradient id="gBlkFlat" cx="50%" cy="50%" r="80%" gradientUnits="objectBoundingBox">
+      <stop offset="0%"  stop-color="#2e2e2e"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+    <radialGradient id="gWhtFlat" cx="50%" cy="50%" r="80%" gradientUnits="objectBoundingBox">
+      <stop offset="0%"  stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#c8c8c8"/>
+    </radialGradient>
+    <!-- small crisp highlight spot -->
+    <radialGradient id="gSpot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <circle cx="50" cy="50" r="48" fill="url(#gNavy)"/>
+  <path d="M50 2 A24 24 0 0 0 50 50 A24 24 0 0 1 50 98 A48 48 0 0 0 50 2 Z"
+        fill="#0a0a10" transform="rotate(-45 50 50)"/>
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#0a1730" stroke-width="1.4"/>
+
+  <!-- white stone: flat base + small gloss spot + thin rim -->
+  <circle cx="33" cy="33" r="14" fill="url(#gWhtFlat)"/>
+  <circle cx="33" cy="33" r="14" fill="none" stroke="#b0b0b0" stroke-width="0.7"/>
+  <ellipse cx="29" cy="28.5" rx="4.5" ry="3" fill="url(#gSpot)" filter="url(#soft)"
+           transform="rotate(-25 29 28.5)"/>
+
+  <!-- black stone: flat base + small gloss spot + thin rim -->
+  <circle cx="67" cy="67" r="14" fill="url(#gBlkFlat)"/>
+  <circle cx="67" cy="67" r="14" fill="none" stroke="#484848" stroke-width="0.7"/>
+  <ellipse cx="63" cy="62.5" rx="4.5" ry="3" fill="url(#gSpot)" filter="url(#soft)"
+           transform="rotate(-25 63 62.5)"/>
+</svg>
